@@ -32,6 +32,11 @@ test('created ship has a method named "hit"', () => {
   expect(testShip).toHaveProperty('hit');
 });
 
+test('created ship has a method named "isSunk"', () => {
+  const testShip = Ship(3);
+  expect(testShip).toHaveProperty('isSunk');
+});
+
 test('same number of hits as length makes the ship sunk', () => {
   const testShip = Ship(4);
   expect(testShip.isSunk()).toBe(false);
