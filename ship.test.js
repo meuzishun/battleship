@@ -1,4 +1,4 @@
-const Ship = require('./sandbox');
+const Ship = require('./ship');
 
 test('created ship has a length property', () => {
   const testShip = Ship(3);
