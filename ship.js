@@ -11,10 +11,6 @@ const Ship = function (length) {
   return {
     length,
     damage: [],
-    // damage: (() => {
-    //   const arr = [];
-    //   arr.length = length;
-    // })(),
     hit: function (index) {
       if (this.damage[index] === 'hit') {
         //? This may be redundant if the board can send an error for choosing a spot already shot at

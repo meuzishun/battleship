@@ -53,9 +53,3 @@ test('taking a hit where a ship is already hit throws an error', () => {
     'the ship is already hit at that location'
   );
 });
-
-// test('ship hit method returns expected value', () => {
-//   const testShip = Ship(3);
-//   const expectedValue = 'hit';
-//   expect(testShip.hit()).toBe(expectedValue);
-// });
