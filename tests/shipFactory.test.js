@@ -1,4 +1,4 @@
-import { createShip } from './shipFactory.js';
+import { createShip } from '../factories/shipFactory.js';
 
 test('createShip returns an object', () => {
   expect(typeof createShip('Destroyer')).toEqual('object');
