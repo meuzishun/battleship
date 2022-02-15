@@ -58,7 +58,7 @@ test('placing a vertical carrier at 25 results with cells 25, 35, 45, 55 and 65 
   expect(gameboard.cells[65].occupied).toBeTruthy();
 });
 
-test('placed ship takes a hit', () => {
+test('placed ship takes a hit registers a hit at ships location', () => {
   const gameboard = createGameboard();
   gameboard.placeShip(13, 'Destroyer', 'horizontal');
   gameboard.receiveAttack(14);

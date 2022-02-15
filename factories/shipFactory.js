@@ -7,20 +7,32 @@ const createShip = function (name) {
     'Patrol Boat': 2,
   };
 
+  if (!shipNameLookup[name]) {
+    throw new Error('That is not a valid ship name');
+  }
+
+  const length = shipNameLookup[name];
+
+  const positions = [];
+
   const hits = [];
+
+  const hit = function (position) {
+    if (positions.includes(position) && !hits.includes(position)) {
+      hits.push(position);
+    }
+  };
+
+  const isSunk = function () {
+    return hits.length === positions.length;
+  };
 
   return {
     name,
-    length: shipNameLookup[name],
-    positions: [],
-    hit: function (position) {
-      if (!hits.includes(position)) {
-        hits.push(position);
-      }
-    },
-    isSunk: function () {
-      return hits.length === positions.length;
-    },
+    length,
+    positions,
+    hit,
+    isSunk,
   };
 };
 
