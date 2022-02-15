@@ -1,4 +1,4 @@
-import { createShip } from '/shipFactory.js';
+import { createShip } from './shipFactory.js';
 
 const createGameboard = function (width = 10, height = 10) {
   const cells = {};
