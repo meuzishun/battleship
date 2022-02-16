@@ -64,11 +64,11 @@ const createGameboard = function (width = 10, height = 10) {
     cells[position].occupied.hit(position);
     if (cells[position].occupied.isSunk()) {
       // TODO: do something about sunk ship
-      console.log(`You sunk my ${cells[position].occupied.name}`);
+      // console.log(`You sunk my ${cells[position].occupied.name}`);
     }
     if (allShipsSunk()) {
       // TODO: do something when all ships are sunk
-      console.log('You sunk all my ships');
+      // console.log('You sunk all my ships');
     }
   };
 
