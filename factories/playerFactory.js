@@ -1,15 +1,15 @@
 import { createGameboard } from './gameboardFactory.js';
 
 const createPlayer = function (name) {
-  const attack = function (opponent, position) {
-    opponent.board.receiveAttack(position);
-    if (opponent.board.cells[position].status === 'miss') {
+  const attack = function (board, position) {
+    board.receiveAttack(position);
+    if (board.cells[position].status === 'miss') {
       return 'miss';
     }
-    if (opponent.board.cells[position].occupied.isSunk()) {
+    if (board.cells[position].occupied.isSunk()) {
       return 'sunk';
     }
-    if (opponent.board.cells[position].status === 'hit') {
+    if (board.cells[position].status === 'hit') {
       return 'hit';
     }
   };

@@ -27,7 +27,7 @@ test('players can attack other player boards and register a miss', () => {
   const testPlayer1 = createPlayer();
   const testPlayer2 = createPlayer();
 
-  testPlayer1.attack(testPlayer2, 21);
+  testPlayer1.attack(testPlayer2.board, 21);
   expect(testPlayer2.board.cells[21].status).toBe('miss');
 });
 
@@ -37,7 +37,7 @@ test('players can attack other player boards and register a hit', () => {
 
   testPlayer2.board.placeShip(21, 'Patrol Boat', 'vertical');
 
-  testPlayer1.attack(testPlayer2, 21);
+  testPlayer1.attack(testPlayer2.board, 21);
   expect(testPlayer2.board.cells[21].status).toBe('hit');
 });
 
@@ -47,7 +47,7 @@ test("one hit doesn't sink a ship", () => {
 
   testPlayer2.board.placeShip(21, 'Patrol Boat', 'vertical');
 
-  testPlayer1.attack(testPlayer2, 21);
+  testPlayer1.attack(testPlayer2.board, 21);
   expect(testPlayer2.board.cells[21].occupied.isSunk()).toBe(false);
 });
 
@@ -57,8 +57,8 @@ test('all hits sinks ship', () => {
 
   testPlayer2.board.placeShip(21, 'Patrol Boat', 'vertical');
 
-  testPlayer1.attack(testPlayer2, 21);
-  testPlayer1.attack(testPlayer2, 31);
+  testPlayer1.attack(testPlayer2.board, 21);
+  testPlayer1.attack(testPlayer2.board, 31);
   expect(testPlayer2.board.cells[31].occupied.isSunk()).toBe(true);
 });
 
@@ -73,11 +73,11 @@ test('making sure a bunch of things are true', () => {
   expect(testPlayer2.board.cells[21].occupied).toBeTruthy();
   expect(testPlayer2.board.cells[31].occupied).toBeTruthy();
 
-  testPlayer1.attack(testPlayer2, 21);
+  testPlayer1.attack(testPlayer2.board, 21);
   expect(testPlayer2.board.cells[21].status).toBe('hit');
   expect(testPlayer2.board.cells[31].occupied.isSunk()).toBe(false);
 
-  testPlayer1.attack(testPlayer2, 31);
+  testPlayer1.attack(testPlayer2.board, 31);
   expect(testPlayer2.board.cells[31].status).toBe('hit');
   expect(testPlayer2.board.cells[31].occupied.isSunk()).toBe(true);
 });
@@ -86,22 +86,22 @@ test('successful player attacks return hit', () => {
   const testPlayer1 = createPlayer('Andrew');
   const testPlayer2 = createPlayer('Computer');
   testPlayer2.board.placeShip(21, 'Patrol Boat', 'vertical');
-  expect(testPlayer1.attack(testPlayer2, 21)).toBe('hit');
+  expect(testPlayer1.attack(testPlayer2.board, 21)).toBe('hit');
 });
 
 test('ships sunk return sunk', () => {
   const testPlayer1 = createPlayer('Andrew');
   const testPlayer2 = createPlayer('Computer');
   testPlayer2.board.placeShip(21, 'Patrol Boat', 'vertical');
-  expect(testPlayer1.attack(testPlayer2, 21)).toBe('hit');
-  expect(testPlayer1.attack(testPlayer2, 31)).toBe('sunk');
+  expect(testPlayer1.attack(testPlayer2.board, 21)).toBe('hit');
+  expect(testPlayer1.attack(testPlayer2.board, 31)).toBe('sunk');
 });
 
 test('attacks return expected values', () => {
   const testPlayer1 = createPlayer('Andrew');
   const testPlayer2 = createPlayer('Computer');
   testPlayer2.board.placeShip(21, 'Patrol Boat', 'vertical');
-  expect(testPlayer1.attack(testPlayer2, 11)).toBe('miss');
-  expect(testPlayer1.attack(testPlayer2, 21)).toBe('hit');
-  expect(testPlayer1.attack(testPlayer2, 31)).toBe('sunk');
+  expect(testPlayer1.attack(testPlayer2.board, 11)).toBe('miss');
+  expect(testPlayer1.attack(testPlayer2.board, 21)).toBe('hit');
+  expect(testPlayer1.attack(testPlayer2.board, 31)).toBe('sunk');
 });
