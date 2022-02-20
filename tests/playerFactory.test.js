@@ -81,3 +81,27 @@ test('making sure a bunch of things are true', () => {
   expect(testPlayer2.board.cells[31].status).toBe('hit');
   expect(testPlayer2.board.cells[31].occupied.isSunk()).toBe(true);
 });
+
+test('successful player attacks return hit', () => {
+  const testPlayer1 = createPlayer('Andrew');
+  const testPlayer2 = createPlayer('Computer');
+  testPlayer2.board.placeShip(21, 'Patrol Boat', 'vertical');
+  expect(testPlayer1.attack(testPlayer2, 21)).toBe('hit');
+});
+
+test('ships sunk return sunk', () => {
+  const testPlayer1 = createPlayer('Andrew');
+  const testPlayer2 = createPlayer('Computer');
+  testPlayer2.board.placeShip(21, 'Patrol Boat', 'vertical');
+  expect(testPlayer1.attack(testPlayer2, 21)).toBe('hit');
+  expect(testPlayer1.attack(testPlayer2, 31)).toBe('sunk');
+});
+
+test('attacks return expected values', () => {
+  const testPlayer1 = createPlayer('Andrew');
+  const testPlayer2 = createPlayer('Computer');
+  testPlayer2.board.placeShip(21, 'Patrol Boat', 'vertical');
+  expect(testPlayer1.attack(testPlayer2, 11)).toBe('miss');
+  expect(testPlayer1.attack(testPlayer2, 21)).toBe('hit');
+  expect(testPlayer1.attack(testPlayer2, 31)).toBe('sunk');
+});
