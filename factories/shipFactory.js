@@ -21,6 +21,7 @@ const createShip = function (name) {
     if (positions.includes(position) && !hits.includes(position)) {
       hits.push(position);
     }
+    //? Should we check for isSunk with each hit?  If so, maybe emit and event?
   };
 
   const isSunk = function () {
