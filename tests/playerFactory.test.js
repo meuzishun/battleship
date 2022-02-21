@@ -105,3 +105,40 @@ test('attacks return expected values', () => {
   expect(testPlayer1.attack(testPlayer2.board, 21)).toBe('hit');
   expect(testPlayer1.attack(testPlayer2.board, 31)).toBe('sunk');
 });
+
+test('players have an autoAttack property', () => {
+  const testPlayer1 = createPlayer('Andrew');
+  expect(testPlayer1).toHaveProperty('autoAttack');
+});
+
+test('autoAttack is forced to choose cell[99] because all other cells have a status', () => {
+  const testPlayer1 = createPlayer('Andrew');
+  const testPlayer2 = createPlayer('Computer');
+
+  for (let i = 0; i < 99; i++) {
+    testPlayer2.attack(testPlayer1.board, i);
+  }
+  testPlayer2.autoAttack(testPlayer1.board);
+
+  expect(testPlayer1.board.cells[99].status).toBe('miss');
+});
+
+test.only('autoAttack is forced to choose remaining cells when all others have status', () => {
+  const testPlayer1 = createPlayer('Andrew');
+  const testPlayer2 = createPlayer('Computer');
+
+  for (let i = 0; i < 100; i++) {
+    if (i === 34 || i === 44) {
+      continue;
+    }
+    testPlayer2.attack(testPlayer1.board, i);
+  }
+
+  expect(testPlayer1.board.cells[34].status).toBeUndefined();
+  expect(testPlayer1.board.cells[44].status).toBeUndefined();
+
+  testPlayer2.autoAttack(testPlayer1.board);
+  testPlayer2.autoAttack(testPlayer1.board);
+  expect(testPlayer1.board.cells[34].status).toBe('miss');
+  expect(testPlayer1.board.cells[44].status).toBe('miss');
+});
