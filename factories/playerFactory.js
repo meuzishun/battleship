@@ -1,17 +1,38 @@
 import { createGameboard } from './gameboardFactory.js';
 
 const createPlayer = function (name) {
+  // let turn = false;
+
+  //! it looks like the game module will take care of turns.  These functions may not be needed
+  // const startTurn = function () {
+  //   if (turn === false) {
+  //     turn = true;
+  //   }
+  // };
+
+  // const endTurn = function () {
+  //   if (turn === true) {
+  //     turn = false;
+  //   }
+  // };
+
   const attack = function (opponent, position) {
     opponent.board.receiveAttack(position);
-    if (opponent.board.cells[position].status === 'miss') {
-      return 'miss';
-    }
-    if (opponent.board.cells[position].occupied.isSunk()) {
-      return 'sunk';
-    }
-    if (opponent.board.cells[position].status === 'hit') {
-      return 'hit';
-    }
+    // if (turn) {
+    // opponent.board.receiveAttack(position);
+    // endTurn();
+    // opponent.startTurn();
+    // }
+    //! we may not need to return any value here
+    // if (opponent.board.cells[position].status === 'miss') {
+    //   return 'miss';
+    // }
+    // if (opponent.board.cells[position].occupied.isSunk()) {
+    //   return 'sunk';
+    // }
+    // if (opponent.board.cells[position].status === 'hit') {
+    //   return 'hit';
+    // }
   };
 
   const findStatuslessCells = function (cells) {
@@ -32,6 +53,9 @@ const createPlayer = function (name) {
 
   return {
     name,
+    // turn,
+    // startTurn,
+    // endTurn,
     board,
     attack,
     autoAttack,

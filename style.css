@@ -1,3 +1,10 @@
+:root {
+  --blue-sea-color: rgb(43, 110, 255);
+  --white-sea-color: rgb(100, 141, 253);
+  --ship-miss-bg: rgba(20, 43, 107, 0.329);
+  --ship-hit-bg: radial-gradient(red, rgb(251, 255, 0));
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -16,26 +23,57 @@ html {
 
 .game-container {
   width: 100%;
+  max-width: 80rem;
   height: 100%;
+}
+
+.gameboard-header {
+  font-size: 3rem;
+  display: grid;
+  place-content: center;
+  margin: 1rem;
 }
 
 .gameboard-container {
   width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: row;
-  gap: 1rem;
+  gap: 2rem;
+  margin: 2rem;
 }
 
 .gameboard {
   width: 50%;
-  height: 50%;
   display: grid;
   grid-template-columns: repeat(10, 1fr);
   grid-template-rows: repeat(10, 1fr);
-  gap: 0.2rem;
+  gap: 0.15rem;
+  padding: 3rem;
+  background: linear-gradient(
+    120deg,
+    var(--blue-sea-color) 3%,
+    var(--white-sea-color) 20%,
+    var(--blue-sea-color) 27%,
+    var(--white-sea-color) 40%,
+    var(--blue-sea-color) 56%,
+    var(--white-sea-color) 60%,
+    var(--blue-sea-color) 70%,
+    var(--white-sea-color) 80%,
+    var(--blue-sea-color) 85%,
+    var(--white-sea-color) 100%
+  );
 }
 
 .cell {
-  border: 1px solid black;
+  border: 1px solid #bbb;
+  border-radius: 0.3rem;
+  aspect-ratio: 1 / 1;
+}
+
+.cell.miss {
+  background: var(--ship-miss-bg);
+}
+
+.cell.hit {
+  background: var(--ship-hit-bg);
 }

@@ -32,6 +32,7 @@ const createShip = function (name) {
     name,
     length,
     positions,
+    hits,
     hit,
     isSunk,
   };
