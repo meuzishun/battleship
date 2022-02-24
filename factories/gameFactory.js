@@ -15,6 +15,11 @@ const createGame = function () {
     opponent.UI_board.addEventListener('click', handleBoardClick);
   };
 
+  const handleAddPlayerSubmission = function (e) {
+    e.preventDefault();
+    // get player info
+  };
+
   const switchTurn = function () {
     opponent.UI_board.removeEventListener('click', handleBoardClick);
     [opponent, currentPlayer] = [currentPlayer, opponent];
@@ -24,7 +29,7 @@ const createGame = function () {
   //* obtain info from an element
   const getClickInfo = function (elem) {
     return {
-      board: elem.parentElement,
+      UI_board: elem.parentElement,
       UI_cell: elem,
       position: Number(elem.dataset.position),
     };
@@ -36,7 +41,7 @@ const createGame = function () {
       return;
     }
 
-    const { UI_cell, position } = getClickInfo(e.target);
+    const { UI_board, UI_cell, position } = getClickInfo(e.target);
 
     if (opponent.player.board.cells[position].status) {
       return;
@@ -47,6 +52,12 @@ const createGame = function () {
     UI.updateCellStatus(UI_cell, status);
 
     if (status === 'hit' && occupied.isSunk()) {
+      occupied.positions.forEach((position) => {
+        const cell = UI_board.querySelector(`[data-position='${position}']`);
+        cell.classList.remove('hit');
+        cell.classList.add('sunk');
+      });
+
       if (opponent.player.board.allShipsSunk()) {
         UI.displayMessage(
           `All ${opponent.player.name}'s ships are sunk.  ${currentPlayer.player.name} has won the game.`
