@@ -33,18 +33,32 @@ const UI = {
   },
 
   createMessageWindow: function () {
-    const messageWindow = document.createElement('div');
-    messageWindow.classList.add('message-window');
-    this.gameContainer.appendChild(messageWindow);
-    this.messageWindow = messageWindow;
+    const messageContainer = document.createElement('div');
+    messageContainer.classList.add('message-container');
+
+    const messageText = document.createElement('p');
+    messageText.classList.add('message-text');
+
+    messageContainer.appendChild(messageText);
+    this.gameContainer.appendChild(messageContainer);
+
+    this.messageText = messageText;
   },
 
   updateCellStatus: function (cell, status) {
     cell.classList.add(status);
   },
 
+  clearMessage: function () {
+    this.messageText.textContent = '';
+  },
+
   displayMessage: function (msg) {
-    this.messageWindow.textContent = msg;
+    this.messageText.textContent = msg;
+    const msgTimer = setTimeout(function () {
+      UI.clearMessage();
+      clearTimeout(msgTimer);
+    }, 1500);
   },
 
   init: function () {

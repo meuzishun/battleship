@@ -1,7 +1,7 @@
 :root {
   --blue-sea-color: rgb(43, 110, 255);
-  --white-sea-color: rgb(100, 141, 253);
-  --ship-miss-bg: rgba(20, 43, 107, 0.329);
+  --white-sea-color: rgb(78, 125, 255);
+  --ship-miss-bg: rgba(254, 254, 255, 0.226);
   --ship-hit-bg: radial-gradient(red, rgb(251, 255, 0));
 }
 
@@ -23,8 +23,9 @@ html {
 
 .game-container {
   width: 100%;
-  max-width: 80rem;
+  max-width: 70rem;
   height: 100%;
+  margin: 0 auto;
 }
 
 .gameboard-header {
@@ -39,7 +40,6 @@ html {
   display: flex;
   flex-direction: row;
   gap: 2rem;
-  margin: 2rem;
 }
 
 .gameboard {
@@ -76,4 +76,16 @@ html {
 
 .cell.hit {
   background: var(--ship-hit-bg);
+}
+
+.message-container {
+  width: 100%;
+  display: grid;
+  place-content: center;
+}
+
+.message-text {
+  padding: 2rem;
+  font-size: 2rem;
+  text-transform: capitalize;
 }

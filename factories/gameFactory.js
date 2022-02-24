@@ -25,7 +25,7 @@ const createGame = function () {
   const getClickInfo = function (elem) {
     return {
       board: elem.parentElement,
-      cell: elem,
+      UI_cell: elem,
       position: Number(elem.dataset.position),
     };
   };
@@ -36,23 +36,36 @@ const createGame = function () {
       return;
     }
 
-    const { cell, position } = getClickInfo(e.target);
+    const { UI_cell, position } = getClickInfo(e.target);
 
-    currentPlayer.player.attack(opponent.player, position);
-    UI.updateCellStatus(cell, opponent.player.board.cells[position].status);
-
-    if (
-      opponent.player.board.cells[position].status === 'hit' &&
-      opponent.player.board.cells[position].occupied.isSunk()
-    ) {
-      UI.displayMessage(
-        `You sunk my ${opponent.player.board.cells[position].occupied.name}`
-      );
-    } else {
-      UI.displayMessage(opponent.player.board.cells[position].status);
+    if (opponent.player.board.cells[position].status) {
+      return;
     }
 
-    switchTurn();
+    currentPlayer.player.attack(opponent.player, position);
+    const { occupied, status } = opponent.player.board.cells[position];
+    UI.updateCellStatus(UI_cell, status);
+
+    if (status === 'hit' && occupied.isSunk()) {
+      if (opponent.player.board.allShipsSunk()) {
+        UI.displayMessage(
+          `All ${opponent.player.name}'s ships are sunk.  ${currentPlayer.player.name} has won the game.`
+        );
+
+        UI.gameboards.forEach((board) => {
+          board.removeEventListener('click', handleBoardClick);
+        });
+
+        return;
+      }
+
+      UI.displayMessage(
+        `${currentPlayer.player.name} sunk ${opponent.player.name}'s ${occupied.name}`
+      );
+    } else {
+      UI.displayMessage(status);
+      switchTurn();
+    }
   };
 
   UI.init();
@@ -68,15 +81,6 @@ const createGame = function () {
 
   temporaryPlaceShipsFunction();
   setFirstTurn();
-
-  return {
-    players,
-    addPlayerToGame,
-    currentPlayer,
-    opponent,
-    setFirstTurn,
-    switchTurn,
-  };
 };
 
 export { createGame };
