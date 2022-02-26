@@ -32,6 +32,12 @@ const UI = {
     this.gameboards.push(gameboard);
   },
 
+  createShipList: function () {},
+
+  addShipToList: function (ship, list) {},
+
+  markShipAsSunk: function (ship) {},
+
   createMessageWindow: function () {
     const messageContainer = document.createElement('div');
     messageContainer.classList.add('message-container');
