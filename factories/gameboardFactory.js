@@ -89,6 +89,7 @@ const createGameboard = function (width = 10, height = 10) {
 
   return {
     cells,
+    ships,
     placeShip,
     receiveAttack,
     allShipsSunk,

@@ -1,6 +1,7 @@
 const UI = {
   gameContainer: document.querySelector('.game-container'),
   gameboards: [],
+  shipLists: [],
 
   createHeader: function () {
     const gameboardHeader = document.createElement('header');
@@ -32,9 +33,21 @@ const UI = {
     this.gameboards.push(gameboard);
   },
 
-  createShipList: function () {},
+  createShipList: function (className) {
+    const listContainer = document.createElement('div');
+    listContainer.classList.add('ship-list');
+    listContainer.classList.add(className);
 
-  addShipToList: function (ship, list) {},
+    this.shipLists.push(listContainer);
+    this.gameContainer.appendChild(listContainer);
+  },
+
+  addShipToList: function (ship, list) {
+    const shipName = document.createElement('p');
+    shipName.classList.add('ship-name');
+    shipName.textContent = ship.name;
+    list.appendChild(shipName);
+  },
 
   markShipAsSunk: function (ship) {},
 
@@ -70,8 +83,10 @@ const UI = {
   init: function () {
     this.createHeader();
     this.createBoardContainer();
+    this.createShipList('left-ship-list');
     this.createBoard('left-board');
     this.createBoard('right-board');
+    this.createShipList('right-ship-list');
     this.createMessageWindow();
   },
 };

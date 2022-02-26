@@ -75,8 +75,8 @@ const createGame = function () {
       );
     } else {
       UI.displayMessage(status);
-      switchTurn();
     }
+    switchTurn();
   };
 
   UI.init();
@@ -88,6 +88,20 @@ const createGame = function () {
   const temporaryPlaceShipsFunction = function () {
     players[0].player.board.placeShip(21, 'Carrier', 'vertical');
     players[1].player.board.placeShip(30, 'Carrier', 'vertical');
+    players[0].player.board.placeShip(53, 'Battleship', 'horizontal');
+    players[1].player.board.placeShip(23, 'Battleship', 'horizontal');
+    players[0].player.board.placeShip(3, 'Destroyer', 'horizontal');
+    players[1].player.board.placeShip(3, 'Destroyer', 'horizontal');
+    players[0].player.board.placeShip(75, 'Submarine', 'horizontal');
+    players[1].player.board.placeShip(84, 'Submarine', 'horizontal');
+    players[0].player.board.placeShip(39, 'Patrol Boat', 'vertical');
+    players[1].player.board.placeShip(78, 'Patrol Boat', 'vertical');
+
+    players.forEach((player, index) => {
+      player.player.board.ships.forEach((ship) => {
+        UI.addShipToList(ship, UI.shipLists[index]);
+      });
+    });
   };
 
   temporaryPlaceShipsFunction();
