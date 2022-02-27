@@ -6,13 +6,16 @@ const createGame = function () {
   let currentPlayer = undefined;
   let opponent = undefined;
 
-  const addPlayerToGame = function (player, UI_board) {
-    players.push({ player, UI_board });
+  const addPlayerToGame = function (player, UI_board_side) {
+    players.push({ player, UI_board_side });
   };
 
   const setFirstTurn = function () {
     [currentPlayer, opponent] = players;
-    opponent.UI_board.addEventListener('click', handleBoardClick);
+    opponent.UI_board_side.gameboard.addEventListener(
+      'click',
+      handleBoardClick
+    );
   };
 
   const handleAddPlayerSubmission = function (e) {
@@ -21,9 +24,15 @@ const createGame = function () {
   };
 
   const switchTurn = function () {
-    opponent.UI_board.removeEventListener('click', handleBoardClick);
+    opponent.UI_board_side.gameboard.removeEventListener(
+      'click',
+      handleBoardClick
+    );
     [opponent, currentPlayer] = [currentPlayer, opponent];
-    opponent.UI_board.addEventListener('click', handleBoardClick);
+    opponent.UI_board_side.gameboard.addEventListener(
+      'click',
+      handleBoardClick
+    );
   };
 
   //* obtain info from an element
@@ -58,6 +67,10 @@ const createGame = function () {
         cell.classList.add('sunk');
       });
 
+      const shipList = opponent.UI_board_side.shipList;
+      const sunkShip = shipList.querySelector(`[data-name='${occupied.name}']`);
+      sunkShip.classList.add('crossout');
+
       if (opponent.player.board.allShipsSunk()) {
         UI.displayMessage(
           `All ${opponent.player.name}'s ships are sunk.  ${currentPlayer.player.name} has won the game.`
@@ -82,8 +95,8 @@ const createGame = function () {
   UI.init();
 
   //TODO: We should use a modal here to setup the players...
-  addPlayerToGame(createPlayer('Andrew'), UI.gameboards[0]);
-  addPlayerToGame(createPlayer('Computer'), UI.gameboards[1]);
+  addPlayerToGame(createPlayer('Andrew'), UI.gameboardSides[0]);
+  addPlayerToGame(createPlayer('Computer'), UI.gameboardSides[1]);
 
   const temporaryPlaceShipsFunction = function () {
     players[0].player.board.placeShip(21, 'Carrier', 'vertical');
@@ -99,7 +112,7 @@ const createGame = function () {
 
     players.forEach((player, index) => {
       player.player.board.ships.forEach((ship) => {
-        UI.addShipToList(ship, UI.shipLists[index]);
+        UI.addShipToList(ship, UI.gameboardSides[index].shipList);
       });
     });
   };

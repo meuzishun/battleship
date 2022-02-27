@@ -19,17 +19,27 @@ html {
 
 .wrapper {
   width: 100%;
-  height: 100vh;
+  /* height: 100vh; */
 }
 
 .game-container {
   width: 100%;
-  max-width: 70rem;
-  height: 100%;
+  max-width: 80rem;
+  /* height: 100%; */
   margin: 0 auto;
+
+  /* messing with layout */
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr auto;
+  grid-template-areas:
+    'header header'
+    'message message'
+    'left-gameboard right-gameboard';
 }
 
 .gameboard-header {
+  grid-area: header;
   font-size: 3rem;
   display: grid;
   place-content: center;
@@ -37,19 +47,40 @@ html {
 }
 
 .gameboard-container {
-  width: 100%;
+  /* width: 100%; */
   display: flex;
   flex-direction: row;
   gap: 2rem;
 }
 
+.left-side-gameboard-container {
+  grid-area: left-gameboard;
+}
+
+.right-side-gameboard-container {
+  grid-area: right-gameboard;
+  flex-direction: row-reverse;
+}
+
+.ship-list {
+  width: 25%;
+}
+
+.ship-name {
+  font-size: 1.2rem;
+}
+
+.crossout {
+  text-decoration: line-through;
+}
+
 .gameboard {
-  width: 50%;
+  width: 100%;
   display: grid;
   grid-template-columns: repeat(10, 1fr);
   grid-template-rows: repeat(10, 1fr);
   gap: 0.15rem;
-  padding: 3rem;
+  padding: 1.5rem;
   background: linear-gradient(
     120deg,
     var(--blue-sea-color) 3%,
@@ -63,6 +94,7 @@ html {
     var(--blue-sea-color) 85%,
     var(--white-sea-color) 100%
   );
+  border-radius: 0.5rem;
 }
 
 .cell {
@@ -84,13 +116,15 @@ html {
 }
 
 .message-container {
+  grid-area: message;
   width: 100%;
+  height: 100%;
   display: grid;
   place-content: center;
 }
 
 .message-text {
-  padding: 2rem;
+  /* padding: 2rem; */
   font-size: 2rem;
   text-transform: capitalize;
 }

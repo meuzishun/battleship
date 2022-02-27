@@ -1,7 +1,6 @@
 const UI = {
   gameContainer: document.querySelector('.game-container'),
-  gameboards: [],
-  shipLists: [],
+  gameboardSides: [],
 
   createHeader: function () {
     const gameboardHeader = document.createElement('header');
@@ -9,47 +8,6 @@ const UI = {
     gameboardHeader.textContent = 'Battleship';
     this.gameContainer.appendChild(gameboardHeader);
   },
-
-  createBoardContainer: function () {
-    const boardContainer = document.createElement('div');
-    boardContainer.classList.add('gameboard-container');
-    this.gameContainer.appendChild(boardContainer);
-    this.boardContainer = boardContainer;
-  },
-
-  createBoard: function (className) {
-    const gameboard = document.createElement('div');
-    gameboard.classList.add('gameboard');
-    gameboard.classList.add(className);
-
-    for (let i = 0; i < 100; i++) {
-      const cell = document.createElement('div');
-      cell.classList.add('cell');
-      cell.dataset.position = i;
-      gameboard.appendChild(cell);
-    }
-
-    this.boardContainer.appendChild(gameboard);
-    this.gameboards.push(gameboard);
-  },
-
-  createShipList: function (className) {
-    const listContainer = document.createElement('div');
-    listContainer.classList.add('ship-list');
-    listContainer.classList.add(className);
-
-    this.shipLists.push(listContainer);
-    this.gameContainer.appendChild(listContainer);
-  },
-
-  addShipToList: function (ship, list) {
-    const shipName = document.createElement('p');
-    shipName.classList.add('ship-name');
-    shipName.textContent = ship.name;
-    list.appendChild(shipName);
-  },
-
-  markShipAsSunk: function (ship) {},
 
   createMessageWindow: function () {
     const messageContainer = document.createElement('div');
@@ -80,14 +38,55 @@ const UI = {
     }, 1500);
   },
 
+  createBoard: function () {
+    const gameboard = document.createElement('div');
+    gameboard.classList.add('gameboard');
+
+    for (let i = 0; i < 100; i++) {
+      const cell = document.createElement('div');
+      cell.classList.add('cell');
+      cell.dataset.position = i;
+      gameboard.appendChild(cell);
+    }
+
+    return gameboard;
+  },
+
+  createShipList: function () {
+    const listContainer = document.createElement('div');
+    listContainer.classList.add('ship-list');
+    return listContainer;
+  },
+
+  addShipToList: function (ship, list) {
+    const shipName = document.createElement('p');
+    shipName.classList.add('ship-name');
+    shipName.dataset.name = ship.name;
+    shipName.textContent = ship.name;
+    list.appendChild(shipName);
+  },
+
+  markShipAsSunk: function (ship, list) {},
+
+  createBoardSide: function (side) {
+    const boardSide = document.createElement('div');
+    boardSide.classList.add('gameboard-container');
+    boardSide.classList.add(`${side}-gameboard-container`);
+
+    const shipList = this.createShipList();
+    const gameboard = this.createBoard();
+    boardSide.appendChild(shipList);
+    //? We are going to query the DOM to get to the list and board but would it be better to add a property?  Probably not...
+    boardSide.appendChild(gameboard);
+    this.gameContainer.appendChild(boardSide);
+    this.gameboardSides.push({ boardSide, gameboard, shipList });
+  },
+
   init: function () {
     this.createHeader();
-    this.createBoardContainer();
-    this.createShipList('left-ship-list');
-    this.createBoard('left-board');
-    this.createBoard('right-board');
-    this.createShipList('right-ship-list');
     this.createMessageWindow();
+    this.createBoardSide('left-side');
+    this.createBoardSide('right-side');
   },
 };
 
