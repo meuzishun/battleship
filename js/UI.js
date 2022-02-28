@@ -1,4 +1,4 @@
-import { gamestate } from './gamestate.js';
+import { gameLoop } from './gameLoop.js';
 
 //TODO: IIFEs can prevent leaking methods...
 const UI = {
@@ -67,7 +67,7 @@ const UI = {
       return;
     }
 
-    gamestate.processTurn(cell);
+    gameLoop.processTurn(cell);
   },
 
   createShipList: function () {

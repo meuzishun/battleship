@@ -2,7 +2,7 @@ import { createPlayer } from './factories/playerFactory.js';
 import { UI } from './UI.js';
 
 //TODO: IIFEs can prevent leaking methods...
-const gamestate = {
+const gameLoop = {
   players: [],
   currentPlayer: undefined,
   opponent: undefined,
@@ -102,4 +102,4 @@ const gamestate = {
   },
 };
 
-export { gamestate };
+export { gameLoop };
