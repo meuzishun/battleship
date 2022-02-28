@@ -1,4 +1,4 @@
-import { createShip } from '../factories/shipFactory.js';
+import { createShip } from '../js/factories/shipFactory.js';
 
 // testing for type
 test('createShip returns an object', () => {

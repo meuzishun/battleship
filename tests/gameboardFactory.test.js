@@ -1,4 +1,4 @@
-import { createGameboard } from '../factories/gameboardFactory.js';
+import { createGameboard } from '../js/factories/gameboardFactory.js';
 
 // it is an object
 test('createGameboard returns an object', () => {

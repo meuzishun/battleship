@@ -1,4 +1,4 @@
-import { createPlayer } from '../factories/playerFactory.js';
+import { createPlayer } from '../js/factories/playerFactory.js';
 
 // test construction
 test('calling createPlayer returns an object', () => {
