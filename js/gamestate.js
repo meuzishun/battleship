@@ -37,17 +37,16 @@ const gamestate = {
     );
   },
 
-  markWholeShipSunk: function (board, ship) {
+  markShipSunk: function (board, ship) {
     ship.positions.forEach((position) => {
       const cell = board.querySelector(`[data-position='${position}']`);
       cell.classList.remove('hit');
       cell.classList.add('sunk');
     });
-    const shipList = board.parentElement
+    board.parentElement
       .querySelector('.ship-list')
       .querySelector(`[data-name='${ship.name}']`)
       .classList.add('crossout');
-    console.log(shipList);
   },
 
   processTurn: function (cell) {
@@ -58,7 +57,7 @@ const gamestate = {
     //TODO: check to see if all ships are sunk...
 
     if (occupied && occupied.isSunk()) {
-      this.markWholeShipSunk(cell.parentElement, occupied);
+      this.markShipSunk(cell.parentElement, occupied);
       UI.displayMessage(
         `${this.currentPlayer.player.name} has sunk ${this.opponent.player.name}'s ${occupied.name}!`
       );
