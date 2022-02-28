@@ -1,6 +1,7 @@
 import { createPlayer } from './factories/playerFactory.js';
 import { UI } from './UI.js';
 
+//TODO: IIFEs can prevent leaking methods...
 const gamestate = {
   players: [],
   currentPlayer: undefined,
@@ -37,6 +38,7 @@ const gamestate = {
     );
   },
 
+  //TODO: this seems like a UI method...
   markShipSunk: function (board, ship) {
     ship.positions.forEach((position) => {
       const cell = board.querySelector(`[data-position='${position}']`);

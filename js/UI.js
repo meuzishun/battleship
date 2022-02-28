@@ -1,5 +1,6 @@
 import { gamestate } from './gamestate.js';
 
+//TODO: IIFEs can prevent leaking methods...
 const UI = {
   gameContainer: document.querySelector('.game-container'),
   gameboardSides: [],
