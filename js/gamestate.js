@@ -54,8 +54,6 @@ const gamestate = {
     this.currentPlayer.player.attack(this.opponent.player, position);
     const { occupied, status } = this.opponent.player.board.cells[position];
 
-    //TODO: check to see if all ships are sunk...
-
     if (occupied && occupied.isSunk()) {
       this.markShipSunk(cell.parentElement, occupied);
       UI.displayMessage(
@@ -68,6 +66,8 @@ const gamestate = {
       cell.classList.add('miss');
       UI.displayMessage('Miss...');
     }
+
+    //TODO: check to see if all ships are sunk...
 
     this.switchTurn();
   },
