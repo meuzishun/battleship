@@ -1,9 +1,9 @@
 :root {
   --blue-sea-color: rgb(43, 110, 255);
-  --white-sea-color: rgb(78, 125, 255);
+  --white-sea-color: rgb(77, 124, 255);
   --ship-miss-bg: rgba(254, 254, 255, 0.226);
   --ship-hit-bg: radial-gradient(red, rgb(251, 255, 0));
-  --ship-sunk-bg: radial-gradient(rgb(15, 15, 15), rgb(172, 172, 172));
+  --ship-sunk-bg: radial-gradient(rgb(48, 48, 48), rgb(172, 172, 172));
 }
 
 * {
@@ -131,5 +131,5 @@ html {
 .message-text {
   /* padding: 2rem; */
   font-size: 2rem;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
