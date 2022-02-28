@@ -1,5 +1,5 @@
-import { UI } from './UI.js';
 import { createPlayer } from './factories/playerFactory.js';
+import { UI } from './UI.js';
 
 const gamestate = {
   players: [],
