@@ -57,6 +57,7 @@ const gameLoop = {
     const { occupied, status } = this.opponent.player.board.cells[position];
 
     if (occupied && occupied.isSunk()) {
+      //TODO: this seems like a UI method...
       this.markShipSunk(cell.parentElement, occupied);
       UI.displayMessage(
         `${this.currentPlayer.player.name} has sunk ${this.opponent.player.name}'s ${occupied.name}!`
