@@ -1,3 +1,3 @@
-import { gamestate } from './gamestate.js';
+import { gamestate } from './js/gamestate.js';
 
 gamestate.init();
