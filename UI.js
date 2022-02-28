@@ -1,3 +1,5 @@
+import { gamestate } from './gamestate.js';
+
 const UI = {
   gameContainer: document.querySelector('.game-container'),
   gameboardSides: [],
@@ -35,7 +37,7 @@ const UI = {
     const msgTimer = setTimeout(function () {
       UI.clearMessage();
       clearTimeout(msgTimer);
-    }, 1500);
+    }, 3000);
   },
 
   createBoard: function () {
@@ -50,6 +52,24 @@ const UI = {
     }
 
     return gameboard;
+  },
+
+  handleBoardClick: function (e) {
+    if (!e.target.classList.contains('cell')) {
+      return;
+    }
+
+    const cell = e.target;
+
+    if (cell.classList.contains('hit')) {
+      return;
+    }
+
+    if (cell.classList.contains('miss')) {
+      return;
+    }
+
+    gamestate.processTurn(cell);
   },
 
   createShipList: function () {
@@ -89,5 +109,7 @@ const UI = {
     this.createBoardSide('right-side');
   },
 };
+
+UI.init();
 
 export { UI };

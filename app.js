@@ -1,3 +1,3 @@
-import { createGame } from './factories/gameFactory.js';
+import { gamestate } from './gamestate.js';
 
-const game = createGame();
+gamestate.init();
