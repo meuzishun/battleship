@@ -75,6 +75,7 @@ html {
 
 .crossout {
   text-decoration: line-through;
+  color: #ddd;
 }
 
 .gameboard {
