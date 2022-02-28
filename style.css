@@ -36,6 +36,7 @@ html {
     'header header'
     'message message'
     'left-gameboard right-gameboard';
+  grid-column-gap: 1rem;
 }
 
 .gameboard-header {

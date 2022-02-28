@@ -28,7 +28,9 @@ const gamestate = {
       'click',
       UI.handleBoardClick
     );
+
     [this.opponent, this.currentPlayer] = [this.currentPlayer, this.opponent];
+
     this.opponent.UI_board_side.gameboard.addEventListener(
       'click',
       UI.handleBoardClick
@@ -53,6 +55,8 @@ const gamestate = {
     this.currentPlayer.player.attack(this.opponent.player, position);
     const { occupied, status } = this.opponent.player.board.cells[position];
 
+    //TODO: check to see if all ships are sunk...
+
     if (occupied && occupied.isSunk()) {
       this.markWholeShipSunk(cell.parentElement, occupied);
       UI.displayMessage(
@@ -68,10 +72,6 @@ const gamestate = {
 
     this.switchTurn();
   },
-
-  //TODO: We should use a modal here to setup the players...
-  // addPlayerToGame(createPlayer('Andrew'), UI.gameboardSides[0]);
-  // addPlayerToGame(createPlayer('Computer'), UI.gameboardSides[1]);
 
   temporaryPlaceShipsFunction: function () {
     this.players[0].player.board.placeShip(21, 'Carrier', 'vertical');
@@ -93,14 +93,12 @@ const gamestate = {
   },
 
   init: function () {
+    //TODO: We should use a modal here to setup the players...
     this.addPlayerToGame(createPlayer('Player 1'), UI.gameboardSides[0]);
     this.addPlayerToGame(createPlayer('Player 2'), UI.gameboardSides[1]);
     this.temporaryPlaceShipsFunction();
     this.setFirstTurn();
   },
-
-  // temporaryPlaceShipsFunction();
-  // setFirstTurn();
 };
 
 export { gamestate };
