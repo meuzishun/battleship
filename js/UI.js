@@ -3,6 +3,8 @@ import { gameLoop } from './gameLoop.js';
 const UI = (function () {
   const gameContainer = document.querySelector('.game-container');
   const gameboardSides = [];
+  let activeBoardSide;
+  let dormantBoardSide;
 
   const createHeader = function () {
     const gameboardHeader = document.createElement('header');
@@ -28,6 +30,14 @@ const UI = (function () {
 
   const updateCellStatus = function (cell, status) {
     cell.classList.add(status);
+  };
+
+  const handleBoardClick = function (e) {
+    const cell = e.target;
+    if (!cell.classList.contains('cell')) return;
+    if (cell.classList.contains('hit')) return;
+    if (cell.classList.contains('miss')) return;
+    gameLoop.processTurn(cell);
   };
 
   const createBoard = function () {
@@ -64,9 +74,23 @@ const UI = (function () {
     gameboardSides.push({ boardSide, gameboard, shipList });
   };
 
+  const setFirstTurn = function () {
+    [dormantBoardSide, activeBoardSide] = gameboardSides;
+    activeBoardSide.gameboard.addEventListener('click', handleBoardClick);
+    dormantBoardSide.gameboard.removeEventListener('click', handleBoardClick);
+  };
+
   return {
     //*
     gameboardSides,
+
+    switchActiveBoardSide: function () {
+      [activeBoardSide, dormantBoardSide] = [dormantBoardSide, activeBoardSide];
+      activeBoardSide.gameboard.addEventListener('click', handleBoardClick);
+      dormantBoardSide.gameboard.removeEventListener('click', handleBoardClick);
+    },
+
+    openAddPlayerModal: function () {},
 
     //*
     displayMessage: function (msg) {
@@ -75,15 +99,6 @@ const UI = (function () {
         clearMessage();
         clearTimeout(msgTimer);
       }, 3000);
-    },
-
-    //*
-    handleBoardClick: function (e) {
-      const cell = e.target;
-      if (!cell.classList.contains('cell')) return;
-      if (cell.classList.contains('hit')) return;
-      if (cell.classList.contains('miss')) return;
-      gameLoop.processTurn(cell);
     },
 
     //*
@@ -112,10 +127,9 @@ const UI = (function () {
       createMessageWindow();
       createBoardSide('left-side');
       createBoardSide('right-side');
+      setFirstTurn();
     },
   };
 })();
-
-UI.init();
 
 export { UI };
