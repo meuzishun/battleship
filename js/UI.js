@@ -1,82 +1,92 @@
 import { gameLoop } from './gameLoop.js';
 
-//TODO: IIFEs can prevent leaking methods...
 const UI = (function () {
+  const gameContainer = document.querySelector('.game-container');
+  const gameboardSides = [];
+
+  const createHeader = function () {
+    const gameboardHeader = document.createElement('header');
+    gameboardHeader.classList.add('gameboard-header');
+    gameboardHeader.textContent = 'Battleship';
+    gameContainer.appendChild(gameboardHeader);
+  };
+
+  let messageText;
+
+  const createMessageWindow = function () {
+    const messageContainer = document.createElement('div');
+    messageContainer.classList.add('message-container');
+    messageText = document.createElement('p');
+    messageText.classList.add('message-text');
+    messageContainer.appendChild(messageText);
+    gameContainer.appendChild(messageContainer);
+  };
+
+  const clearMessage = function () {
+    messageText.textContent = '';
+  };
+
+  const updateCellStatus = function (cell, status) {
+    cell.classList.add(status);
+  };
+
+  const createBoard = function () {
+    const gameboard = document.createElement('div');
+    gameboard.classList.add('gameboard');
+
+    for (let i = 0; i < 100; i++) {
+      const cell = document.createElement('div');
+      cell.classList.add('cell');
+      cell.dataset.position = i;
+      gameboard.appendChild(cell);
+    }
+
+    return gameboard;
+  };
+
+  const createShipList = function () {
+    const listContainer = document.createElement('div');
+    listContainer.classList.add('ship-list');
+    return listContainer;
+  };
+
+  const createBoardSide = function (side) {
+    const boardSide = document.createElement('div');
+    boardSide.classList.add('gameboard-container');
+    boardSide.classList.add(`${side}-gameboard-container`);
+
+    const shipList = createShipList();
+    const gameboard = createBoard();
+    boardSide.appendChild(shipList);
+    //? We are going to query the DOM to get to the list and board but would it be better to add a property?  Probably not...
+    boardSide.appendChild(gameboard);
+    gameContainer.appendChild(boardSide);
+    gameboardSides.push({ boardSide, gameboard, shipList });
+  };
+
   return {
-    gameContainer: document.querySelector('.game-container'),
-    gameboardSides: [],
+    //*
+    gameboardSides,
 
-    createHeader: function () {
-      const gameboardHeader = document.createElement('header');
-      gameboardHeader.classList.add('gameboard-header');
-      gameboardHeader.textContent = 'Battleship';
-      this.gameContainer.appendChild(gameboardHeader);
-    },
-
-    createMessageWindow: function () {
-      const messageContainer = document.createElement('div');
-      messageContainer.classList.add('message-container');
-      const messageText = document.createElement('p');
-      messageText.classList.add('message-text');
-      messageContainer.appendChild(messageText);
-      this.gameContainer.appendChild(messageContainer);
-      this.messageText = messageText;
-    },
-
-    clearMessage: function () {
-      this.messageText.textContent = '';
-    },
-
+    //*
     displayMessage: function (msg) {
-      this.messageText.textContent = msg;
+      messageText.textContent = msg;
       const msgTimer = setTimeout(function () {
-        UI.clearMessage();
+        clearMessage();
         clearTimeout(msgTimer);
       }, 3000);
     },
 
-    updateCellStatus: function (cell, status) {
-      cell.classList.add(status);
-    },
-
-    createBoard: function () {
-      const gameboard = document.createElement('div');
-      gameboard.classList.add('gameboard');
-
-      for (let i = 0; i < 100; i++) {
-        const cell = document.createElement('div');
-        cell.classList.add('cell');
-        cell.dataset.position = i;
-        gameboard.appendChild(cell);
-      }
-
-      return gameboard;
-    },
-
+    //*
     handleBoardClick: function (e) {
-      if (!e.target.classList.contains('cell')) {
-        return;
-      }
-
       const cell = e.target;
-
-      if (cell.classList.contains('hit')) {
-        return;
-      }
-
-      if (cell.classList.contains('miss')) {
-        return;
-      }
-
+      if (!cell.classList.contains('cell')) return;
+      if (cell.classList.contains('hit')) return;
+      if (cell.classList.contains('miss')) return;
       gameLoop.processTurn(cell);
     },
 
-    createShipList: function () {
-      const listContainer = document.createElement('div');
-      listContainer.classList.add('ship-list');
-      return listContainer;
-    },
-
+    //*
     addShipToList: function (ship, list) {
       const shipName = document.createElement('p');
       shipName.classList.add('ship-name');
@@ -85,27 +95,23 @@ const UI = (function () {
       list.appendChild(shipName);
     },
 
-    markShipAsSunk: function (ship, list) {},
-
-    createBoardSide: function (side) {
-      const boardSide = document.createElement('div');
-      boardSide.classList.add('gameboard-container');
-      boardSide.classList.add(`${side}-gameboard-container`);
-
-      const shipList = this.createShipList();
-      const gameboard = this.createBoard();
-      boardSide.appendChild(shipList);
-      //? We are going to query the DOM to get to the list and board but would it be better to add a property?  Probably not...
-      boardSide.appendChild(gameboard);
-      this.gameContainer.appendChild(boardSide);
-      this.gameboardSides.push({ boardSide, gameboard, shipList });
+    markShipAsSunk: function (board, ship) {
+      ship.positions.forEach((position) => {
+        const cell = board.querySelector(`[data-position='${position}']`);
+        cell.classList.remove('hit');
+        cell.classList.add('sunk');
+      });
+      board.parentElement
+        .querySelector('.ship-list')
+        .querySelector(`[data-name='${ship.name}']`)
+        .classList.add('crossout');
     },
 
     init: function () {
-      this.createHeader();
-      this.createMessageWindow();
-      this.createBoardSide('left-side');
-      this.createBoardSide('right-side');
+      createHeader();
+      createMessageWindow();
+      createBoardSide('left-side');
+      createBoardSide('right-side');
     },
   };
 })();

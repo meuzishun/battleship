@@ -1,7 +1,6 @@
 import { createPlayer } from './factories/playerFactory.js';
 import { UI } from './UI.js';
 
-//TODO: IIFEs can prevent leaking methods...
 const gameLoop = (function () {
   const players = [];
   let currentPlayer;
@@ -40,19 +39,6 @@ const gameLoop = (function () {
       // get player info
     },
 
-    //TODO: this seems like a UI method...
-    markShipSunk: function (board, ship) {
-      ship.positions.forEach((position) => {
-        const cell = board.querySelector(`[data-position='${position}']`);
-        cell.classList.remove('hit');
-        cell.classList.add('sunk');
-      });
-      board.parentElement
-        .querySelector('.ship-list')
-        .querySelector(`[data-name='${ship.name}']`)
-        .classList.add('crossout');
-    },
-
     //*
     processTurn: function (cell) {
       const position = Number(cell.dataset.position);
@@ -60,8 +46,7 @@ const gameLoop = (function () {
       const { occupied, status } = opponent.player.board.cells[position];
 
       if (occupied && occupied.isSunk()) {
-        //TODO: this seems like a UI method...
-        this.markShipSunk(cell.parentElement, occupied);
+        UI.markShipAsSunk(cell.parentElement, occupied);
         UI.displayMessage(
           `${currentPlayer.player.name} has sunk ${opponent.player.name}'s ${occupied.name}!`
         );
