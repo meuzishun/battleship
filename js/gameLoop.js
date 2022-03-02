@@ -51,30 +51,21 @@ const gameLoop = (function () {
     },
 
     //*
-    temporaryPlaceShipsFunction: function () {
-      players[0].board.placeShip(21, 'Carrier', 'vertical');
-      players[1].board.placeShip(30, 'Carrier', 'vertical');
-      players[0].board.placeShip(53, 'Battleship', 'horizontal');
-      players[1].board.placeShip(23, 'Battleship', 'horizontal');
-      players[0].board.placeShip(3, 'Destroyer', 'horizontal');
-      players[1].board.placeShip(3, 'Destroyer', 'horizontal');
-      players[0].board.placeShip(75, 'Submarine', 'horizontal');
-      players[1].board.placeShip(84, 'Submarine', 'horizontal');
-      players[0].board.placeShip(39, 'Patrol Boat', 'vertical');
-      players[1].board.placeShip(78, 'Patrol Boat', 'vertical');
-
-      players.forEach((player, index) => {
-        player.board.ships.forEach((ship) => {
-          UI.addShipToList(ship, UI.gameboardSides[index].shipList);
-        });
-      });
+    temporaryPlaceShipFunction: function (
+      shipName,
+      playerIndex,
+      boardPosition,
+      direction
+    ) {
+      players[playerIndex].board.placeShip(boardPosition, shipName, direction);
+      UI.addShipToList(shipName, UI.gameboardSides[playerIndex].shipList);
     },
 
     //*
     init: function () {
       //TODO: We should use a modal here to setup the players...
 
-      this.temporaryPlaceShipsFunction();
+      // this.temporaryPlaceShipsFunction();
       setFirstTurn();
     },
   };

@@ -102,11 +102,11 @@ const UI = (function () {
     },
 
     //*
-    addShipToList: function (ship, list) {
+    addShipToList: function (name, list) {
       const shipName = document.createElement('p');
       shipName.classList.add('ship-name');
-      shipName.dataset.name = ship.name;
-      shipName.textContent = ship.name;
+      shipName.dataset.name = name;
+      shipName.textContent = name;
       list.appendChild(shipName);
     },
 
