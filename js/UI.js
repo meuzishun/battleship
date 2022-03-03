@@ -80,6 +80,21 @@ const UI = (function () {
     dormantBoardSide.gameboard.removeEventListener('click', handleBoardClick);
   };
 
+  const changeSunkShipCells = function (ship, board) {
+    ship.positions.forEach((position) => {
+      const cell = board.querySelector(`[data-position='${position}']`);
+      cell.classList.remove('hit');
+      cell.classList.add('sunk');
+    });
+  };
+
+  const makeShipNameInList = function (ship, board) {
+    board.parentElement
+      .querySelector('.ship-list')
+      .querySelector(`[data-name='${ship.name}']`)
+      .classList.add('crossout');
+  };
+
   return {
     //*
     gameboardSides,
@@ -118,15 +133,8 @@ const UI = (function () {
     },
 
     markShipAsSunk: function (board, ship) {
-      ship.positions.forEach((position) => {
-        const cell = board.querySelector(`[data-position='${position}']`);
-        cell.classList.remove('hit');
-        cell.classList.add('sunk');
-      });
-      board.parentElement
-        .querySelector('.ship-list')
-        .querySelector(`[data-name='${ship.name}']`)
-        .classList.add('crossout');
+      changeSunkShipCells(ship, board);
+      makeShipNameInList(ship, board);
     },
 
     init: function () {
