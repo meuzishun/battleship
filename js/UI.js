@@ -90,10 +90,17 @@ const UI = (function () {
       dormantBoardSide.gameboard.removeEventListener('click', handleBoardClick);
     },
 
+    deactivateGameboard: function () {
+      this.gameboardSides.forEach((side) =>
+        side.gameboard.removeEventListener('click', handleBoardClick)
+      );
+    },
+
     openAddPlayerModal: function () {},
 
     //*
     displayMessage: function (msg) {
+      //TODO: figure way to not overlap timeouts
       messageText.textContent = msg;
       const msgTimer = setTimeout(function () {
         clearMessage();

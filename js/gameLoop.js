@@ -15,6 +15,10 @@ const gameLoop = (function () {
     UI.switchActiveBoardSide();
   };
 
+  const endGame = function () {
+    UI.deactivateGameboard();
+  };
+
   return {
     //*
     addPlayerToGame: function (playerName) {
@@ -46,8 +50,12 @@ const gameLoop = (function () {
       }
 
       //TODO: check to see if all ships are sunk...
-
-      switchTurn();
+      if (opponent.board.allShipsSunk()) {
+        UI.displayMessage(`GAME OVER ${currentPlayer.name} has won`);
+        endGame();
+      } else {
+        switchTurn();
+      }
     },
 
     //*
