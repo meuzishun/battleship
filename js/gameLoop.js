@@ -17,6 +17,7 @@ const gameLoop = (function () {
 
   const endGame = function () {
     UI.deactivateGameboard();
+    UI.displayMessage(`GAME OVER ${currentPlayer.name} has won`);
   };
 
   return {
@@ -51,7 +52,6 @@ const gameLoop = (function () {
 
       //TODO: check to see if all ships are sunk...
       if (opponent.board.allShipsSunk()) {
-        UI.displayMessage(`GAME OVER ${currentPlayer.name} has won`);
         endGame();
       } else {
         switchTurn();
