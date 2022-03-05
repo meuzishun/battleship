@@ -26,6 +26,13 @@ const UI = (function () {
   let activeBoardSide;
   let dormantBoardSide;
 
+  const createPlayerTitle = function (name) {
+    const playerTitle = document.createElement('h2');
+    playerTitle.classList.add('player-title');
+    playerTitle.textContent = name;
+    return playerTitle;
+  };
+
   const createBoard = function () {
     const gameboard = document.createElement('div');
     gameboard.classList.add('gameboard');
@@ -46,13 +53,15 @@ const UI = (function () {
     return listContainer;
   };
 
-  const createBoardSide = function (side) {
+  const createBoardSide = function (side, name) {
     const boardSide = document.createElement('div');
     boardSide.classList.add('gameboard-container');
     boardSide.classList.add(`${side}-gameboard-container`);
 
+    const playerTitle = createPlayerTitle(name);
     const shipList = createShipList();
     const gameboard = createBoard();
+    boardSide.appendChild(playerTitle);
     boardSide.appendChild(shipList);
     //? We are going to query the DOM to get to the list and board but would it be better to add a property?  Probably not...
     boardSide.appendChild(gameboard);
@@ -61,6 +70,11 @@ const UI = (function () {
   };
 
   //* CALLBACKS
+  const registerNewPlayerSubmission = function (name, side) {
+    gameLoop.addPlayerToGame(name);
+    createBoardSide(side, name);
+  };
+
   const switchActiveBoardSide = function () {
     [activeBoardSide, dormantBoardSide] = [dormantBoardSide, activeBoardSide];
     activeBoardSide.gameboard.addEventListener('click', handleBoardClick);
@@ -143,12 +157,10 @@ const UI = (function () {
   const init = function () {
     createHeader();
     createMessageWindow();
-    createBoardSide('left-side');
-    createBoardSide('right-side');
     setFirstTurn();
   };
 
-  //* EVENT LISTENERS AND CALLBACKS
+  //* EVENT LISTENERS
   const handleShipNameDrag = function () {};
 
   const handleBoardDrop = function () {};
@@ -174,6 +186,7 @@ const UI = (function () {
     createShipList,
     createBoardSide,
     //* CALLBACKS
+    registerNewPlayerSubmission,
     switchActiveBoardSide,
     deactivateGameboards,
     handleDroppedShipData,
