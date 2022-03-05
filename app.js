@@ -5,7 +5,7 @@ gameLoop.addPlayerToGame('Player 1');
 gameLoop.addPlayerToGame('Player 2');
 
 UI.init();
-gameLoop.init();
+gameLoop.setFirstTurn();
 
 UI.temporaryPlaceShipFunction('Carrier', 0, 21, 'vertical');
 UI.temporaryPlaceShipFunction('Carrier', 1, 30, 'vertical');
