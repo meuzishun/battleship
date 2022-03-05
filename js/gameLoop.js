@@ -21,6 +21,8 @@ const gameLoop = (function () {
   };
 
   return {
+    players,
+
     //*
     addPlayerToGame: function (playerName) {
       players.push(createPlayer(playerName));
@@ -56,17 +58,6 @@ const gameLoop = (function () {
       } else {
         switchTurn();
       }
-    },
-
-    //*
-    temporaryPlaceShipFunction: function (
-      shipName,
-      playerIndex,
-      boardPosition,
-      direction
-    ) {
-      players[playerIndex].board.placeShip(boardPosition, shipName, direction);
-      UI.addShipToList(shipName, UI.gameboardSides[playerIndex].shipList);
     },
 
     //*

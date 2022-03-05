@@ -40,6 +40,30 @@ const UI = (function () {
     gameLoop.processTurn(cell);
   };
 
+  const handleBoardDrop = function () {};
+
+  const addShipToList = function (name, list) {
+    const shipName = document.createElement('p');
+    shipName.classList.add('ship-name');
+    shipName.dataset.name = name;
+    shipName.textContent = name;
+    list.appendChild(shipName);
+  };
+
+  const temporaryPlaceShipFunction = function (
+    shipName,
+    playerIndex,
+    boardPosition,
+    direction
+  ) {
+    gameLoop.players[playerIndex].board.placeShip(
+      boardPosition,
+      shipName,
+      direction
+    );
+    addShipToList(shipName, gameboardSides[playerIndex].shipList);
+  };
+
   const createBoard = function () {
     const gameboard = document.createElement('div');
     gameboard.classList.add('gameboard');
@@ -111,6 +135,8 @@ const UI = (function () {
       );
     },
 
+    temporaryPlaceShipFunction,
+
     openAddPlayerModal: function () {},
 
     //*
@@ -121,15 +147,6 @@ const UI = (function () {
         clearMessage();
         clearTimeout(msgTimer);
       }, 3000);
-    },
-
-    //*
-    addShipToList: function (name, list) {
-      const shipName = document.createElement('p');
-      shipName.classList.add('ship-name');
-      shipName.dataset.name = name;
-      shipName.textContent = name;
-      list.appendChild(shipName);
     },
 
     markShipAsSunk: function (board, ship) {
