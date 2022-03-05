@@ -73,7 +73,7 @@ const UI = (function () {
     );
   };
 
-  const temporaryPlaceShipFunction = function (data) {
+  const handleDroppedShipData = function (data) {
     gameLoop.players[data.playerIndex].board.placeShip(
       data.boardPosition,
       data.shipName,
@@ -84,18 +84,26 @@ const UI = (function () {
 
   const openAddPlayerModal = function () {};
 
+  let msgTimer;
+
   const clearMessage = function () {
     messageText.textContent = '';
   };
 
+  const startMsgTimer = function (time) {
+    msgTimer = setTimeout(clearMessage, time);
+  };
+
+  const cancelMsgTimer = function () {
+    clearTimeout(msgTimer);
+  };
+
   const displayMessage = function (msg) {
     //TODO: figure way to not overlap timeouts
+    cancelMsgTimer();
     clearMessage();
     messageText.textContent = msg;
-    // const msgTimer = setTimeout(function () {
-    //   clearMessage();
-    //   clearTimeout(msgTimer);
-    // }, 3000);
+    startMsgTimer(1500);
   };
 
   const addShipToList = function (name, list) {
@@ -168,9 +176,12 @@ const UI = (function () {
     //* CALLBACKS
     switchActiveBoardSide,
     deactivateGameboards,
-    temporaryPlaceShipFunction,
+    handleDroppedShipData,
     openAddPlayerModal,
+    msgTimer,
     clearMessage,
+    startMsgTimer,
+    cancelMsgTimer,
     displayMessage,
     addShipToList,
     markShipNameInList,

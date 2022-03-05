@@ -7,61 +7,61 @@ gameLoop.addPlayerToGame('Player 2');
 UI.init();
 gameLoop.setFirstTurn();
 
-UI.temporaryPlaceShipFunction({
+UI.handleDroppedShipData({
   shipName: 'Carrier',
   playerIndex: 0,
   boardPosition: 21,
   direction: 'vertical',
 });
-UI.temporaryPlaceShipFunction({
+UI.handleDroppedShipData({
   shipName: 'Carrier',
   playerIndex: 1,
   boardPosition: 30,
   direction: 'vertical',
 });
-UI.temporaryPlaceShipFunction({
+UI.handleDroppedShipData({
   shipName: 'Battleship',
   playerIndex: 0,
   boardPosition: 53,
   direction: 'horizontal',
 });
-UI.temporaryPlaceShipFunction({
+UI.handleDroppedShipData({
   shipName: 'Battleship',
   playerIndex: 1,
   boardPosition: 23,
   direction: 'horizontal',
 });
-UI.temporaryPlaceShipFunction({
+UI.handleDroppedShipData({
   shipName: 'Destroyer',
   playerIndex: 0,
   boardPosition: 3,
   direction: 'horizontal',
 });
-UI.temporaryPlaceShipFunction({
+UI.handleDroppedShipData({
   shipName: 'Destroyer',
   playerIndex: 1,
   boardPosition: 3,
   direction: 'horizontal',
 });
-UI.temporaryPlaceShipFunction({
+UI.handleDroppedShipData({
   shipName: 'Submarine',
   playerIndex: 0,
   boardPosition: 75,
   direction: 'horizontal',
 });
-UI.temporaryPlaceShipFunction({
+UI.handleDroppedShipData({
   shipName: 'Submarine',
   playerIndex: 1,
   boardPosition: 84,
   direction: 'horizontal',
 });
-UI.temporaryPlaceShipFunction({
+UI.handleDroppedShipData({
   shipName: 'Patrol Boat',
   playerIndex: 0,
   boardPosition: 39,
   direction: 'vertical',
 });
-UI.temporaryPlaceShipFunction({
+UI.handleDroppedShipData({
   shipName: 'Patrol Boat',
   playerIndex: 1,
   boardPosition: 78,
