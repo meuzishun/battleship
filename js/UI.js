@@ -63,7 +63,6 @@ const UI = (function () {
     const gameboard = createBoard();
     boardSide.appendChild(playerTitle);
     boardSide.appendChild(shipList);
-    //? We are going to query the DOM to get to the list and board but would it be better to add a property?  Probably not...
     boardSide.appendChild(gameboard);
     gameContainer.appendChild(boardSide);
     gameboardSides.push({ boardSide, gameboard, shipList });

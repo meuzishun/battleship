@@ -2,7 +2,7 @@ import { gameLoop } from './js/gameLoop.js';
 import { UI } from './js/UI.js';
 
 UI.registerNewPlayerSubmission('Andrew', 'left-side');
-UI.registerNewPlayerSubmission('computer', 'right-side');
+UI.registerNewPlayerSubmission('Computer', 'right-side');
 
 UI.init();
 gameLoop.setFirstTurn();

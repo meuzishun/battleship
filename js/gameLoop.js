@@ -36,10 +36,10 @@ const gameLoop = (function () {
       );
     } else if (status === 'hit') {
       cell.classList.add('hit');
-      UI.displayMessage('Hit!');
+      UI.displayMessage('HIT!');
     } else if (status === 'miss') {
       cell.classList.add('miss');
-      UI.displayMessage('Miss...');
+      UI.displayMessage('miss...');
     }
 
     //TODO: check to see if all ships are sunk...
