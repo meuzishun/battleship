@@ -87,11 +87,12 @@ const UI = (function () {
 
   const displayMessage = function (msg) {
     //TODO: figure way to not overlap timeouts
+    clearMessage();
     messageText.textContent = msg;
-    const msgTimer = setTimeout(function () {
-      clearMessage();
-      clearTimeout(msgTimer);
-    }, 3000);
+    // const msgTimer = setTimeout(function () {
+    //   clearMessage();
+    //   clearTimeout(msgTimer);
+    // }, 3000);
   };
 
   const updateCellStatus = function (cell, status) {
