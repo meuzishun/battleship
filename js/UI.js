@@ -1,6 +1,7 @@
 import { gameLoop } from './gameLoop.js';
 
 const UI = (function () {
+  //* CREATING AND REFERENCING DOM
   const gameContainer = document.querySelector('.game-container');
 
   const createHeader = function () {
@@ -10,21 +11,20 @@ const UI = (function () {
     gameContainer.appendChild(gameboardHeader);
   };
 
+  let messageText;
+
+  const createMessageWindow = function () {
+    const messageContainer = document.createElement('div');
+    messageContainer.classList.add('message-container');
+    messageText = document.createElement('p');
+    messageText.classList.add('message-text');
+    messageContainer.appendChild(messageText);
+    gameContainer.appendChild(messageContainer);
+  };
+
   const gameboardSides = [];
   let activeBoardSide;
   let dormantBoardSide;
-
-  const switchActiveBoardSide = function () {
-    [activeBoardSide, dormantBoardSide] = [dormantBoardSide, activeBoardSide];
-    activeBoardSide.gameboard.addEventListener('click', handleBoardClick);
-    dormantBoardSide.gameboard.removeEventListener('click', handleBoardClick);
-  };
-
-  const deactivateGameboards = function () {
-    this.gameboardSides.forEach((side) =>
-      side.gameboard.removeEventListener('click', handleBoardClick)
-    );
-  };
 
   const createBoard = function () {
     const gameboard = document.createElement('div');
@@ -38,6 +38,12 @@ const UI = (function () {
     }
 
     return gameboard;
+  };
+
+  const createShipList = function () {
+    const listContainer = document.createElement('div');
+    listContainer.classList.add('ship-list');
+    return listContainer;
   };
 
   const createBoardSide = function (side) {
@@ -54,32 +60,29 @@ const UI = (function () {
     gameboardSides.push({ boardSide, gameboard, shipList });
   };
 
-  const temporaryPlaceShipFunction = function (
-    shipName,
-    playerIndex,
-    boardPosition,
-    direction
-  ) {
-    gameLoop.players[playerIndex].board.placeShip(
-      boardPosition,
-      shipName,
-      direction
+  //* CALLBACKS
+  const switchActiveBoardSide = function () {
+    [activeBoardSide, dormantBoardSide] = [dormantBoardSide, activeBoardSide];
+    activeBoardSide.gameboard.addEventListener('click', handleBoardClick);
+    dormantBoardSide.gameboard.removeEventListener('click', handleBoardClick);
+  };
+
+  const deactivateGameboards = function () {
+    this.gameboardSides.forEach((side) =>
+      side.gameboard.removeEventListener('click', handleBoardClick)
     );
-    addShipToList(shipName, gameboardSides[playerIndex].shipList);
+  };
+
+  const temporaryPlaceShipFunction = function (data) {
+    gameLoop.players[data.playerIndex].board.placeShip(
+      data.boardPosition,
+      data.shipName,
+      data.direction
+    );
+    addShipToList(data.shipName, gameboardSides[data.playerIndex].shipList);
   };
 
   const openAddPlayerModal = function () {};
-
-  let messageText;
-
-  const createMessageWindow = function () {
-    const messageContainer = document.createElement('div');
-    messageContainer.classList.add('message-container');
-    messageText = document.createElement('p');
-    messageText.classList.add('message-text');
-    messageContainer.appendChild(messageText);
-    gameContainer.appendChild(messageContainer);
-  };
 
   const clearMessage = function () {
     messageText.textContent = '';
@@ -95,26 +98,6 @@ const UI = (function () {
     // }, 3000);
   };
 
-  const updateCellStatus = function (cell, status) {
-    cell.classList.add(status);
-  };
-
-  const handleBoardClick = function (e) {
-    const cell = e.target;
-    if (!cell.classList.contains('cell')) return;
-    if (cell.classList.contains('hit')) return;
-    if (cell.classList.contains('miss')) return;
-    gameLoop.processTurn(cell);
-  };
-
-  const handleBoardDrop = function () {};
-
-  const createShipList = function () {
-    const listContainer = document.createElement('div');
-    listContainer.classList.add('ship-list');
-    return listContainer;
-  };
-
   const addShipToList = function (name, list) {
     const shipName = document.createElement('p');
     shipName.classList.add('ship-name');
@@ -123,7 +106,7 @@ const UI = (function () {
     list.appendChild(shipName);
   };
 
-  const makeShipNameInList = function (ship, board) {
+  const markShipNameInList = function (ship, board) {
     board.parentElement
       .querySelector('.ship-list')
       .querySelector(`[data-name='${ship.name}']`)
@@ -132,7 +115,7 @@ const UI = (function () {
 
   const markShipAsSunk = function (board, ship) {
     changeSunkShipCells(ship, board);
-    makeShipNameInList(ship, board);
+    markShipNameInList(ship, board);
   };
 
   const changeSunkShipCells = function (ship, board) {
@@ -157,32 +140,48 @@ const UI = (function () {
     setFirstTurn();
   };
 
+  //* EVENT LISTENERS AND CALLBACKS
+  const handleShipNameDrag = function () {};
+
+  const handleBoardDrop = function () {};
+
+  const handleBoardClick = function (e) {
+    const cell = e.target;
+    if (!cell.classList.contains('cell')) return;
+    if (cell.classList.contains('hit')) return;
+    if (cell.classList.contains('miss')) return;
+    gameLoop.processTurn(cell);
+  };
+
   return {
+    //* CREATING AND REFERENCING DOM
     gameContainer,
     createHeader,
+    messageText,
+    createMessageWindow,
     gameboardSides,
     activeBoardSide,
     dormantBoardSide,
+    createBoard,
+    createShipList,
+    createBoardSide,
+    //* CALLBACKS
     switchActiveBoardSide,
     deactivateGameboards,
-    createBoard,
-    createBoardSide,
     temporaryPlaceShipFunction,
     openAddPlayerModal,
-    messageText,
-    createMessageWindow,
     clearMessage,
     displayMessage,
-    updateCellStatus,
-    handleBoardClick,
-    handleBoardDrop,
-    createShipList,
     addShipToList,
-    makeShipNameInList,
+    markShipNameInList,
     markShipAsSunk,
     changeSunkShipCells,
     setFirstTurn,
     init,
+    //* EVENT LISTENERS
+    handleShipNameDrag,
+    handleBoardDrop,
+    handleBoardClick,
   };
 })();
 
