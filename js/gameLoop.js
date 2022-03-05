@@ -8,6 +8,11 @@ const gameLoop = (function () {
     players.push(createPlayer(playerName));
   };
 
+  const registerNewPlayerSubmission = function (name, side) {
+    addPlayerToGame(name);
+    UI.createBoardSide(side, name);
+  };
+
   const handleAddPlayerSubmission = function (e) {
     e.preventDefault();
   };
@@ -58,6 +63,7 @@ const gameLoop = (function () {
   return {
     players,
     addPlayerToGame,
+    registerNewPlayerSubmission,
     currentPlayer,
     opponent,
     handleAddPlayerSubmission,

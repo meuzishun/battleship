@@ -69,11 +69,6 @@ const UI = (function () {
   };
 
   //* CALLBACKS
-  const registerNewPlayerSubmission = function (name, side) {
-    gameLoop.addPlayerToGame(name);
-    createBoardSide(side, name);
-  };
-
   const switchActiveBoardSide = function () {
     [activeBoardSide, dormantBoardSide] = [dormantBoardSide, activeBoardSide];
     activeBoardSide.gameboard.addEventListener('click', handleBoardClick);
@@ -185,7 +180,6 @@ const UI = (function () {
     createShipList,
     createBoardSide,
     //* CALLBACKS
-    registerNewPlayerSubmission,
     switchActiveBoardSide,
     deactivateGameboards,
     handleDroppedShipData,
