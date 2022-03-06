@@ -68,4 +68,4 @@ UI.handleDroppedShipData({
   direction: 'vertical',
 });
 
-setTimeout(() => UI.openAddPlayerModal('stuff'), 5000);
+setTimeout(() => UI.openAddPlayerModal('stuff'), 0);

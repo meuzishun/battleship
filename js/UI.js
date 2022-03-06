@@ -112,8 +112,13 @@ const UI = (function () {
     nameInput.setAttribute('name', 'player-name');
     nameInput.setAttribute('id', 'player-name');
 
+    const submitBtn = document.createElement('input');
+    submitBtn.setAttribute('type', 'submit');
+    submitBtn.textContent = 'Add Player';
+
     form.appendChild(nameLabel);
     form.appendChild(nameInput);
+    form.appendChild(submitBtn);
     form.addEventListener('submit', handleAddPlayerSubmission);
     return form;
   };
