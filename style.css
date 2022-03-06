@@ -51,6 +51,7 @@ html {
   display: grid;
 }
 
+/* TODO: change these selectors to not need side names */
 .left-side-gameboard-container {
   grid-area: left-gameboard;
   grid-template-columns: 1fr 4fr;
@@ -151,4 +152,24 @@ html {
   /* padding: 2rem; */
   font-size: 2rem;
   /* text-transform: capitalize; */
+}
+
+.modal {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  background: rgba(0, 0, 0, 0.842);
+  display: grid;
+  place-content: center;
+}
+
+.modal > .pop-up {
+  background: #ddd;
+  width: 400px;
+  height: 100px;
+  display: grid;
+  place-content: center;
 }

@@ -68,6 +68,16 @@ const UI = (function () {
     gameboardSides.push({ boardSide, gameboard, shipList });
   };
 
+  const createModal = function (content) {
+    const modal = document.createElement('div');
+    modal.classList.add('modal');
+    const popup = document.createElement('div');
+    popup.appendChild(content);
+    popup.classList.add('pop-up');
+    modal.appendChild(popup);
+    return modal;
+  };
+
   //* CALLBACKS
   const switchActiveBoardSide = function () {
     [activeBoardSide, dormantBoardSide] = [dormantBoardSide, activeBoardSide];
@@ -90,7 +100,29 @@ const UI = (function () {
     addShipToList(data.shipName, gameboardSides[data.playerIndex].shipList);
   };
 
-  const openAddPlayerModal = function () {};
+  const createAddPlayerForm = function () {
+    const form = document.createElement('form');
+    form.classList.add('new-player-form');
+
+    const nameLabel = document.createElement('label');
+    nameLabel.setAttribute('for', 'player-name');
+    nameLabel.textContent = 'Enter the name of Player 1: ';
+
+    const nameInput = document.createElement('input');
+    nameInput.setAttribute('name', 'player-name');
+    nameInput.setAttribute('id', 'player-name');
+
+    form.appendChild(nameLabel);
+    form.appendChild(nameInput);
+    form.addEventListener('submit', handleAddPlayerSubmission);
+    return form;
+  };
+
+  const openAddPlayerModal = function () {
+    const addPlayerForm = createAddPlayerForm();
+    const modal = createModal(addPlayerForm);
+    gameContainer.appendChild(modal);
+  };
 
   let msgTimer;
 
@@ -155,6 +187,14 @@ const UI = (function () {
   };
 
   //* EVENT LISTENERS
+  const handleAddPlayerSubmission = function (e) {
+    e.preventDefault();
+    const name = e.srcElement.children[1].value;
+    console.log(name);
+    const modal = e.srcElement.parentElement.parentElement;
+    gameContainer.removeChild(modal);
+  };
+
   const handleShipNameDrag = function () {};
 
   const handleBoardDrop = function () {};
@@ -179,6 +219,7 @@ const UI = (function () {
     createBoard,
     createShipList,
     createBoardSide,
+    createModal,
     //* CALLBACKS
     switchActiveBoardSide,
     deactivateGameboards,

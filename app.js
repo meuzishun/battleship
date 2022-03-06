@@ -67,3 +67,5 @@ UI.handleDroppedShipData({
   boardPosition: 78,
   direction: 'vertical',
 });
+
+setTimeout(() => UI.openAddPlayerModal('stuff'), 5000);

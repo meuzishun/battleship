@@ -13,9 +13,9 @@ const gameLoop = (function () {
     UI.createBoardSide(side, name);
   };
 
-  const handleAddPlayerSubmission = function (e) {
-    e.preventDefault();
-  };
+  // const handleAddPlayerSubmission = function (e) {
+  //   e.preventDefault();
+  // };
 
   let currentPlayer;
   let opponent;
@@ -66,7 +66,7 @@ const gameLoop = (function () {
     registerNewPlayerSubmission,
     currentPlayer,
     opponent,
-    handleAddPlayerSubmission,
+    // handleAddPlayerSubmission,
     setFirstTurn,
     switchTurn,
     processTurn,
