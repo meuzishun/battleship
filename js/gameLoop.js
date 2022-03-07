@@ -10,9 +10,9 @@ const gameLoop = (function () {
 
   const registerNewPlayerSubmission = function (name) {
     addPlayerToGame(name);
-    UI.createBoardSide(name);
 
     if (players.length === 2) {
+      players.forEach((player) => UI.createBoardSide(player.name));
       UI.tempPlaceShips();
       setFirstTurn();
       UI.init();

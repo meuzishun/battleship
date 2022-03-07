@@ -100,13 +100,13 @@ const UI = (function () {
     addShipToList(data.shipName, gameboardSides[data.playerIndex].shipList);
   };
 
-  const createAddPlayerForm = function () {
+  const createAddPlayerForm = function (playerNum) {
     const form = document.createElement('form');
     form.classList.add('new-player-form');
 
     const nameLabel = document.createElement('label');
     nameLabel.setAttribute('for', 'player-name');
-    nameLabel.textContent = 'Enter the name of Player 1: ';
+    nameLabel.textContent = `Enter the name of Player ${playerNum}: `;
 
     const nameInput = document.createElement('input');
     nameInput.setAttribute('name', 'player-name');
@@ -124,7 +124,7 @@ const UI = (function () {
   };
 
   const openAddPlayerModal = function () {
-    const addPlayerForm = createAddPlayerForm();
+    const addPlayerForm = createAddPlayerForm(gameLoop.players.length + 1);
     const modal = createModal(addPlayerForm);
     gameContainer.appendChild(modal);
   };
