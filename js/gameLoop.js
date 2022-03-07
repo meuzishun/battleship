@@ -21,10 +21,6 @@ const gameLoop = (function () {
     }
   };
 
-  // const handleAddPlayerSubmission = function (e) {
-  //   e.preventDefault();
-  // };
-
   let currentPlayer;
   let opponent;
 
@@ -55,7 +51,6 @@ const gameLoop = (function () {
       UI.displayMessage('miss...');
     }
 
-    //TODO: check to see if all ships are sunk...
     if (opponent.board.allShipsSunk()) {
       endGame();
     } else {
@@ -74,7 +69,6 @@ const gameLoop = (function () {
     registerNewPlayerSubmission,
     currentPlayer,
     opponent,
-    // handleAddPlayerSubmission,
     setFirstTurn,
     switchTurn,
     processTurn,

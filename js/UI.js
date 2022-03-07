@@ -56,7 +56,6 @@ const UI = (function () {
   const createBoardSide = function (name, side) {
     const boardSide = document.createElement('div');
     boardSide.classList.add('gameboard-container');
-    // boardSide.classList.add(`${side}-gameboard-container`);
 
     const playerTitle = createPlayerTitle(name);
     const shipList = createShipList();
@@ -144,7 +143,6 @@ const UI = (function () {
   };
 
   const displayMessage = function (msg) {
-    //TODO: figure way to not overlap timeouts
     cancelMsgTimer();
     clearMessage();
     messageText.textContent = msg;
