@@ -53,10 +53,10 @@ const UI = (function () {
     return listContainer;
   };
 
-  const createBoardSide = function (side, name) {
+  const createBoardSide = function (name, side) {
     const boardSide = document.createElement('div');
     boardSide.classList.add('gameboard-container');
-    boardSide.classList.add(`${side}-gameboard-container`);
+    // boardSide.classList.add(`${side}-gameboard-container`);
 
     const playerTitle = createPlayerTitle(name);
     const shipList = createShipList();
@@ -114,7 +114,7 @@ const UI = (function () {
 
     const submitBtn = document.createElement('input');
     submitBtn.setAttribute('type', 'submit');
-    submitBtn.textContent = 'Add Player';
+    submitBtn.value = 'Add Player';
 
     form.appendChild(nameLabel);
     form.appendChild(nameInput);
@@ -197,6 +197,7 @@ const UI = (function () {
     const name = e.srcElement.children[1].value;
     console.log(name);
     const modal = e.srcElement.parentElement.parentElement;
+    gameLoop.registerNewPlayerSubmission(name);
     gameContainer.removeChild(modal);
   };
 
@@ -210,6 +211,69 @@ const UI = (function () {
     if (cell.classList.contains('hit')) return;
     if (cell.classList.contains('miss')) return;
     gameLoop.processTurn(cell);
+  };
+
+  const tempPlaceShips = function () {
+    handleDroppedShipData({
+      shipName: 'Carrier',
+      playerIndex: 0,
+      boardPosition: 21,
+      direction: 'vertical',
+    });
+    handleDroppedShipData({
+      shipName: 'Carrier',
+      playerIndex: 1,
+      boardPosition: 30,
+      direction: 'vertical',
+    });
+    handleDroppedShipData({
+      shipName: 'Battleship',
+      playerIndex: 0,
+      boardPosition: 53,
+      direction: 'horizontal',
+    });
+    handleDroppedShipData({
+      shipName: 'Battleship',
+      playerIndex: 1,
+      boardPosition: 23,
+      direction: 'horizontal',
+    });
+    handleDroppedShipData({
+      shipName: 'Destroyer',
+      playerIndex: 0,
+      boardPosition: 3,
+      direction: 'horizontal',
+    });
+    handleDroppedShipData({
+      shipName: 'Destroyer',
+      playerIndex: 1,
+      boardPosition: 3,
+      direction: 'horizontal',
+    });
+    handleDroppedShipData({
+      shipName: 'Submarine',
+      playerIndex: 0,
+      boardPosition: 75,
+      direction: 'horizontal',
+    });
+    handleDroppedShipData({
+      shipName: 'Submarine',
+      playerIndex: 1,
+      boardPosition: 84,
+      direction: 'horizontal',
+    });
+    handleDroppedShipData({
+      shipName: 'Patrol Boat',
+      playerIndex: 0,
+      boardPosition: 39,
+      direction: 'vertical',
+    });
+    handleDroppedShipData({
+      shipName: 'Patrol Boat',
+      playerIndex: 1,
+      boardPosition: 78,
+      direction: 'vertical',
+    });
   };
 
   return {
@@ -245,6 +309,7 @@ const UI = (function () {
     handleShipNameDrag,
     handleBoardDrop,
     handleBoardClick,
+    tempPlaceShips,
   };
 })();
 

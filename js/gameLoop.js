@@ -8,9 +8,17 @@ const gameLoop = (function () {
     players.push(createPlayer(playerName));
   };
 
-  const registerNewPlayerSubmission = function (name, side) {
+  const registerNewPlayerSubmission = function (name) {
     addPlayerToGame(name);
-    UI.createBoardSide(side, name);
+    UI.createBoardSide(name);
+
+    if (players.length === 2) {
+      UI.tempPlaceShips();
+      setFirstTurn();
+      UI.init();
+    } else {
+      UI.openAddPlayerModal();
+    }
   };
 
   // const handleAddPlayerSubmission = function (e) {
