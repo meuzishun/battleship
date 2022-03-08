@@ -12,8 +12,6 @@ const gameLoop = (function () {
     addPlayerToGame(name);
 
     if (players.length === 2) {
-      players.forEach((player) => UI.createBoardSide(player.name));
-      UI.tempPlaceShips();
       setFirstTurn();
       UI.init();
     } else {

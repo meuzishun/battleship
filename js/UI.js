@@ -177,7 +177,7 @@ const UI = (function () {
     });
   };
 
-  const setFirstTurn = function () {
+  const activateLeftBoardSide = function () {
     [dormantBoardSide, activeBoardSide] = gameboardSides;
     activeBoardSide.gameboard.addEventListener('click', handleBoardClick);
     dormantBoardSide.gameboard.removeEventListener('click', handleBoardClick);
@@ -186,7 +186,9 @@ const UI = (function () {
   const init = function () {
     createHeader();
     createMessageWindow();
-    setFirstTurn();
+    gameLoop.players.forEach((player) => createBoardSide(player.name));
+    tempPlaceShips();
+    activateLeftBoardSide();
   };
 
   //* EVENT LISTENERS
@@ -301,7 +303,7 @@ const UI = (function () {
     markShipNameInList,
     markShipAsSunk,
     changeSunkShipCells,
-    setFirstTurn,
+    activateLeftBoardSide,
     init,
     //* EVENT LISTENERS
     handleShipNameDrag,
