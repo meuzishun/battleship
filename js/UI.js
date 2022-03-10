@@ -4,6 +4,12 @@ const UI = (function () {
   //* CREATING AND REFERENCING DOM
   const gameContainer = document.querySelector('.game-container');
 
+  const createGameContainer = function () {
+    const gameContainer = document.createElement('div');
+    gameContainer.classList.add('game-container');
+    return gameContainer;
+  };
+
   const createHeader = function () {
     const gameboardHeader = document.createElement('header');
     gameboardHeader.classList.add('gameboard-header');
