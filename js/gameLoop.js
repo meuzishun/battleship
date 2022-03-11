@@ -8,12 +8,16 @@ const gameLoop = (function () {
     players.push(createPlayer(playerName));
   };
 
+  const getPlayers = function () {
+    return players;
+  };
+
   const registerNewPlayerSubmission = function (name) {
     addPlayerToGame(name);
 
     if (players.length === 2) {
       setFirstTurn();
-      UI.init();
+      UI.initializeGameboard();
     } else {
       UI.openAddPlayerModal();
     }
@@ -62,15 +66,16 @@ const gameLoop = (function () {
   };
 
   return {
-    players,
-    addPlayerToGame,
+    // players,
+    getPlayers,
+    // addPlayerToGame,
     registerNewPlayerSubmission,
-    currentPlayer,
-    opponent,
-    setFirstTurn,
-    switchTurn,
+    // currentPlayer,
+    // opponent,
+    // setFirstTurn,
+    // switchTurn,
     processTurn,
-    endGame,
+    // endGame,
   };
 })();
 

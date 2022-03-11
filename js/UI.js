@@ -2,7 +2,7 @@ import { gameLoop } from './gameLoop.js';
 
 const UI = (function () {
   //* CREATING AND REFERENCING DOM
-  const gameContainer = document.querySelector('.game-container');
+  // const gameContainer = document.querySelector('.game-container');
 
   const createGameContainer = function () {
     const gameContainer = document.createElement('div');
@@ -14,7 +14,8 @@ const UI = (function () {
     const gameboardHeader = document.createElement('header');
     gameboardHeader.classList.add('gameboard-header');
     gameboardHeader.textContent = 'Battleship';
-    gameContainer.appendChild(gameboardHeader);
+    // gameContainer.appendChild(gameboardHeader);
+    return gameboardHeader;
   };
 
   let messageText;
@@ -25,7 +26,8 @@ const UI = (function () {
     messageText = document.createElement('p');
     messageText.classList.add('message-text');
     messageContainer.appendChild(messageText);
-    gameContainer.appendChild(messageContainer);
+    // gameContainer.appendChild(messageContainer);
+    return messageContainer;
   };
 
   const gameboardSides = [];
@@ -69,8 +71,9 @@ const UI = (function () {
     boardSide.appendChild(playerTitle);
     boardSide.appendChild(shipList);
     boardSide.appendChild(gameboard);
-    gameContainer.appendChild(boardSide);
+    // gameContainer.appendChild(boardSide);
     gameboardSides.push({ boardSide, gameboard, shipList });
+    return boardSide;
   };
 
   const createModal = function (content) {
@@ -97,11 +100,13 @@ const UI = (function () {
   };
 
   const handleDroppedShipData = function (data) {
-    gameLoop.players[data.playerIndex].board.placeShip(
-      data.boardPosition,
-      data.shipName,
-      data.direction
-    );
+    gameLoop
+      .getPlayers()
+      [data.playerIndex].board.placeShip(
+        data.boardPosition,
+        data.shipName,
+        data.direction
+      );
     addShipToList(data.shipName, gameboardSides[data.playerIndex].shipList);
   };
 
@@ -129,9 +134,9 @@ const UI = (function () {
   };
 
   const openAddPlayerModal = function () {
-    const addPlayerForm = createAddPlayerForm(gameLoop.players.length + 1);
+    const addPlayerForm = createAddPlayerForm(gameLoop.getPlayers().length + 1);
     const modal = createModal(addPlayerForm);
-    gameContainer.appendChild(modal);
+    document.querySelector('.wrapper').appendChild(modal);
   };
 
   let msgTimer;
@@ -189,10 +194,18 @@ const UI = (function () {
     dormantBoardSide.gameboard.removeEventListener('click', handleBoardClick);
   };
 
-  const init = function () {
-    createHeader();
-    createMessageWindow();
-    gameLoop.players.forEach((player) => createBoardSide(player.name));
+  const initializeGameboard = function () {
+    const gameContainer = createGameContainer();
+    const gameboardHeader = createHeader();
+    gameContainer.appendChild(gameboardHeader);
+    const messageWindow = createMessageWindow();
+    gameContainer.appendChild(messageWindow);
+    gameLoop.getPlayers().forEach((player) => {
+      const boardSide = createBoardSide(player.name);
+      gameContainer.appendChild(boardSide);
+    });
+    document.querySelector('.wrapper').appendChild(gameContainer);
+
     tempPlaceShips();
     activateRightBoardSide();
   };
@@ -201,10 +214,9 @@ const UI = (function () {
   const handleAddPlayerSubmission = function (e) {
     e.preventDefault();
     const name = e.srcElement.children[1].value;
-    console.log(name);
     const modal = e.srcElement.parentElement.parentElement;
     gameLoop.registerNewPlayerSubmission(name);
-    gameContainer.removeChild(modal);
+    document.querySelector('.wrapper').removeChild(modal);
   };
 
   const handleShipNameDrag = function () {};
@@ -284,38 +296,38 @@ const UI = (function () {
 
   return {
     //* CREATING AND REFERENCING DOM
-    gameContainer,
-    createHeader,
-    messageText,
-    createMessageWindow,
-    gameboardSides,
-    activeBoardSide,
-    dormantBoardSide,
-    createBoard,
-    createShipList,
-    createBoardSide,
-    createModal,
+    // gameContainer,
+    // createHeader,
+    // messageText,
+    // createMessageWindow,
+    // gameboardSides,
+    // activeBoardSide,
+    // dormantBoardSide,
+    // createBoard,
+    // createShipList,
+    // createBoardSide,
+    // createModal,
     //* CALLBACKS
     switchActiveBoardSide,
     deactivateGameboards,
-    handleDroppedShipData,
+    // handleDroppedShipData,
     openAddPlayerModal,
-    msgTimer,
-    clearMessage,
-    startMsgTimer,
-    cancelMsgTimer,
+    // msgTimer,
+    // clearMessage,
+    // startMsgTimer,
+    // cancelMsgTimer,
     displayMessage,
-    addShipToList,
-    markShipNameInList,
+    // addShipToList,
+    // markShipNameInList,
     markShipAsSunk,
-    changeSunkShipCells,
-    activateRightBoardSide,
-    init,
+    // changeSunkShipCells,
+    // activateRightBoardSide,
+    initializeGameboard,
     //* EVENT LISTENERS
-    handleShipNameDrag,
-    handleBoardDrop,
-    handleBoardClick,
-    tempPlaceShips,
+    // handleShipNameDrag,
+    // handleBoardDrop,
+    // handleBoardClick,
+    // tempPlaceShips,
   };
 })();
 
