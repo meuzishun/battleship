@@ -3,6 +3,8 @@ import { UI } from './UI.js';
 
 export const gameLoop = (function () {
   const players = [];
+  let currentPlayer;
+  let opponent;
 
   const addPlayerToGame = function (playerName) {
     players.push(createPlayer(playerName));
@@ -22,9 +24,6 @@ export const gameLoop = (function () {
       UI.openAddPlayerModal();
     }
   };
-
-  let currentPlayer;
-  let opponent;
 
   const setFirstTurn = function () {
     [currentPlayer, opponent] = players;

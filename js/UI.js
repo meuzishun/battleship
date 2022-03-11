@@ -1,7 +1,44 @@
 import { gameLoop } from './gameLoop.js';
 
 export const UI = (function () {
-  //* CREATING AND REFERENCING DOM
+  const gameboardSides = [];
+  let activeBoardSide;
+  let dormantBoardSide;
+  let messageText;
+  let msgTimer;
+
+  //* CREATING MODAL COMPONENTS
+  const createAddPlayerForm = function (playerNum) {
+    const form = document.createElement('form');
+    form.classList.add('new-player-form');
+
+    const nameLabel = document.createElement('label');
+    nameLabel.setAttribute('for', 'player-name');
+    nameLabel.textContent = `Enter the name of Player ${playerNum}: `;
+
+    const nameInput = document.createElement('input');
+    nameInput.setAttribute('name', 'player-name');
+    nameInput.setAttribute('id', 'player-name');
+
+    const submitBtn = document.createElement('input');
+    submitBtn.setAttribute('type', 'submit');
+    submitBtn.value = 'Add Player';
+
+    form.appendChild(nameLabel);
+    form.appendChild(nameInput);
+    form.appendChild(submitBtn);
+    form.addEventListener('submit', handleAddPlayerSubmission);
+    return form;
+  };
+
+  const openAddPlayerModal = function () {
+    const addPlayerForm = createAddPlayerForm(gameLoop.getPlayers().length + 1);
+    const modal = createModal(addPlayerForm);
+    document.querySelector('.wrapper').appendChild(modal);
+    modal.querySelector('#player-name').focus();
+  };
+
+  //* CREATING GAMEBOARD COMPONENTS
   const createGameContainer = function () {
     const gameContainer = document.createElement('div');
     gameContainer.classList.add('game-container');
@@ -15,8 +52,6 @@ export const UI = (function () {
     return gameboardHeader;
   };
 
-  let messageText;
-
   const createMessageWindow = function () {
     const messageContainer = document.createElement('div');
     messageContainer.classList.add('message-container');
@@ -25,10 +60,6 @@ export const UI = (function () {
     messageContainer.appendChild(messageText);
     return messageContainer;
   };
-
-  const gameboardSides = [];
-  let activeBoardSide;
-  let dormantBoardSide;
 
   const createPlayerTitle = function (name) {
     const playerTitle = document.createElement('h2');
@@ -82,6 +113,12 @@ export const UI = (function () {
   };
 
   //* CALLBACKS
+  const activateRightBoardSide = function () {
+    [dormantBoardSide, activeBoardSide] = gameboardSides;
+    activeBoardSide.gameboard.addEventListener('click', handleBoardClick);
+    dormantBoardSide.gameboard.removeEventListener('click', handleBoardClick);
+  };
+
   const switchActiveBoardSide = function () {
     [activeBoardSide, dormantBoardSide] = [dormantBoardSide, activeBoardSide];
     activeBoardSide.gameboard.addEventListener('click', handleBoardClick);
@@ -104,38 +141,6 @@ export const UI = (function () {
       );
     addShipToList(data.shipName, gameboardSides[data.playerIndex].shipList);
   };
-
-  const createAddPlayerForm = function (playerNum) {
-    const form = document.createElement('form');
-    form.classList.add('new-player-form');
-
-    const nameLabel = document.createElement('label');
-    nameLabel.setAttribute('for', 'player-name');
-    nameLabel.textContent = `Enter the name of Player ${playerNum}: `;
-
-    const nameInput = document.createElement('input');
-    nameInput.setAttribute('name', 'player-name');
-    nameInput.setAttribute('id', 'player-name');
-
-    const submitBtn = document.createElement('input');
-    submitBtn.setAttribute('type', 'submit');
-    submitBtn.value = 'Add Player';
-
-    form.appendChild(nameLabel);
-    form.appendChild(nameInput);
-    form.appendChild(submitBtn);
-    form.addEventListener('submit', handleAddPlayerSubmission);
-    return form;
-  };
-
-  const openAddPlayerModal = function () {
-    const addPlayerForm = createAddPlayerForm(gameLoop.getPlayers().length + 1);
-    const modal = createModal(addPlayerForm);
-    document.querySelector('.wrapper').appendChild(modal);
-    modal.querySelector('#player-name').focus();
-  };
-
-  let msgTimer;
 
   const clearMessage = function () {
     messageText.textContent = '';
@@ -182,12 +187,6 @@ export const UI = (function () {
       cell.classList.remove('hit');
       cell.classList.add('sunk');
     });
-  };
-
-  const activateRightBoardSide = function () {
-    [dormantBoardSide, activeBoardSide] = gameboardSides;
-    activeBoardSide.gameboard.addEventListener('click', handleBoardClick);
-    dormantBoardSide.gameboard.removeEventListener('click', handleBoardClick);
   };
 
   const initializeGameboard = function () {
@@ -291,11 +290,11 @@ export const UI = (function () {
   };
 
   return {
-    switchActiveBoardSide,
-    deactivateGameboards,
     openAddPlayerModal,
-    displayMessage,
-    markShipAsSunk,
     initializeGameboard,
+    displayMessage,
+    switchActiveBoardSide,
+    markShipAsSunk,
+    deactivateGameboards,
   };
 })();
