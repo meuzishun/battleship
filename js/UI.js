@@ -1,9 +1,7 @@
 import { gameLoop } from './gameLoop.js';
 
-const UI = (function () {
+export const UI = (function () {
   //* CREATING AND REFERENCING DOM
-  // const gameContainer = document.querySelector('.game-container');
-
   const createGameContainer = function () {
     const gameContainer = document.createElement('div');
     gameContainer.classList.add('game-container');
@@ -14,7 +12,6 @@ const UI = (function () {
     const gameboardHeader = document.createElement('header');
     gameboardHeader.classList.add('gameboard-header');
     gameboardHeader.textContent = 'Battleship';
-    // gameContainer.appendChild(gameboardHeader);
     return gameboardHeader;
   };
 
@@ -26,7 +23,6 @@ const UI = (function () {
     messageText = document.createElement('p');
     messageText.classList.add('message-text');
     messageContainer.appendChild(messageText);
-    // gameContainer.appendChild(messageContainer);
     return messageContainer;
   };
 
@@ -61,7 +57,7 @@ const UI = (function () {
     return listContainer;
   };
 
-  const createBoardSide = function (name, side) {
+  const createBoardSide = function (name) {
     const boardSide = document.createElement('div');
     boardSide.classList.add('gameboard-container');
 
@@ -71,7 +67,6 @@ const UI = (function () {
     boardSide.appendChild(playerTitle);
     boardSide.appendChild(shipList);
     boardSide.appendChild(gameboard);
-    // gameContainer.appendChild(boardSide);
     gameboardSides.push({ boardSide, gameboard, shipList });
     return boardSide;
   };
@@ -137,6 +132,7 @@ const UI = (function () {
     const addPlayerForm = createAddPlayerForm(gameLoop.getPlayers().length + 1);
     const modal = createModal(addPlayerForm);
     document.querySelector('.wrapper').appendChild(modal);
+    modal.querySelector('#player-name').focus();
   };
 
   let msgTimer;
@@ -295,40 +291,11 @@ const UI = (function () {
   };
 
   return {
-    //* CREATING AND REFERENCING DOM
-    // gameContainer,
-    // createHeader,
-    // messageText,
-    // createMessageWindow,
-    // gameboardSides,
-    // activeBoardSide,
-    // dormantBoardSide,
-    // createBoard,
-    // createShipList,
-    // createBoardSide,
-    // createModal,
-    //* CALLBACKS
     switchActiveBoardSide,
     deactivateGameboards,
-    // handleDroppedShipData,
     openAddPlayerModal,
-    // msgTimer,
-    // clearMessage,
-    // startMsgTimer,
-    // cancelMsgTimer,
     displayMessage,
-    // addShipToList,
-    // markShipNameInList,
     markShipAsSunk,
-    // changeSunkShipCells,
-    // activateRightBoardSide,
     initializeGameboard,
-    //* EVENT LISTENERS
-    // handleShipNameDrag,
-    // handleBoardDrop,
-    // handleBoardClick,
-    // tempPlaceShips,
   };
 })();
-
-export { UI };
