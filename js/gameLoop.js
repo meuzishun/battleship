@@ -1,7 +1,7 @@
 import { createPlayer } from './factories/playerFactory.js';
 import { UI } from './UI.js';
 
-const gameLoop = (function () {
+export const gameLoop = (function () {
   const players = [];
 
   const addPlayerToGame = function (playerName) {
@@ -66,17 +66,8 @@ const gameLoop = (function () {
   };
 
   return {
-    // players,
     getPlayers,
-    // addPlayerToGame,
     registerNewPlayerSubmission,
-    // currentPlayer,
-    // opponent,
-    // setFirstTurn,
-    // switchTurn,
     processTurn,
-    // endGame,
   };
 })();
-
-export { gameLoop };
