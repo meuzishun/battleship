@@ -1,5 +1,4 @@
 import { createPlayer } from './factories/playerFactory.js';
-// import { UI } from './UI.js';
 import { modal_UI } from './UI/modal-ui.js';
 import { game_UI } from './UI/game-ui.js';
 
