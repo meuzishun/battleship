@@ -26,7 +26,6 @@ export const gameLoop = (function () {
       setFirstTurn();
       UI.initializeGameboard();
     } else {
-      // UI.openAddPlayerModal();
       modal_UI.openAddPlayerModal();
     }
   };
