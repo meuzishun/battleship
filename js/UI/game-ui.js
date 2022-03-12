@@ -85,7 +85,7 @@ export const game_UI = (function () {
   };
 
   const deactivateGameboards = function () {
-    this.gameboardSides.forEach((side) =>
+    gameboardSides.forEach((side) =>
       side.gameboard.removeEventListener('click', handleBoardClick)
     );
   };

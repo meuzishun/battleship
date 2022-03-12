@@ -1,6 +1,7 @@
 import { createPlayer } from './factories/playerFactory.js';
 import { modal_UI } from './UI/modal-ui.js';
 import { game_UI } from './UI/game-ui.js';
+import { start_UI } from './UI/start-ui.js';
 
 export const gameLoop = (function () {
   const players = [];
@@ -8,7 +9,8 @@ export const gameLoop = (function () {
   let opponent;
 
   const startGame = function () {
-    modal_UI.openAddPlayerModal();
+    // modal_UI.openAddPlayerModal();
+    start_UI.init();
   };
 
   const addPlayerToGame = function (playerName) {
