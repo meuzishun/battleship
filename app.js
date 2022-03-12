@@ -1,3 +1,6 @@
-import { UI } from './js/UI.js';
+// import { UI } from './js/UI.js';
+import { gameLoop } from './js/gameLoop.js';
 
-UI.openAddPlayerModal();
+gameLoop.startGame();
+
+// UI.openAddPlayerModal();

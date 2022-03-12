@@ -8,6 +8,16 @@ export const UI = (function () {
   let msgTimer;
 
   //* CREATING MODAL COMPONENTS
+  const createModal = function (content) {
+    const modal = document.createElement('div');
+    modal.classList.add('modal');
+    const popup = document.createElement('div');
+    popup.appendChild(content);
+    popup.classList.add('pop-up');
+    modal.appendChild(popup);
+    return modal;
+  };
+
   const createAddPlayerForm = function (playerNum) {
     const form = document.createElement('form');
     form.classList.add('new-player-form');
@@ -100,16 +110,6 @@ export const UI = (function () {
     boardSide.appendChild(gameboard);
     gameboardSides.push({ boardSide, gameboard, shipList });
     return boardSide;
-  };
-
-  const createModal = function (content) {
-    const modal = document.createElement('div');
-    modal.classList.add('modal');
-    const popup = document.createElement('div');
-    popup.appendChild(content);
-    popup.classList.add('pop-up');
-    modal.appendChild(popup);
-    return modal;
   };
 
   //* CALLBACKS

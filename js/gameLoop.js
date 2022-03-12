@@ -1,10 +1,15 @@
 import { createPlayer } from './factories/playerFactory.js';
 import { UI } from './UI.js';
+import { modal_UI } from './UI/modal-ui.js';
 
 export const gameLoop = (function () {
   const players = [];
   let currentPlayer;
   let opponent;
+
+  const startGame = function () {
+    modal_UI.openAddPlayerModal();
+  };
 
   const addPlayerToGame = function (playerName) {
     players.push(createPlayer(playerName));
@@ -21,7 +26,8 @@ export const gameLoop = (function () {
       setFirstTurn();
       UI.initializeGameboard();
     } else {
-      UI.openAddPlayerModal();
+      // UI.openAddPlayerModal();
+      modal_UI.openAddPlayerModal();
     }
   };
 
@@ -65,6 +71,7 @@ export const gameLoop = (function () {
   };
 
   return {
+    startGame,
     getPlayers,
     registerNewPlayerSubmission,
     processTurn,
