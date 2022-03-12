@@ -1,6 +1,7 @@
 import { createPlayer } from './factories/playerFactory.js';
-import { UI } from './UI.js';
+// import { UI } from './UI.js';
 import { modal_UI } from './UI/modal-ui.js';
+import { game_UI } from './UI/game-ui.js';
 
 export const gameLoop = (function () {
   const players = [];
@@ -24,7 +25,7 @@ export const gameLoop = (function () {
 
     if (players.length === 2) {
       setFirstTurn();
-      UI.initializeGameboard();
+      game_UI.initializeGameboard();
     } else {
       modal_UI.openAddPlayerModal();
     }
@@ -36,7 +37,7 @@ export const gameLoop = (function () {
 
   const switchTurn = function () {
     [opponent, currentPlayer] = [currentPlayer, opponent];
-    UI.switchActiveBoardSide();
+    game_UI.switchActiveBoardSide();
   };
 
   const processTurn = function (cell) {
@@ -45,16 +46,16 @@ export const gameLoop = (function () {
     const { occupied, status } = opponent.board.cells[position];
 
     if (occupied && occupied.isSunk()) {
-      UI.markShipAsSunk(cell.parentElement, occupied);
-      UI.displayMessage(
+      game_UI.markShipAsSunk(cell.parentElement, occupied);
+      game_UI.displayMessage(
         `${currentPlayer.name} has sunk ${opponent.name}'s ${occupied.name}!`
       );
     } else if (status === 'hit') {
       cell.classList.add('hit');
-      UI.displayMessage('HIT!');
+      game_UI.displayMessage('HIT!');
     } else if (status === 'miss') {
       cell.classList.add('miss');
-      UI.displayMessage('miss...');
+      game_UI.displayMessage('miss...');
     }
 
     if (opponent.board.allShipsSunk()) {
@@ -65,8 +66,8 @@ export const gameLoop = (function () {
   };
 
   const endGame = function () {
-    UI.deactivateGameboards();
-    UI.displayMessage(`GAME OVER ${currentPlayer.name} has won`);
+    game_UI.deactivateGameboards();
+    game_UI.displayMessage(`GAME OVER ${currentPlayer.name} has won`);
   };
 
   return {
