@@ -9,7 +9,6 @@ export const gameLoop = (function () {
   let opponent;
 
   const startGame = function () {
-    // modal_UI.openAddPlayerModal();
     start_UI.init();
   };
 
