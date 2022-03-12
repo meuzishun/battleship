@@ -150,10 +150,12 @@ export const UI = (function () {
 
   const initializeGameboard = function () {
     const gameContainer = createGameContainer();
-    const gameboardHeader = createHeader();
-    gameContainer.appendChild(gameboardHeader);
-    const messageWindow = createMessageWindow();
-    gameContainer.appendChild(messageWindow);
+    // const gameboardHeader = createHeader();
+    // gameContainer.appendChild(gameboardHeader);
+    gameContainer.appendChild(createHeader());
+    // const messageWindow = createMessageWindow();
+    // gameContainer.appendChild(messageWindow);
+    gameContainer.appendChild(createMessageWindow());
     gameLoop.getPlayers().forEach((player) => {
       const boardSide = createBoardSide(player.name);
       gameContainer.appendChild(boardSide);
