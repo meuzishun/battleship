@@ -1,7 +1,7 @@
 import { createPlayer } from './factories/playerFactory.js';
 import { modal_UI } from './UI/modal-ui.js';
-import { game_UI } from './UI/game-ui.js';
-import { start_UI } from './UI/start-ui.js';
+import { game_UI } from './UI/gameboard-ui.js';
+import { start_UI } from './UI/start-screen-ui.js';
 
 export const gameLoop = (function () {
   const players = [];

@@ -1,5 +1,5 @@
 import { gameLoop } from '../gameLoop.js';
-import { start_UI } from './start-ui.js';
+import { start_UI } from './start-screen-ui.js';
 
 export const modal_UI = (function () {
   const createModal = function (content) {
