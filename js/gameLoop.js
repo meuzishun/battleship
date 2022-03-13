@@ -4,9 +4,9 @@ import { game_UI } from './UI/gameboard-ui.js';
 import { start_UI } from './UI/start-screen-ui.js';
 
 export const gameLoop = (function () {
-  const players = []; //*
-  let currentPlayer; //*
-  let opponent; //*
+  // const players = [];
+  // let currentPlayer;
+  // let opponent;
 
   const startGame = function () {
     start_UI.init();
@@ -29,17 +29,17 @@ export const gameLoop = (function () {
     game_UI.initializeGameboard();
   };
 
-  const addPlayerToGame = function (playerName) {
-    players.push(createPlayer(playerName));
-  }; //*
+  // const addPlayerToGame = function (playerName) {
+  //   players.push(createPlayer(playerName));
+  // };
 
-  const getPlayers = function () {
-    return players;
-  }; //*
+  // const getPlayers = function () {
+  //   return players;
+  // };
 
-  const clearPlayers = function () {
-    players.length = 0;
-  }; //*
+  // const clearPlayers = function () {
+  //   players.length = 0;
+  // };
 
   const registerNewPlayerSubmission = function (name) {
     addPlayerToGame(name);
@@ -52,14 +52,15 @@ export const gameLoop = (function () {
     }
   };
 
-  const setFirstTurn = function () {
-    [currentPlayer, opponent] = players;
-  }; //*
+  // const setFirstTurn = function () {
+  //   [currentPlayer, opponent] = players;
+  // };
 
   const switchTurn = function () {
-    [opponent, currentPlayer] = [currentPlayer, opponent];
+    // [opponent, currentPlayer] = [currentPlayer, opponent];
+    //TODO: add switch players function
     game_UI.switchActiveBoardSide();
-  }; //* sorta...
+  };
 
   const processTurn = function (cell) {
     const position = Number(cell.dataset.position);
@@ -96,7 +97,7 @@ export const gameLoop = (function () {
     startGame,
     newGame,
     rematch,
-    getPlayers,
+    // getPlayers,
     registerNewPlayerSubmission,
     processTurn,
   };
