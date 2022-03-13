@@ -1,5 +1,4 @@
 import { gameLoop } from '../gameLoop.js';
-import { start_UI } from './start-screen-ui.js';
 
 export const modal_UI = (function () {
   const createModal = function (content) {
@@ -63,20 +62,16 @@ export const modal_UI = (function () {
     e.preventDefault();
     const name = e.srcElement.children[1].value;
     const modal = e.srcElement.parentElement.parentElement;
-    console.log(modal);
     gameLoop.registerNewPlayerSubmission(name);
     document.body.querySelector('.wrapper').removeChild(modal);
   };
 
   const handleGameOverOptions = function (e) {
     if (e.target.classList.contains('rematch-btn')) {
-      console.log('rematch');
       document.querySelector('.wrapper').textContent = '';
       gameLoop.rematch();
     }
     if (e.target.classList.contains('new-game-btn')) {
-      console.log('new game');
-      // start_UI.init();
       gameLoop.newGame();
     }
   };

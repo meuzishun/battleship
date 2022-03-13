@@ -149,7 +149,6 @@ export const game_UI = (function () {
   };
 
   const initializeGameboard = function () {
-    // document.querySelector('.wrapper').textContent = '';
     gameboardSides.length = 0;
     const gameContainer = createGameContainer();
     gameContainer.appendChild(createHeader());

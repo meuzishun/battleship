@@ -10,7 +10,6 @@ export const gameLoop = (function () {
 
   const startGame = function () {
     start_UI.init();
-    // modal_UI.openGameOverModal({ name: 'Andrew' });
   };
 
   const newGame = function () {
