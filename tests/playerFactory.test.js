@@ -32,6 +32,11 @@ test('player to have board property', () => {
   expect(testPlayer).toHaveProperty('board');
 });
 
+test.skip('player to have resetGameboard property', () => {
+  const testPlayer = createPlayer();
+  expect(testPlayer).toHaveProperty('resetGameboard');
+});
+
 test('player has a property of attack', () => {
   const testPlayer = createPlayer();
   expect(testPlayer).toHaveProperty('attack');
@@ -124,6 +129,27 @@ test('ships sunk return sunk', () => {
   testPlayer2.autoAttack(testPlayer1);
   testPlayer1.attack(testPlayer2, 31);
   expect(testPlayer2.board.cells[31].occupied.isSunk()).toBe(true);
+});
+
+test.skip('gameboard can be reset', () => {
+  const testPlayer1 = createPlayer('Andrew');
+  const testPlayer2 = createPlayer('Computer');
+
+  testPlayer2.board.placeShip(21, 'Patrol Boat', 'vertical');
+  testPlayer1.attack(testPlayer2, 21);
+  expect(testPlayer2.board.cells[21].status).toBe('hit');
+
+  testPlayer2.autoAttack(testPlayer1);
+  testPlayer1.attack(testPlayer2, 31);
+  expect(testPlayer2.board.cells[31].occupied.isSunk()).toBe(true);
+
+  console.log(testPlayer2.board);
+  testPlayer2.resetGameboard();
+  console.log(testPlayer2.board);
+  expect(testPlayer2.board.cells[21].occupied).toBeNull();
+  expect(testPlayer2.board.cells[21].status).toBeUndefined();
+  expect(testPlayer2.board.cells[31].occupied).toBeNull();
+  expect(testPlayer2.board.cells[31].status).toBeUndefined();
 });
 
 test.skip('attacks return expected values', () => {

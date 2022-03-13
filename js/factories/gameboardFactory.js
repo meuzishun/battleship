@@ -87,12 +87,22 @@ const createGameboard = function (width = 10, height = 10) {
     }
   };
 
+  const resetBoard = function () {
+    //TODO: reset each cell in the gameboard
+    for (let i = 0; i < width * height; i++) {
+      cells[i].occupied = null;
+      cells[i].status = undefined;
+    }
+    ships.length = 0;
+  };
+
   return {
     cells,
     ships,
     placeShip,
     receiveAttack,
     allShipsSunk,
+    resetBoard,
   };
 };
 

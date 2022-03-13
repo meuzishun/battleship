@@ -26,6 +26,11 @@ test('gameboard has a "allShipsSunk" property', () => {
   expect(gameboard).toHaveProperty('allShipsSunk');
 });
 
+test('gameboard has a "resetBoard" property', () => {
+  const gameboard = createGameboard();
+  expect(gameboard).toHaveProperty('resetBoard');
+});
+
 // has correct number of cells
 test('default gameboard has 100 cells', () => {
   const gameboard = createGameboard();
@@ -135,4 +140,29 @@ test('when all ships are sunk, allShipsSunk returns true', () => {
   expect(gameboard.cells[55].status).toBe('hit');
   expect(gameboard.cells[55].occupied.isSunk()).toBe(true);
   expect(gameboard.allShipsSunk()).toBe(true);
+});
+
+test('resetGameboard clears ships placed on board', () => {
+  const gameboard = createGameboard();
+  gameboard.placeShip(13, 'Destroyer', 'horizontal');
+  expect(gameboard.cells[13].occupied).not.toBeNull();
+  expect(gameboard.cells[14].occupied).not.toBeNull();
+  expect(gameboard.cells[15].occupied).not.toBeNull();
+
+  gameboard.receiveAttack(13);
+  gameboard.receiveAttack(14);
+  gameboard.receiveAttack(15);
+
+  expect(gameboard.cells[13].status).toBeDefined();
+  expect(gameboard.cells[14].status).toBeDefined();
+  expect(gameboard.cells[15].status).toBeDefined();
+
+  gameboard.resetBoard();
+  expect(gameboard.cells[13].occupied).toBeNull();
+  expect(gameboard.cells[14].occupied).toBeNull();
+  expect(gameboard.cells[15].occupied).toBeNull();
+
+  expect(gameboard.cells[13].status).toBeUndefined();
+  expect(gameboard.cells[14].status).toBeUndefined();
+  expect(gameboard.cells[15].status).toBeUndefined();
 });
