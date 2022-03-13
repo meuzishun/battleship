@@ -4,9 +4,9 @@ import { game_UI } from './UI/gameboard-ui.js';
 import { start_UI } from './UI/start-screen-ui.js';
 
 export const gameLoop = (function () {
-  const players = [];
-  let currentPlayer;
-  let opponent;
+  const players = []; //*
+  let currentPlayer; //*
+  let opponent; //*
 
   const startGame = function () {
     start_UI.init();
@@ -31,15 +31,15 @@ export const gameLoop = (function () {
 
   const addPlayerToGame = function (playerName) {
     players.push(createPlayer(playerName));
-  };
+  }; //*
 
   const getPlayers = function () {
     return players;
-  };
+  }; //*
 
   const clearPlayers = function () {
     players.length = 0;
-  };
+  }; //*
 
   const registerNewPlayerSubmission = function (name) {
     addPlayerToGame(name);
@@ -54,12 +54,12 @@ export const gameLoop = (function () {
 
   const setFirstTurn = function () {
     [currentPlayer, opponent] = players;
-  };
+  }; //*
 
   const switchTurn = function () {
     [opponent, currentPlayer] = [currentPlayer, opponent];
     game_UI.switchActiveBoardSide();
-  };
+  }; //* sorta...
 
   const processTurn = function (cell) {
     const position = Number(cell.dataset.position);
@@ -89,7 +89,6 @@ export const gameLoop = (function () {
   const endGame = function () {
     game_UI.deactivateGameboards();
     game_UI.displayMessage(`GAME OVER ${currentPlayer.name} has won`);
-    //TODO: call modal-ui here...
     modal_UI.openGameOverModal(currentPlayer);
   };
 
