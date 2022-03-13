@@ -1,76 +1,57 @@
-import { createPlayer } from './factories/playerFactory.js';
+import { gameState } from './gameState.js';
 import { modal_UI } from './UI/modal-ui.js';
 import { game_UI } from './UI/gameboard-ui.js';
 import { start_UI } from './UI/start-screen-ui.js';
 
 export const gameLoop = (function () {
-  // const players = [];
-  // let currentPlayer;
-  // let opponent;
-
   const startGame = function () {
     start_UI.init();
   };
 
   const newGame = function () {
-    clearPlayers();
+    gameState.clearPlayers();
     document.body.querySelector('.wrapper').textContent = '';
     modal_UI.openAddPlayerModal();
   };
 
   const rematch = function () {
-    const playerOneName = getPlayers()[0].name;
-    const playerTwoName = getPlayers()[1].name;
-    clearPlayers();
-    addPlayerToGame(playerOneName);
-    addPlayerToGame(playerTwoName);
+    const playerOneName = gameState.getPlayers()[0].name;
+    const playerTwoName = gameState.getPlayers()[1].name;
+    gameState.clearPlayers();
+    gameState.addPlayerToGame(playerOneName);
+    gameState.addPlayerToGame(playerTwoName);
     document.body.querySelector('.wrapper').textContent = '';
-    setFirstTurn();
+    gameState.setFirstTurn();
     game_UI.initializeGameboard();
   };
 
-  // const addPlayerToGame = function (playerName) {
-  //   players.push(createPlayer(playerName));
-  // };
-
-  // const getPlayers = function () {
-  //   return players;
-  // };
-
-  // const clearPlayers = function () {
-  //   players.length = 0;
-  // };
-
   const registerNewPlayerSubmission = function (name) {
-    addPlayerToGame(name);
+    gameState.addPlayerToGame(name);
 
-    if (players.length === 2) {
-      setFirstTurn();
+    if (gameState.getPlayers().length === 2) {
+      gameState.setFirstTurn();
       game_UI.initializeGameboard();
     } else {
       modal_UI.openAddPlayerModal();
     }
   };
 
-  // const setFirstTurn = function () {
-  //   [currentPlayer, opponent] = players;
-  // };
-
-  const switchTurn = function () {
-    // [opponent, currentPlayer] = [currentPlayer, opponent];
-    //TODO: add switch players function
+  const nextTurn = function () {
+    gameState.switchTurn();
     game_UI.switchActiveBoardSide();
   };
 
   const processTurn = function (cell) {
     const position = Number(cell.dataset.position);
-    currentPlayer.attack(opponent, position);
-    const { occupied, status } = opponent.board.cells[position];
+    gameState.getCurrentPlayer().attack(gameState.getOpponent(), position);
+    const { occupied, status } = gameState.getOpponent().board.cells[position];
 
     if (occupied && occupied.isSunk()) {
       game_UI.markShipAsSunk(cell.parentElement, occupied);
       game_UI.displayMessage(
-        `${currentPlayer.name} has sunk ${opponent.name}'s ${occupied.name}!`
+        `${gameState.getCurrentPlayer().name} has sunk ${
+          gameState.getOpponent().name
+        }'s ${occupied.name}!`
       );
     } else if (status === 'hit') {
       cell.classList.add('hit');
@@ -80,24 +61,25 @@ export const gameLoop = (function () {
       game_UI.displayMessage('miss...');
     }
 
-    if (opponent.board.allShipsSunk()) {
+    if (gameState.getOpponent().board.allShipsSunk()) {
       endGame();
     } else {
-      switchTurn();
+      nextTurn();
     }
   };
 
   const endGame = function () {
     game_UI.deactivateGameboards();
-    game_UI.displayMessage(`GAME OVER ${currentPlayer.name} has won`);
-    modal_UI.openGameOverModal(currentPlayer);
+    game_UI.displayMessage(
+      `GAME OVER ${gameState.getCurrentPlayer().name} has won`
+    );
+    modal_UI.openGameOverModal(gameState.getCurrentPlayer());
   };
 
   return {
     startGame,
     newGame,
     rematch,
-    // getPlayers,
     registerNewPlayerSubmission,
     processTurn,
   };

@@ -13,6 +13,14 @@ export const gameState = (function () {
     return players;
   };
 
+  const getCurrentPlayer = function () {
+    return currentPlayer;
+  };
+
+  const getOpponent = function () {
+    return opponent;
+  };
+
   const clearPlayers = function () {
     players.length = 0;
   };
@@ -28,6 +36,8 @@ export const gameState = (function () {
   return {
     addPlayerToGame,
     getPlayers,
+    getCurrentPlayer,
+    getOpponent,
     clearPlayers,
     setFirstTurn,
     switchTurn,

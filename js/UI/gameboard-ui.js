@@ -1,3 +1,4 @@
+import { gameState } from '../gameState.js';
 import { gameLoop } from '../gameLoop.js';
 
 export const game_UI = (function () {
@@ -91,7 +92,7 @@ export const game_UI = (function () {
   };
 
   const handleDroppedShipData = function (data) {
-    gameLoop
+    gameState
       .getPlayers()
       [data.playerIndex].board.placeShip(
         data.boardPosition,
@@ -153,7 +154,7 @@ export const game_UI = (function () {
     const gameContainer = createGameContainer();
     gameContainer.appendChild(createHeader());
     gameContainer.appendChild(createMessageWindow());
-    gameLoop
+    gameState
       .getPlayers()
       .forEach((player) =>
         gameContainer.appendChild(createBoardSide(player.name))

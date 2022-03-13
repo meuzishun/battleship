@@ -1,12 +1,15 @@
+import { gameState } from '../gameState.js';
 import { gameLoop } from '../gameLoop.js';
 
 export const modal_UI = (function () {
   const createModal = function (content) {
     const modal = document.createElement('div');
     modal.classList.add('modal');
+
     const popup = document.createElement('div');
     popup.appendChild(content);
     popup.classList.add('pop-up');
+
     modal.appendChild(popup);
     return modal;
   };
@@ -68,7 +71,6 @@ export const modal_UI = (function () {
 
   const handleGameOverOptions = function (e) {
     if (e.target.classList.contains('rematch-btn')) {
-      document.querySelector('.wrapper').textContent = '';
       gameLoop.rematch();
     }
     if (e.target.classList.contains('new-game-btn')) {
@@ -77,7 +79,9 @@ export const modal_UI = (function () {
   };
 
   const openAddPlayerModal = function () {
-    const addPlayerForm = createAddPlayerForm(gameLoop.getPlayers().length + 1);
+    const addPlayerForm = createAddPlayerForm(
+      gameState.getPlayers().length + 1
+    );
     const modal = createModal(addPlayerForm);
     document.querySelector('.wrapper').appendChild(modal);
     modal.querySelector('#player-name').focus();
