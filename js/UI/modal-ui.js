@@ -1,4 +1,5 @@
 import { gameLoop } from '../gameLoop.js';
+import { start_UI } from './start-ui.js';
 
 export const modal_UI = (function () {
   const createModal = function (content) {
@@ -34,12 +35,50 @@ export const modal_UI = (function () {
     return form;
   };
 
+  const createGameOverForm = function (player) {
+    const container = document.createElement('div');
+    container.classList.add('game-over-container');
+
+    const msg = document.createElement('p');
+    msg.classList.add('game-over-msg');
+    msg.textContent = `GAME OVER ${player.name} has won.
+    Would you like a rematch or to start a new game?`;
+
+    const rematchBtn = document.createElement('button');
+    rematchBtn.classList.add('rematch-btn');
+    rematchBtn.textContent = 'rematch';
+
+    const newGameBtn = document.createElement('button');
+    newGameBtn.classList.add('new-game-btn');
+    newGameBtn.textContent = 'new game';
+
+    container.appendChild(msg);
+    container.appendChild(rematchBtn);
+    container.appendChild(newGameBtn);
+
+    return container;
+  };
+
   const handleAddPlayerSubmission = function (e) {
     e.preventDefault();
     const name = e.srcElement.children[1].value;
     const modal = e.srcElement.parentElement.parentElement;
+    console.log(modal);
     gameLoop.registerNewPlayerSubmission(name);
-    document.querySelector('.wrapper').removeChild(modal);
+    document.body.querySelector('.wrapper').removeChild(modal);
+  };
+
+  const handleGameOverOptions = function (e) {
+    if (e.target.classList.contains('rematch-btn')) {
+      console.log('rematch');
+      document.querySelector('.wrapper').textContent = '';
+      gameLoop.rematch();
+    }
+    if (e.target.classList.contains('new-game-btn')) {
+      console.log('new game');
+      // start_UI.init();
+      gameLoop.newGame();
+    }
   };
 
   const openAddPlayerModal = function () {
@@ -49,7 +88,15 @@ export const modal_UI = (function () {
     modal.querySelector('#player-name').focus();
   };
 
+  const openGameOverModal = function (player) {
+    const gameOverPopup = createGameOverForm(player);
+    gameOverPopup.addEventListener('click', handleGameOverOptions);
+    const modal = createModal(gameOverPopup);
+    document.querySelector('.wrapper').appendChild(modal);
+  };
+
   return {
     openAddPlayerModal,
+    openGameOverModal,
   };
 })();

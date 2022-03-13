@@ -10,6 +10,24 @@ export const gameLoop = (function () {
 
   const startGame = function () {
     start_UI.init();
+    // modal_UI.openGameOverModal({ name: 'Andrew' });
+  };
+
+  const newGame = function () {
+    clearPlayers();
+    document.body.querySelector('.wrapper').textContent = '';
+    modal_UI.openAddPlayerModal();
+  };
+
+  const rematch = function () {
+    const playerOneName = getPlayers()[0].name;
+    const playerTwoName = getPlayers()[1].name;
+    clearPlayers();
+    addPlayerToGame(playerOneName);
+    addPlayerToGame(playerTwoName);
+    document.body.querySelector('.wrapper').textContent = '';
+    setFirstTurn();
+    game_UI.initializeGameboard();
   };
 
   const addPlayerToGame = function (playerName) {
@@ -18,6 +36,10 @@ export const gameLoop = (function () {
 
   const getPlayers = function () {
     return players;
+  };
+
+  const clearPlayers = function () {
+    players.length = 0;
   };
 
   const registerNewPlayerSubmission = function (name) {
@@ -68,10 +90,14 @@ export const gameLoop = (function () {
   const endGame = function () {
     game_UI.deactivateGameboards();
     game_UI.displayMessage(`GAME OVER ${currentPlayer.name} has won`);
+    //TODO: call modal-ui here...
+    modal_UI.openGameOverModal(currentPlayer);
   };
 
   return {
     startGame,
+    newGame,
+    rematch,
     getPlayers,
     registerNewPlayerSubmission,
     processTurn,

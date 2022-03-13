@@ -32,6 +32,7 @@ export const start_UI = (function () {
     const startBtn = createBtn();
     startBtn.addEventListener('click', handleStartGameBtn);
     container.appendChild(startBtn);
+    document.body.querySelector('.wrapper').textContent = '';
     document.body.querySelector('.wrapper').appendChild(container);
   };
 
