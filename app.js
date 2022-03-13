@@ -1,3 +1,3 @@
-import { gameLoop } from './js/gameLoop.js';
+import { start_UI } from './js/UI/start-screen-ui.js';
 
-gameLoop.startGame();
+start_UI.init();

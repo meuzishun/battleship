@@ -1,11 +1,11 @@
 import { gameState } from './gameState.js';
 import { modal_UI } from './UI/modal-ui.js';
 import { game_UI } from './UI/gameboard-ui.js';
-import { start_UI } from './UI/start-screen-ui.js';
 
 export const gameLoop = (function () {
   const startGame = function () {
-    start_UI.init();
+    gameState.setFirstTurn();
+    game_UI.initializeGameboard();
   };
 
   const newGame = function () {
@@ -21,16 +21,14 @@ export const gameLoop = (function () {
     gameState.addPlayerToGame(playerOneName);
     gameState.addPlayerToGame(playerTwoName);
     document.body.querySelector('.wrapper').textContent = '';
-    gameState.setFirstTurn();
-    game_UI.initializeGameboard();
+    startGame();
   };
 
   const registerNewPlayerSubmission = function (name) {
     gameState.addPlayerToGame(name);
 
     if (gameState.getPlayers().length === 2) {
-      gameState.setFirstTurn();
-      game_UI.initializeGameboard();
+      startGame();
     } else {
       modal_UI.openAddPlayerModal();
     }
@@ -77,7 +75,6 @@ export const gameLoop = (function () {
   };
 
   return {
-    startGame,
     newGame,
     rematch,
     registerNewPlayerSubmission,

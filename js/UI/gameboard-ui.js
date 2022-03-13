@@ -1,5 +1,5 @@
-import { gameState } from '../gameState.js';
 import { gameLoop } from '../gameLoop.js';
+import { gameState } from '../gameState.js';
 
 export const game_UI = (function () {
   const gameboardSides = [];
