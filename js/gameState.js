@@ -33,6 +33,10 @@ export const gameState = (function () {
     [opponent, currentPlayer] = [currentPlayer, opponent];
   };
 
+  const resetBoards = function () {
+    players.forEach((player) => player.board.resetBoard());
+  };
+
   return {
     addPlayerToGame,
     getPlayers,
@@ -41,5 +45,6 @@ export const gameState = (function () {
     clearPlayers,
     setFirstTurn,
     switchTurn,
+    resetBoards,
   };
 })();

@@ -15,11 +15,7 @@ export const gameLoop = (function () {
   };
 
   const rematch = function () {
-    const playerOneName = gameState.getPlayers()[0].name;
-    const playerTwoName = gameState.getPlayers()[1].name;
-    gameState.clearPlayers();
-    gameState.addPlayerToGame(playerOneName);
-    gameState.addPlayerToGame(playerTwoName);
+    gameState.resetBoards();
     document.body.querySelector('.wrapper').textContent = '';
     startGame();
   };
