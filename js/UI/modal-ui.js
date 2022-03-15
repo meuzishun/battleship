@@ -60,21 +60,28 @@ export const modal_UI = (function () {
     typeFieldSet.appendChild(computerContainer);
     typeFieldSet.addEventListener('click', handleTypeOfPlayerClick);
 
+    const nameContainer = document.createElement('div');
+    nameContainer.classList.add('name-container');
+
     const nameLabel = document.createElement('label');
     nameLabel.setAttribute('for', 'player-name');
     nameLabel.textContent = `Enter the name of Player ${playerNum}: `;
 
     const nameInput = document.createElement('input');
+    nameInput.setAttribute('type', 'text');
     nameInput.setAttribute('name', 'player-name');
     nameInput.setAttribute('id', 'player-name');
+    nameInput.required = true;
+
+    nameContainer.appendChild(nameLabel);
+    nameContainer.appendChild(nameInput);
 
     const submitBtn = document.createElement('input');
     submitBtn.setAttribute('type', 'submit');
     submitBtn.value = 'Add Player';
 
     form.appendChild(typeFieldSet);
-    form.appendChild(nameLabel);
-    form.appendChild(nameInput);
+    form.appendChild(nameContainer);
     form.appendChild(submitBtn);
     form.addEventListener('submit', handleAddPlayerSubmission);
     return form;
@@ -111,28 +118,37 @@ export const modal_UI = (function () {
     ).id;
     if (selectedRadio === 'person-choice') {
       document.body
-        .querySelector('.new-player-form > label')
+        .querySelector('.new-player-form > .name-container')
         .classList.remove('hidden');
-      document.body
-        .querySelector('.new-player-form > #player-name')
-        .classList.remove('hidden');
+      document.body.querySelector('#player-name').required = true;
     }
     if (selectedRadio === 'computer-choice') {
       document.body
-        .querySelector('.new-player-form > label')
+        .querySelector('.new-player-form > .name-container')
         .classList.add('hidden');
-      document.body
-        .querySelector('.new-player-form > #player-name')
-        .classList.add('hidden');
+      document.body.querySelector('#player-name').required = false;
     }
   };
 
   const handleAddPlayerSubmission = function (e) {
     e.preventDefault();
-    const name = e.srcElement.children[1].value;
-    const modal = e.srcElement.parentElement.parentElement;
-    gameLoop.registerNewPlayerSubmission(name);
-    document.body.querySelector('.wrapper').removeChild(modal);
+    const data = {
+      type: e.target
+        .querySelector('input[type=radio]:checked')
+        .id.split('-')[0],
+    };
+    if (
+      data.type === 'person' &&
+      e.target.querySelector('#player-name').value
+    ) {
+      data.name = e.target.querySelector('#player-name').value;
+    }
+    console.log(data);
+
+    // const name = e.srcElement.children[1].value;
+    // const modal = e.srcElement.parentElement.parentElement;
+    // gameLoop.registerNewPlayerSubmission(name);
+    // document.body.querySelector('.wrapper').removeChild(modal);
   };
 
   const handleGameOverOptions = function (e) {
