@@ -5,8 +5,8 @@ export const gameState = (function () {
   let currentPlayer;
   let opponent;
 
-  const addPlayerToGame = function (playerName) {
-    players.push(createPlayer(playerName));
+  const addPlayerToGame = function (data) {
+    players.push(createPlayer(data.name));
   };
 
   const getPlayers = function () {

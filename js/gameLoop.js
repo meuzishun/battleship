@@ -20,8 +20,8 @@ export const gameLoop = (function () {
     startGame();
   };
 
-  const registerNewPlayerSubmission = function (name) {
-    gameState.addPlayerToGame(name);
+  const registerNewPlayerSubmission = function (data) {
+    gameState.addPlayerToGame(data);
 
     if (gameState.getPlayers().length === 2) {
       startGame();
@@ -33,9 +33,11 @@ export const gameLoop = (function () {
   const nextTurn = function () {
     gameState.switchTurn();
     game_UI.switchActiveBoardSide();
+    //? Check to see if currentPlayer is computer and if so, autoattack?
   };
 
   const processTurn = function (cell) {
+    //? Can we just pass in a position number here? If we only use the cell to change the classList like below then I think we can.  That way autoAttack might work better?
     const position = Number(cell.dataset.position);
     gameState.getCurrentPlayer().attack(gameState.getOpponent(), position);
     const { occupied, status } = gameState.getOpponent().board.cells[position];
