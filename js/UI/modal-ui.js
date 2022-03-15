@@ -58,6 +58,7 @@ export const modal_UI = (function () {
     typeFieldSet.appendChild(legend);
     typeFieldSet.appendChild(personContainer);
     typeFieldSet.appendChild(computerContainer);
+    typeFieldSet.addEventListener('click', handleTypeOfPlayerClick);
 
     const nameLabel = document.createElement('label');
     nameLabel.setAttribute('for', 'player-name');
@@ -101,6 +102,29 @@ export const modal_UI = (function () {
     container.appendChild(newGameBtn);
 
     return container;
+  };
+
+  const handleTypeOfPlayerClick = function (e) {
+    const fieldset = e.currentTarget;
+    const selectedRadio = fieldset.querySelector(
+      'input[type=radio]:checked'
+    ).id;
+    if (selectedRadio === 'person-choice') {
+      document.body
+        .querySelector('.new-player-form > label')
+        .classList.remove('hidden');
+      document.body
+        .querySelector('.new-player-form > #player-name')
+        .classList.remove('hidden');
+    }
+    if (selectedRadio === 'computer-choice') {
+      document.body
+        .querySelector('.new-player-form > label')
+        .classList.add('hidden');
+      document.body
+        .querySelector('.new-player-form > #player-name')
+        .classList.add('hidden');
+    }
   };
 
   const handleAddPlayerSubmission = function (e) {

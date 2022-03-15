@@ -201,8 +201,9 @@ html {
     'type type'
     'label input'
     'submit submit';
-  gap: 1rem;
+  row-gap: 1rem;
   padding: 2rem;
+  width: 50rem;
 }
 
 .new-player-form > fieldset {
@@ -229,13 +230,14 @@ html {
 
 .new-player-form > label {
   grid-area: label;
-  font-size: 2rem;
+  font-size: 1.75rem;
   align-self: center;
+  text-align: center;
 }
 
 .new-player-form > input {
   grid-area: input;
-  font-size: 2rem;
+  font-size: 1.75rem;
   padding: 0.5rem;
 }
 
