@@ -18,6 +18,47 @@ export const modal_UI = (function () {
     const form = document.createElement('form');
     form.classList.add('new-player-form');
 
+    const typeFieldSet = document.createElement('fieldset');
+    const legend = document.createElement('legend');
+    legend.textContent = 'Type of Player';
+
+    const personContainer = document.createElement('div');
+    personContainer.classList.add('container');
+    personContainer.classList.add('person-container');
+
+    const personInput = document.createElement('input');
+    personInput.setAttribute('type', 'radio');
+    personInput.setAttribute('id', 'person-choice');
+    personInput.setAttribute('name', 'player-type');
+    personInput.checked = true;
+
+    const personLabel = document.createElement('label');
+    personLabel.setAttribute('for', 'person-choice');
+    personLabel.textContent = 'Person';
+
+    personContainer.appendChild(personInput);
+    personContainer.appendChild(personLabel);
+
+    const computerContainer = document.createElement('div');
+    computerContainer.classList.add('container');
+    computerContainer.classList.add('computer-container');
+
+    const computerInput = document.createElement('input');
+    computerInput.setAttribute('type', 'radio');
+    computerInput.setAttribute('id', 'computer-choice');
+    computerInput.setAttribute('name', 'player-type');
+
+    const computerLabel = document.createElement('label');
+    computerLabel.setAttribute('for', 'computer-choice');
+    computerLabel.textContent = 'Computer';
+
+    computerContainer.appendChild(computerInput);
+    computerContainer.appendChild(computerLabel);
+
+    typeFieldSet.appendChild(legend);
+    typeFieldSet.appendChild(personContainer);
+    typeFieldSet.appendChild(computerContainer);
+
     const nameLabel = document.createElement('label');
     nameLabel.setAttribute('for', 'player-name');
     nameLabel.textContent = `Enter the name of Player ${playerNum}: `;
@@ -30,6 +71,7 @@ export const modal_UI = (function () {
     submitBtn.setAttribute('type', 'submit');
     submitBtn.value = 'Add Player';
 
+    form.appendChild(typeFieldSet);
     form.appendChild(nameLabel);
     form.appendChild(nameInput);
     form.appendChild(submitBtn);

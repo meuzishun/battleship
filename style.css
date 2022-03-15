@@ -196,12 +196,35 @@ html {
 .pop-up > .new-player-form {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: auto auto;
+  grid-template-rows: auto auto auto;
   grid-template-areas:
+    'type type'
     'label input'
     'submit submit';
   gap: 1rem;
   padding: 2rem;
+}
+
+.new-player-form > fieldset {
+  grid-area: type;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.new-player-form > fieldset > legend {
+  text-align: center;
+  padding: 0 1rem;
+  font-size: 2rem;
+}
+
+.new-player-form > fieldset > .container {
+  align-self: flex-end;
+  margin: 1rem 0;
+}
+
+.new-player-form > fieldset > .container > label {
+  margin: 0.5rem;
+  font-size: 1.5rem;
 }
 
 .new-player-form > label {
