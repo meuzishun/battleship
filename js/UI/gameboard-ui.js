@@ -129,6 +129,13 @@ export const game_UI = (function () {
     list.appendChild(shipName);
   };
 
+  const markCell = function (position, mark) {
+    const cell = activeBoardSide.gameboard.querySelector(
+      `[data-position="${position}"]`
+    );
+    cell.classList.add(mark);
+  };
+
   const markShipNameInList = function (ship, board) {
     board.parentElement
       .querySelector('.ship-list')
@@ -136,9 +143,9 @@ export const game_UI = (function () {
       .classList.add('crossout');
   };
 
-  const markShipAsSunk = function (board, ship) {
-    changeSunkShipCells(ship, board);
-    markShipNameInList(ship, board);
+  const markShipAsSunk = function (ship) {
+    changeSunkShipCells(ship, activeBoardSide.gameboard);
+    markShipNameInList(ship, activeBoardSide.gameboard);
   };
 
   const changeSunkShipCells = function (ship, board) {
@@ -175,7 +182,7 @@ export const game_UI = (function () {
     if (!cell.classList.contains('cell')) return;
     if (cell.classList.contains('hit')) return;
     if (cell.classList.contains('miss')) return;
-    gameLoop.processTurn(cell);
+    gameLoop.processTurn(Number(cell.dataset.position));
   };
 
   const tempPlaceShips = function () {
@@ -245,6 +252,7 @@ export const game_UI = (function () {
     initializeGameboard,
     displayMessage,
     switchActiveBoardSide,
+    markCell,
     markShipAsSunk,
     deactivateGameboards,
   };

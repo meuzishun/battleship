@@ -33,27 +33,24 @@ export const gameLoop = (function () {
   const nextTurn = function () {
     gameState.switchTurn();
     game_UI.switchActiveBoardSide();
-    //? Check to see if currentPlayer is computer and if so, autoattack?
   };
 
-  const processTurn = function (cell) {
-    //? Can we just pass in a position number here? If we only use the cell to change the classList like below then I think we can.  That way autoAttack might work better?
-    const position = Number(cell.dataset.position);
+  const processTurn = function (position) {
     gameState.getCurrentPlayer().attack(gameState.getOpponent(), position);
     const { occupied, status } = gameState.getOpponent().board.cells[position];
 
     if (occupied && occupied.isSunk()) {
-      game_UI.markShipAsSunk(cell.parentElement, occupied);
+      game_UI.markShipAsSunk(occupied);
       game_UI.displayMessage(
         `${gameState.getCurrentPlayer().name} has sunk ${
           gameState.getOpponent().name
         }'s ${occupied.name}!`
       );
     } else if (status === 'hit') {
-      cell.classList.add('hit');
+      game_UI.markCell(position, 'hit');
       game_UI.displayMessage('HIT!');
     } else if (status === 'miss') {
-      cell.classList.add('miss');
+      game_UI.markCell(position, 'miss');
       game_UI.displayMessage('miss...');
     }
 
