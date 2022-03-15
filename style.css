@@ -239,6 +239,16 @@ html {
   padding: 0.5rem;
 }
 
+.new-player-form > label,
+.new-player-form > #player-name {
+  display: block;
+}
+
+.new-player-form > label.hidden,
+.new-player-form > #player-name.hidden {
+  display: none;
+}
+
 .new-player-form > input[type='submit'] {
   grid-area: submit;
   padding: 0.5rem;
