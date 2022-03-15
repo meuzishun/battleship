@@ -6,6 +6,9 @@ export const gameLoop = (function () {
   const startGame = function () {
     gameState.setFirstTurn();
     game_UI.initializeGameboard();
+    if (gameState.getCurrentPlayer().type === 'computer') {
+      autoPlay();
+    }
   };
 
   const newGame = function () {
@@ -33,6 +36,19 @@ export const gameLoop = (function () {
   const nextTurn = function () {
     gameState.switchTurn();
     game_UI.switchActiveBoardSide();
+    if (gameState.getCurrentPlayer().type === 'computer') {
+      autoPlay();
+    }
+  };
+
+  const autoPlay = function () {
+    const playTimer = setTimeout(() => {
+      console.log('we got a machine here!');
+      processTurn(
+        gameState.getCurrentPlayer().autoAttack(gameState.getOpponent())
+      );
+      clearTimeout(playTimer);
+    }, 500);
   };
 
   const processTurn = function (position) {

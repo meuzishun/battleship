@@ -94,6 +94,7 @@ html {
   grid-area: title;
   font-size: 3rem;
   font-weight: normal;
+  text-transform: capitalize;
   padding: 1.5rem;
 }
 

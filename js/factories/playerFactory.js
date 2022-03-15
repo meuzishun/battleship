@@ -1,6 +1,10 @@
 import { createGameboard } from './gameboardFactory.js';
 
-const createPlayer = function (name) {
+const createPlayer = function (data) {
+  const name = data.name || data.type;
+
+  const type = data.type;
+
   const attack = function (opponent, position) {
     opponent.board.receiveAttack(position);
   };
@@ -16,13 +20,15 @@ const createPlayer = function (name) {
   };
 
   const autoAttack = function (opponent) {
-    attack(opponent, getRandomCell(findStatuslessCells(opponent.board.cells)));
+    // attack(opponent, getRandomCell(findStatuslessCells(opponent.board.cells)));
+    return Number(getRandomCell(findStatuslessCells(opponent.board.cells)));
   };
 
   const board = createGameboard();
 
   return {
     name,
+    type,
     board,
     attack,
     autoAttack,
