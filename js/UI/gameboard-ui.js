@@ -73,16 +73,16 @@ export const game_UI = (function () {
   };
 
   //* CALLBACKS
-  const activateRightBoardSide = function () {
+  const setRightBoardSideAsActive = function () {
     [dormantBoardSide, activeBoardSide] = gameboardSides;
-    activeBoardSide.gameboard.addEventListener('click', handleBoardClick);
-    dormantBoardSide.gameboard.removeEventListener('click', handleBoardClick);
   };
 
-  const switchActiveBoardSide = function () {
+  const switchBoardSideRoles = function () {
     [activeBoardSide, dormantBoardSide] = [dormantBoardSide, activeBoardSide];
+  };
+
+  const addClickListenerToActiveBoardSide = function () {
     activeBoardSide.gameboard.addEventListener('click', handleBoardClick);
-    dormantBoardSide.gameboard.removeEventListener('click', handleBoardClick);
   };
 
   const deactivateGameboards = function () {
@@ -169,7 +169,7 @@ export const game_UI = (function () {
     document.querySelector('.wrapper').appendChild(gameContainer);
 
     tempPlaceShips();
-    activateRightBoardSide();
+    setRightBoardSideAsActive(); //!
   };
 
   //* EVENT LISTENERS
@@ -183,6 +183,7 @@ export const game_UI = (function () {
     if (cell.classList.contains('hit')) return;
     if (cell.classList.contains('miss')) return;
     gameLoop.processTurn(Number(cell.dataset.position));
+    deactivateGameboards();
   };
 
   const tempPlaceShips = function () {
@@ -251,7 +252,8 @@ export const game_UI = (function () {
   return {
     initializeGameboard,
     displayMessage,
-    switchActiveBoardSide,
+    switchBoardSideRoles,
+    addClickListenerToActiveBoardSide,
     markCell,
     markShipAsSunk,
     deactivateGameboards,

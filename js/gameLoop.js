@@ -9,6 +9,9 @@ export const gameLoop = (function () {
     if (gameState.getCurrentPlayer().type === 'computer') {
       autoPlay();
     }
+    if (gameState.getCurrentPlayer().type === 'person') {
+      game_UI.addClickListenerToActiveBoardSide();
+    }
   };
 
   const newGame = function () {
@@ -34,19 +37,18 @@ export const gameLoop = (function () {
   };
 
   const nextTurn = function () {
-    //! not helpful here...
-    // game_UI.deactivateGameboards();
     gameState.switchTurn();
-    game_UI.switchActiveBoardSide();
+    game_UI.switchBoardSideRoles();
     if (gameState.getCurrentPlayer().type === 'computer') {
       autoPlay();
+    }
+    if (gameState.getCurrentPlayer().type === 'person') {
+      game_UI.addClickListenerToActiveBoardSide();
     }
   };
 
   const autoPlay = function () {
     const playTimer = setTimeout(() => {
-      //! not helpful here...
-      // game_UI.deactivateGameboards();
       const findStatuslessCells = function (cells) {
         return Object.entries(cells)
           .filter((cell) => !cell[1].status)
@@ -88,8 +90,6 @@ export const gameLoop = (function () {
     if (gameState.getOpponent().board.allShipsSunk()) {
       endGame();
     } else {
-      //! not helpful here...
-      // game_UI.deactivateGameboards();
       nextTurn();
     }
   };
