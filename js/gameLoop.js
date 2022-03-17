@@ -34,6 +34,8 @@ export const gameLoop = (function () {
   };
 
   const nextTurn = function () {
+    //! not helpful here...
+    // game_UI.deactivateGameboards();
     gameState.switchTurn();
     game_UI.switchActiveBoardSide();
     if (gameState.getCurrentPlayer().type === 'computer') {
@@ -43,10 +45,21 @@ export const gameLoop = (function () {
 
   const autoPlay = function () {
     const playTimer = setTimeout(() => {
-      console.log('we got a machine here!');
-      processTurn(
-        gameState.getCurrentPlayer().autoAttack(gameState.getOpponent())
+      const findStatuslessCells = function (cells) {
+        return Object.entries(cells)
+          .filter((cell) => !cell[1].status)
+          .map((cell) => cell[0]);
+      };
+
+      const getRandomCell = function (arr) {
+        return arr[Math.floor(Math.random() * arr.length)];
+      };
+
+      const position = Number(
+        getRandomCell(findStatuslessCells(gameState.getOpponent().board.cells))
       );
+
+      processTurn(position);
       clearTimeout(playTimer);
     }, 500);
   };
@@ -73,6 +86,8 @@ export const gameLoop = (function () {
     if (gameState.getOpponent().board.allShipsSunk()) {
       endGame();
     } else {
+      //! not helpful here...
+      game_UI.deactivateGameboards();
       nextTurn();
     }
   };
