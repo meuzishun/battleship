@@ -6,14 +6,7 @@ export const gameLoop = (function () {
   const startGame = function () {
     gameState.setFirstTurn();
     game_UI.initializeGameboard();
-
-    if (gameState.getCurrentPlayer().type === 'computer') {
-      autoPlay();
-    }
-
-    if (gameState.getCurrentPlayer().type === 'person') {
-      game_UI.addClickListenerToActiveBoardSide();
-    }
+    setupPlayerTurn();
   };
 
   const newGame = function () {
@@ -38,10 +31,7 @@ export const gameLoop = (function () {
     }
   };
 
-  const nextTurn = function () {
-    gameState.switchTurn();
-    game_UI.switchBoardSideRoles();
-
+  const setupPlayerTurn = function () {
     if (gameState.getCurrentPlayer().type === 'computer') {
       autoPlay();
     }
@@ -49,6 +39,12 @@ export const gameLoop = (function () {
     if (gameState.getCurrentPlayer().type === 'person') {
       game_UI.addClickListenerToActiveBoardSide();
     }
+  };
+
+  const nextTurn = function () {
+    gameState.switchTurn();
+    game_UI.switchBoardSideRoles();
+    setupPlayerTurn();
   };
 
   const autoPlay = function () {

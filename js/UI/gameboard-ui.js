@@ -169,7 +169,7 @@ export const game_UI = (function () {
     document.querySelector('.wrapper').appendChild(gameContainer);
 
     tempPlaceShips();
-    setRightBoardSideAsActive(); //!
+    setRightBoardSideAsActive();
   };
 
   //* EVENT LISTENERS
