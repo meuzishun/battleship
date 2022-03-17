@@ -6,9 +6,11 @@ export const gameLoop = (function () {
   const startGame = function () {
     gameState.setFirstTurn();
     game_UI.initializeGameboard();
+
     if (gameState.getCurrentPlayer().type === 'computer') {
       autoPlay();
     }
+
     if (gameState.getCurrentPlayer().type === 'person') {
       game_UI.addClickListenerToActiveBoardSide();
     }
@@ -39,9 +41,11 @@ export const gameLoop = (function () {
   const nextTurn = function () {
     gameState.switchTurn();
     game_UI.switchBoardSideRoles();
+
     if (gameState.getCurrentPlayer().type === 'computer') {
       autoPlay();
     }
+
     if (gameState.getCurrentPlayer().type === 'person') {
       game_UI.addClickListenerToActiveBoardSide();
     }
