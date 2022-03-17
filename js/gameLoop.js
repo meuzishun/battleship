@@ -45,6 +45,8 @@ export const gameLoop = (function () {
 
   const autoPlay = function () {
     const playTimer = setTimeout(() => {
+      //! not helpful here...
+      // game_UI.deactivateGameboards();
       const findStatuslessCells = function (cells) {
         return Object.entries(cells)
           .filter((cell) => !cell[1].status)
@@ -87,7 +89,7 @@ export const gameLoop = (function () {
       endGame();
     } else {
       //! not helpful here...
-      game_UI.deactivateGameboards();
+      // game_UI.deactivateGameboards();
       nextTurn();
     }
   };
