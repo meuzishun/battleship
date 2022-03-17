@@ -1,6 +1,7 @@
 import { gameState } from './gameState.js';
 import { modal_UI } from './UI/modal-ui.js';
 import { game_UI } from './UI/gameboard-ui.js';
+import { AI } from './AI.js';
 
 export const gameLoop = (function () {
   const startGame = function () {
@@ -33,7 +34,8 @@ export const gameLoop = (function () {
 
   const setupPlayerTurn = function () {
     if (gameState.getCurrentPlayer().type === 'computer') {
-      autoPlay();
+      // autoPlay();
+      AI.play();
     }
 
     if (gameState.getCurrentPlayer().type === 'person') {
