@@ -2,10 +2,21 @@ import { gameLoop } from './gameLoop.js';
 import { gameState } from './gameState.js';
 
 export const AI = (function () {
+  const nextChoices = [];
+
   const findStatuslessCells = function (cells) {
     return Object.entries(cells)
       .filter((cell) => !cell[1].status)
       .map((cell) => cell[0]);
+  };
+
+  const acceptResult = function (position, result) {
+    if (result === 'hit') {
+      nextChoices.push(...filterOutMisses(getBorderCells(position)));
+    }
+    if (result === 'sunk') {
+      nextChoices.length = 0;
+    }
   };
 
   const getBorderCells = function (position) {
@@ -32,8 +43,13 @@ export const AI = (function () {
 
   const filterOutMisses = function (cells) {
     return cells.filter((cell) => {
-      return gameState.getOpponent().board.cells[cell].status === 'undefined';
+      return !gameState.getOpponent().board.cells[cell].status;
     });
+  };
+
+  const removePositionFromNextChoices = function (position) {
+    const index = nextChoices.indexOf(position);
+    nextChoices.splice(index, 1);
   };
 
   const getRandomCell = function (cells) {
@@ -41,17 +57,25 @@ export const AI = (function () {
   };
 
   const play = function () {
-    const position = getRandomCell(
-      findStatuslessCells(gameState.getOpponent().board.cells)
-    );
-    console.log(filterOutMisses(getBorderCells(position)));
+    let position;
+
+    if (nextChoices.length > 0) {
+      position = getRandomCell(nextChoices);
+      removePositionFromNextChoices(position);
+    } else {
+      position = getRandomCell(
+        findStatuslessCells(gameState.getOpponent().board.cells)
+      );
+    }
+
     const playTimer = setTimeout(() => {
-      gameLoop.processTurn(position);
+      gameLoop.processTurn(Number(position));
       clearTimeout(playTimer);
     }, 500);
   };
 
   return {
     play,
+    acceptResult,
   };
 })();

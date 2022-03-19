@@ -34,7 +34,6 @@ export const gameLoop = (function () {
 
   const setupPlayerTurn = function () {
     if (gameState.getCurrentPlayer().type === 'computer') {
-      // autoPlay();
       AI.play();
     }
 
@@ -49,51 +48,71 @@ export const gameLoop = (function () {
     setupPlayerTurn();
   };
 
-  const autoPlay = function () {
-    const playTimer = setTimeout(() => {
-      const findStatuslessCells = function (cells) {
-        return Object.entries(cells)
-          .filter((cell) => !cell[1].status)
-          .map((cell) => cell[0]);
-      };
-
-      const getRandomCell = function (arr) {
-        return arr[Math.floor(Math.random() * arr.length)];
-      };
-
-      const position = Number(
-        getRandomCell(findStatuslessCells(gameState.getOpponent().board.cells))
-      );
-
-      processTurn(position);
-      clearTimeout(playTimer);
-    }, 500);
+  const handleSunk = function (occupied) {
+    game_UI.markShipAsSunk(occupied);
+    game_UI.displayMessage(
+      `${gameState.getCurrentPlayer().name} has sunk ${
+        gameState.getOpponent().name
+      }'s ${occupied.name}!`
+    );
   };
 
-  const processTurn = function (position) {
-    gameState.getCurrentPlayer().attack(gameState.getOpponent(), position);
-    const { occupied, status } = gameState.getOpponent().board.cells[position];
-
-    if (occupied && occupied.isSunk()) {
-      game_UI.markShipAsSunk(occupied);
-      game_UI.displayMessage(
-        `${gameState.getCurrentPlayer().name} has sunk ${
-          gameState.getOpponent().name
-        }'s ${occupied.name}!`
-      );
-    } else if (status === 'hit') {
+  const handleHit = function (position, occupied) {
+    if (occupied.isSunk()) {
+      handleSunk(occupied);
+      if (gameState.getCurrentPlayer().type === 'computer') {
+        AI.acceptResult(position, 'sunk');
+      }
+    }
+    if (!occupied.isSunk()) {
       game_UI.markCell(position, 'hit');
       game_UI.displayMessage('HIT!');
-    } else if (status === 'miss') {
-      game_UI.markCell(position, 'miss');
-      game_UI.displayMessage('miss...');
+      if (gameState.getCurrentPlayer().type === 'computer') {
+        AI.acceptResult(position, 'hit');
+      }
     }
+  };
 
+  const handleMiss = function (position) {
+    game_UI.markCell(position, 'miss');
+    game_UI.displayMessage('miss...');
+    if (gameState.getCurrentPlayer().type === 'computer') {
+      AI.acceptResult(position, 'miss');
+    }
+  };
+
+  const processResults = function (results) {
+    if (results.status === 'miss') {
+      handleMiss(results.position);
+    }
+    if (results.status === 'hit') {
+      handleHit(results.position, results.occupied);
+    }
     if (gameState.getOpponent().board.allShipsSunk()) {
       endGame();
     } else {
       nextTurn();
     }
+  };
+
+  const processTurn = function (position) {
+    if (typeof position !== 'number') {
+      throw new Error('processTurn needs a number for an argument');
+    }
+
+    gameState.getCurrentPlayer().attack(gameState.getOpponent(), position);
+
+    const results = Object.assign(
+      {},
+      gameState.getOpponent().board.cells[position],
+      { position }
+    );
+
+    console.group('The results:');
+    console.log(results);
+    console.groupEnd();
+
+    processResults(results);
   };
 
   const endGame = function () {
