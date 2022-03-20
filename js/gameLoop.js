@@ -60,34 +60,31 @@ export const gameLoop = (function () {
   const handleHit = function (position, occupied) {
     if (occupied.isSunk()) {
       handleSunk(occupied);
-      if (gameState.getCurrentPlayer().type === 'computer') {
-        AI.acceptResult(position, 'sunk');
-      }
     }
     if (!occupied.isSunk()) {
       game_UI.markCell(position, 'hit');
       game_UI.displayMessage('HIT!');
-      if (gameState.getCurrentPlayer().type === 'computer') {
-        AI.acceptResult(position, 'hit');
-      }
     }
   };
 
   const handleMiss = function (position) {
     game_UI.markCell(position, 'miss');
     game_UI.displayMessage('miss...');
-    if (gameState.getCurrentPlayer().type === 'computer') {
-      AI.acceptResult(position, 'miss');
-    }
   };
 
   const processResults = function (results) {
+    if (gameState.getCurrentPlayer().type === 'computer') {
+      AI.interpretResults(results);
+    }
+
     if (results.status === 'miss') {
       handleMiss(results.position);
     }
+
     if (results.status === 'hit') {
       handleHit(results.position, results.occupied);
     }
+
     if (gameState.getOpponent().board.allShipsSunk()) {
       endGame();
     } else {
@@ -107,10 +104,6 @@ export const gameLoop = (function () {
       gameState.getOpponent().board.cells[position],
       { position }
     );
-
-    console.group('The results:');
-    console.log(results);
-    console.groupEnd();
 
     processResults(results);
   };
