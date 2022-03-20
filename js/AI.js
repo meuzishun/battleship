@@ -2,9 +2,6 @@ import { gameLoop } from './gameLoop.js';
 import { gameState } from './gameState.js';
 
 export const AI = (function () {
-  const nextChoices = [];
-  let preferredChoices = [];
-
   const analysis = {
     lastHit: undefined,
     surroundingPositions: [],
@@ -130,7 +127,6 @@ export const AI = (function () {
       );
 
       this.preferredTargets = this.possibleTargets.filter((position) => {
-        //! not getting multiples here... look over 235-242 from old code
         for (let i = 0; i < distances.length; i++) {
           if (distances[i] === 10) {
             return position % 10 === this.getLastHit() % 10;
@@ -159,6 +155,24 @@ export const AI = (function () {
       this.preferredTargets.length = 0;
     },
 
+    chooseNextPosition: function () {
+      if (this.getPreferredTargets().length > 0) {
+        console.log('We have preferred targets');
+        const position = getRandomCell(this.getPreferredTargets());
+        this.removeFromPreferredTargets(position);
+        return position;
+      }
+      if (this.getPossibleTargets().length > 0) {
+        console.log('We have possible targets');
+        const position = getRandomCell(this.getPossibleTargets());
+        this.removeFromPossibleTargets(position);
+        return position;
+      }
+      return getRandomCell(
+        findStatuslessCells(gameState.getOpponent().board.cells)
+      );
+    },
+
     logState: function () {
       console.group('Last hit:');
       console.log(analysis.getLastHit());
@@ -176,10 +190,6 @@ export const AI = (function () {
       console.log(analysis.getSurroundingHits());
       console.groupEnd();
 
-      // console.group('Distances:');
-      // console.log(distances);
-      // console.groupEnd();
-
       console.group('Preferred targets:');
       console.log(analysis.getPreferredTargets());
       console.groupEnd();
@@ -192,179 +202,34 @@ export const AI = (function () {
       .map((cell) => cell[0]);
   };
 
-  const getBorderCells = function (position) {
-    const borderCells = [];
-    const cellNum = Number(position);
-    const north = cellNum - 10;
-    if (north > -1) {
-      borderCells.push(north);
-    }
-    const south = cellNum + 10;
-    if (south < 100) {
-      borderCells.push(south);
-    }
-    const east = cellNum + 1;
-    if (east % 10 > 0) {
-      borderCells.push(east);
-    }
-    const west = cellNum - 1;
-    if (cellNum % 10 > 0) {
-      borderCells.push(west);
-    }
-    return borderCells;
-  };
-
-  const filterOutMisses = function (cells) {
-    return cells.filter((cell) => {
-      return gameState.getOpponent().board.cells[cell].status !== 'miss';
-    });
-  };
-
-  const getStatusLessCells = function (cells) {
-    return cells.filter((cell) => {
-      return !gameState.getOpponent().board.cells[cell].status;
-    });
-  };
-
-  const getHits = function (cells) {
-    return cells.filter((cell) => {
-      return gameState.getOpponent().board.cells[cell].status === 'hit';
-    });
-  };
-
-  const removePositionFromNextChoices = function (position) {
-    const index = nextChoices.indexOf(position);
-    nextChoices.splice(index, 1);
-  };
-
-  const removePositionFromPreferredChoices = function (position) {
-    const index = preferredChoices.indexOf(position);
-    preferredChoices.splice(index, 1);
-  };
-
   const getRandomCell = function (cells) {
     return cells[Math.floor(Math.random() * cells.length)];
   };
 
   const interpretResults = function (results) {
-    //TODO: try commenting out old code and use new analysis object here instead
     console.log('========================================');
-    // console.group('Results:');
-    // console.log(results.position);
-    // console.log(results.status);
-    // console.groupEnd();
     if (results.status === 'miss') {
       analysis.logState();
       return;
     }
     if (results.status === 'hit' && !results.occupied.isSunk()) {
-      // getStatusLessCells(getBorderCells(results.position)).forEach((cell) =>
-      //   nextChoices.push(cell)
-      // );
-      // console.group('Next choices:');
-      // console.table(nextChoices);
-      // console.groupEnd();
-
-      // const nearByHits = getHits(getBorderCells(results.position));
-      // console.group('Nearby hits:');
-      // console.table(nearByHits);
-      // console.groupEnd();
-
-      // const analysis = nearByHits.map((hit) =>
-      //   Math.abs(hit - results.position)
-      // );
-      // console.group('Anaylysis:');
-      // console.table(analysis);
-      // console.groupEnd();
-
-      // preferredChoices = nextChoices.filter((choice) => {
-      //   if (analysis[0] === 10) {
-      //     console.log('same column');
-      //     return choice % 10 === results.position % 10;
-      //   }
-      //   if (analysis[0] === 1) {
-      //     console.log('same row');
-      //     return Math.floor(choice / 10) === Math.floor(results.position / 10);
-      //   }
-      // });
-      // console.group('Preferred choices:');
-      // console.table(preferredChoices);
-      // console.groupEnd();
-
       analysis.setLastHit(results.position);
       analysis.removeFromPossibleTargets(results.position);
-      // console.group('Current position:');
-      // console.log(analysis.getlastHit());
-      // console.groupEnd();
-
       analysis.calculateSurroundingPositions();
-      // console.group('Surrounding positions:');
-      // console.log(analysis.getSurroundingPositions());
-      // console.groupEnd();
-
       analysis.calculatePossibleTargets();
-      // console.group('Possible targets:');
-      // console.log(analysis.getPossibleTargets());
-      // console.groupEnd();
-
       analysis.calculateSurroundingHits();
-      // console.group('Surrounding hits:');
-      // console.log(analysis.getSurroundingHits());
-      // console.groupEnd();
-
       analysis.calculatePreferredTargets();
-      // console.group('Preferred targets:');
-      // console.log(analysis.getPreferredTargets());
-      // console.groupEnd();
       analysis.logState();
     }
     if (results.occupied.isSunk()) {
-      // nextChoices.length = 0;
-      // preferredChoices.length = 0;
       analysis.reset();
       analysis.logState();
     }
   };
 
-  const chooseNextPosition = function () {
-    if (analysis.getPreferredTargets().length > 0) {
-      console.log('We have preferred targets');
-      const position = getRandomCell(analysis.getPreferredTargets());
-      analysis.removeFromPreferredTargets(position);
-      return position;
-    }
-    if (analysis.getPossibleTargets().length > 0) {
-      console.log('We have possible targets');
-      const position = getRandomCell(analysis.getPossibleTargets());
-      analysis.removeFromPossibleTargets(position);
-      return position;
-    }
-    return getRandomCell(
-      findStatuslessCells(gameState.getOpponent().board.cells)
-    );
-  };
-
   const play = function () {
-    //TODO: log the position here, no matter what the result
-    let position;
-
-    // if (preferredChoices.length > 0) {
-    //   position = getRandomCell(preferredChoices);
-    //   removePositionFromNextChoices(position);
-    //   removePositionFromPreferredChoices(position);
-    // } else if (nextChoices.length > 0) {
-    //   position = getRandomCell(nextChoices);
-    //   removePositionFromNextChoices(position);
-    // } else {
-    //   position = getRandomCell(
-    //     findStatuslessCells(gameState.getOpponent().board.cells)
-    //   );
-    // }
-
     const playTimer = setTimeout(() => {
-      // gameLoop.processTurn(Number(position));
-      const position = Number(chooseNextPosition());
-      gameLoop.processTurn(position);
+      gameLoop.processTurn(Number(analysis.chooseNextPosition()));
       clearTimeout(playTimer);
     }, 500);
   };
