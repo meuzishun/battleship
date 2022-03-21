@@ -91,6 +91,59 @@ export const game_UI = (function () {
     );
   };
 
+  const createRandomShipData = function (playerIndex) {
+    const between0And99 = function (num) {
+      return num > -1 && num < 100;
+    };
+
+    const sameTensSpot = function (num) {};
+
+    const shipNames = [
+      { name: 'Carrier', length: 5 },
+      { name: 'Battleship', length: 4 },
+      { name: 'Destroyer', length: 3 },
+      { name: 'Submarine', length: 3 },
+      { name: 'Partol Boat', length: 2 },
+    ];
+    const directions = ['horizontal', 'vertical'];
+    for (let i = 0; i < shipNames.length; i++) {
+      console.group('Ship:');
+      console.log(shipNames[i]);
+      const positions = [];
+      const startingPosition = Math.floor(Math.random() * 100);
+      const direction =
+        directions[Math.floor(Math.random() * directions.length)];
+      console.log(direction);
+      for (let j = 0; j < shipNames[i].length; j++) {
+        if (direction === 'horizontal') {
+          positions.push(startingPosition + j);
+        }
+        if (direction === 'vertical') {
+          positions.push(startingPosition + j * 10);
+        }
+      }
+      console.log(positions);
+      if (direction === 'vertical') {
+        if (!positions.every(between0And99)) {
+          console.warn('off the top or bottom');
+        }
+      }
+      if (direction === 'horizontal') {
+        if (
+          !positions.every(
+            (position, index, arr) =>
+              Math.floor(position / 10) === Math.floor(arr[0] / 10)
+          )
+        ) {
+          console.warn('off the side');
+        }
+      }
+      console.groupEnd();
+    }
+  };
+
+  const checkShipData = function () {};
+
   const handleDroppedShipData = function (data) {
     gameState
       .getPlayers()
@@ -247,6 +300,7 @@ export const game_UI = (function () {
       boardPosition: 78,
       direction: 'vertical',
     });
+    createRandomShipData(1);
   };
 
   return {
