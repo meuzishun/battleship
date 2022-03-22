@@ -96,7 +96,58 @@ export const game_UI = (function () {
       return num > -1 && num < 100;
     };
 
-    const sameTensSpot = function (num) {};
+    const sameTensSpot = function (num, index, arr) {
+      return Math.floor(num / 10) === Math.floor(arr[0] / 10);
+    };
+
+    const boardCellFree = function (position) {
+      return !gameState.getPlayers()[playerIndex].board.cells[position]
+        .occupied;
+    };
+
+    const findPlaceForShip = function (shipName) {
+      console.group('Ship:');
+      console.log(shipName);
+
+      const positions = [];
+      const startingPosition = Math.floor(Math.random() * 100);
+      const direction =
+        directions[Math.floor(Math.random() * directions.length)];
+
+      console.log(direction);
+
+      for (let j = 0; j < shipName.length; j++) {
+        if (direction === 'horizontal') {
+          positions.push(startingPosition + j);
+        }
+        if (direction === 'vertical') {
+          positions.push(startingPosition + j * 10);
+        }
+      }
+
+      console.log(positions);
+
+      if (direction === 'vertical' && !positions.every(between0And99)) {
+        console.warn('off the top or bottom');
+        console.groupEnd();
+        findPlaceForShip(shipName);
+        return;
+      }
+      if (direction === 'horizontal' && !positions.every(sameTensSpot)) {
+        console.warn('off the side');
+        console.groupEnd();
+        findPlaceForShip(shipName);
+        return;
+      }
+      if (!positions.every(boardCellFree)) {
+        console.warn('already occupied');
+        console.groupEnd();
+        findPlaceForShip(shipName);
+        return;
+      }
+
+      console.groupEnd();
+    };
 
     const shipNames = [
       { name: 'Carrier', length: 5 },
@@ -105,41 +156,50 @@ export const game_UI = (function () {
       { name: 'Submarine', length: 3 },
       { name: 'Partol Boat', length: 2 },
     ];
+
     const directions = ['horizontal', 'vertical'];
-    for (let i = 0; i < shipNames.length; i++) {
-      console.group('Ship:');
-      console.log(shipNames[i]);
-      const positions = [];
-      const startingPosition = Math.floor(Math.random() * 100);
-      const direction =
-        directions[Math.floor(Math.random() * directions.length)];
-      console.log(direction);
-      for (let j = 0; j < shipNames[i].length; j++) {
-        if (direction === 'horizontal') {
-          positions.push(startingPosition + j);
-        }
-        if (direction === 'vertical') {
-          positions.push(startingPosition + j * 10);
-        }
-      }
-      console.log(positions);
-      if (direction === 'vertical') {
-        if (!positions.every(between0And99)) {
-          console.warn('off the top or bottom');
-        }
-      }
-      if (direction === 'horizontal') {
-        if (
-          !positions.every(
-            (position, index, arr) =>
-              Math.floor(position / 10) === Math.floor(arr[0] / 10)
-          )
-        ) {
-          console.warn('off the side');
-        }
-      }
-      console.groupEnd();
-    }
+
+    shipNames.forEach((shipName) => {
+      findPlaceForShip(shipName);
+    });
+    // for (let i = 0; i < shipNames.length; i++) {
+    //   console.group('Ship:');
+    //   console.log(shipNames[i]);
+
+    //   const positions = [];
+    //   const startingPosition = Math.floor(Math.random() * 100);
+    //   const direction =
+    //     directions[Math.floor(Math.random() * directions.length)];
+
+    //   console.log(direction);
+
+    //   for (let j = 0; j < shipNames[i].length; j++) {
+    //     if (direction === 'horizontal') {
+    //       positions.push(startingPosition + j);
+    //     }
+    //     if (direction === 'vertical') {
+    //       positions.push(startingPosition + j * 10);
+    //     }
+    //   }
+
+    //   console.log(positions);
+
+    //   if (direction === 'vertical' && !positions.every(between0And99)) {
+    //     console.warn('off the top or bottom');
+    //   }
+    //   if (direction === 'horizontal' && !positions.every(sameTensSpot)) {
+    //     console.warn('off the side');
+    //   }
+    //   positions.forEach((position) => {
+    //     if (
+    //       gameState.getPlayers()[playerIndex].board.cells[position].occupied
+    //     ) {
+    //       console.warn('already occupied');
+    //     }
+    //   });
+
+    //   console.groupEnd();
+    // }
   };
 
   const checkShipData = function () {};
