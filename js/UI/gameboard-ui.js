@@ -145,7 +145,12 @@ export const game_UI = (function () {
         findPlaceForShip(shipName);
         return;
       }
-
+      handleDroppedShipData({
+        shipName: shipName.name,
+        playerIndex,
+        boardPosition: startingPosition,
+        direction,
+      });
       console.groupEnd();
     };
 
@@ -154,7 +159,7 @@ export const game_UI = (function () {
       { name: 'Battleship', length: 4 },
       { name: 'Destroyer', length: 3 },
       { name: 'Submarine', length: 3 },
-      { name: 'Partol Boat', length: 2 },
+      { name: 'Patrol Boat', length: 2 },
     ];
 
     const directions = ['horizontal', 'vertical'];
@@ -281,7 +286,9 @@ export const game_UI = (function () {
       );
     document.querySelector('.wrapper').appendChild(gameContainer);
 
-    tempPlaceShips();
+    // tempPlaceShips();
+    createRandomShipData(0);
+    createRandomShipData(1);
     setRightBoardSideAsActive();
   };
 
