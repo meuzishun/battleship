@@ -167,44 +167,6 @@ export const game_UI = (function () {
     shipNames.forEach((shipName) => {
       findPlaceForShip(shipName);
     });
-    // for (let i = 0; i < shipNames.length; i++) {
-    //   console.group('Ship:');
-    //   console.log(shipNames[i]);
-
-    //   const positions = [];
-    //   const startingPosition = Math.floor(Math.random() * 100);
-    //   const direction =
-    //     directions[Math.floor(Math.random() * directions.length)];
-
-    //   console.log(direction);
-
-    //   for (let j = 0; j < shipNames[i].length; j++) {
-    //     if (direction === 'horizontal') {
-    //       positions.push(startingPosition + j);
-    //     }
-    //     if (direction === 'vertical') {
-    //       positions.push(startingPosition + j * 10);
-    //     }
-    //   }
-
-    //   console.log(positions);
-
-    //   if (direction === 'vertical' && !positions.every(between0And99)) {
-    //     console.warn('off the top or bottom');
-    //   }
-    //   if (direction === 'horizontal' && !positions.every(sameTensSpot)) {
-    //     console.warn('off the side');
-    //   }
-    //   positions.forEach((position) => {
-    //     if (
-    //       gameState.getPlayers()[playerIndex].board.cells[position].occupied
-    //     ) {
-    //       console.warn('already occupied');
-    //     }
-    //   });
-
-    //   console.groupEnd();
-    // }
   };
 
   const checkShipData = function () {};
