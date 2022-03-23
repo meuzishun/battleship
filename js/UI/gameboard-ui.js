@@ -92,6 +92,16 @@ export const game_UI = (function () {
   };
 
   const createRandomShipData = function (playerIndex) {
+    const ships = [
+      { name: 'Carrier', length: 5 },
+      { name: 'Battleship', length: 4 },
+      { name: 'Destroyer', length: 3 },
+      { name: 'Submarine', length: 3 },
+      { name: 'Patrol Boat', length: 2 },
+    ];
+
+    const directions = ['horizontal', 'vertical'];
+
     const between0And99 = function (num) {
       return num > -1 && num < 100;
     };
@@ -105,18 +115,13 @@ export const game_UI = (function () {
         .occupied;
     };
 
-    const findPlaceForShip = function (shipName) {
-      console.group('Ship:');
-      console.log(shipName);
-
+    const findPlaceForShip = function (ship) {
       const positions = [];
       const startingPosition = Math.floor(Math.random() * 100);
       const direction =
         directions[Math.floor(Math.random() * directions.length)];
 
-      console.log(direction);
-
-      for (let j = 0; j < shipName.length; j++) {
+      for (let j = 0; j < ship.length; j++) {
         if (direction === 'horizontal') {
           positions.push(startingPosition + j);
         }
@@ -125,62 +130,41 @@ export const game_UI = (function () {
         }
       }
 
-      console.log(positions);
-
       if (direction === 'vertical' && !positions.every(between0And99)) {
-        console.warn('off the top or bottom');
-        console.groupEnd();
-        findPlaceForShip(shipName);
+        findPlaceForShip(ship);
         return;
       }
       if (direction === 'horizontal' && !positions.every(sameTensSpot)) {
-        console.warn('off the side');
-        console.groupEnd();
-        findPlaceForShip(shipName);
+        findPlaceForShip(ship);
         return;
       }
       if (!positions.every(boardCellFree)) {
-        console.warn('already occupied');
-        console.groupEnd();
-        findPlaceForShip(shipName);
+        findPlaceForShip(ship);
         return;
       }
-      handleDroppedShipData({
-        shipName: shipName.name,
+      gameState.registerShipPlacementData({
+        shipName: ship.name,
         playerIndex,
         boardPosition: startingPosition,
         direction,
       });
-      console.groupEnd();
     };
 
-    const shipNames = [
-      { name: 'Carrier', length: 5 },
-      { name: 'Battleship', length: 4 },
-      { name: 'Destroyer', length: 3 },
-      { name: 'Submarine', length: 3 },
-      { name: 'Patrol Boat', length: 2 },
-    ];
-
-    const directions = ['horizontal', 'vertical'];
-
-    shipNames.forEach((shipName) => {
-      findPlaceForShip(shipName);
+    ships.forEach((ship) => {
+      findPlaceForShip(ship);
     });
   };
 
-  const checkShipData = function () {};
-
-  const handleDroppedShipData = function (data) {
-    gameState
-      .getPlayers()
-      [data.playerIndex].board.placeShip(
-        data.boardPosition,
-        data.shipName,
-        data.direction
-      );
-    addShipToList(data.shipName, gameboardSides[data.playerIndex].shipList);
-  };
+  // const handleDroppedShipData = function (data) {
+  //   gameState
+  //     .getPlayers()
+  //     [data.playerIndex].board.placeShip(
+  //       data.boardPosition,
+  //       data.shipName,
+  //       data.direction
+  //     );
+  //   addShipToList(data.shipName, gameboardSides[data.playerIndex].shipList);
+  // };
 
   const clearMessage = function () {
     messageText.textContent = '';
@@ -201,12 +185,12 @@ export const game_UI = (function () {
     startMsgTimer(1500);
   };
 
-  const addShipToList = function (name, list) {
+  const addShipToList = function (name, boardIndex) {
     const shipName = document.createElement('p');
     shipName.classList.add('ship-name');
     shipName.dataset.name = name;
     shipName.textContent = name;
-    list.appendChild(shipName);
+    gameboardSides[boardIndex].shipList.appendChild(shipName);
   };
 
   const markCell = function (position, mark) {
@@ -336,6 +320,7 @@ export const game_UI = (function () {
     initializeGameboard,
     displayMessage,
     switchBoardSideRoles,
+    addShipToList,
     addClickListenerToActiveBoardSide,
     markCell,
     markShipAsSunk,

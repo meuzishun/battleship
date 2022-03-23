@@ -1,4 +1,5 @@
 import { createPlayer } from './factories/playerFactory.js';
+import { game_UI } from './UI/gameboard-ui.js';
 
 export const gameState = (function () {
   const players = [];
@@ -25,6 +26,15 @@ export const gameState = (function () {
     players.length = 0;
   };
 
+  const registerShipPlacementData = function (data) {
+    getPlayers()[data.playerIndex].board.placeShip(
+      data.boardPosition,
+      data.shipName,
+      data.direction
+    );
+    game_UI.addShipToList(data.shipName, data.playerIndex);
+  };
+
   const setFirstTurn = function () {
     [currentPlayer, opponent] = players;
   };
@@ -43,6 +53,7 @@ export const gameState = (function () {
     getCurrentPlayer,
     getOpponent,
     clearPlayers,
+    registerShipPlacementData,
     setFirstTurn,
     switchTurn,
     resetBoards,
