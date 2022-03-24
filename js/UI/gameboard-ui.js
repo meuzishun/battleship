@@ -151,10 +151,12 @@ export const game_UI = (function () {
     const gameContainer = createGameContainer();
     gameContainer.appendChild(createHeader());
     gameContainer.appendChild(createMessageWindow());
+
     gameState.getPlayers().forEach((player, index) => {
       gameContainer.appendChild(createBoardSide(player.name));
       AI.randomlyPlaceShips(index);
     });
+
     document.querySelector('.wrapper').appendChild(gameContainer);
 
     // tempPlaceShips();
