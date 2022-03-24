@@ -1,5 +1,6 @@
 import { gameLoop } from '../gameLoop.js';
 import { gameState } from '../gameState.js';
+import { AI } from '../AI.js';
 
 export const game_UI = (function () {
   const gameboardSides = [];
@@ -91,81 +92,6 @@ export const game_UI = (function () {
     );
   };
 
-  const createRandomShipData = function (playerIndex) {
-    const ships = [
-      { name: 'Carrier', length: 5 },
-      { name: 'Battleship', length: 4 },
-      { name: 'Destroyer', length: 3 },
-      { name: 'Submarine', length: 3 },
-      { name: 'Patrol Boat', length: 2 },
-    ];
-
-    const directions = ['horizontal', 'vertical'];
-
-    const between0And99 = function (num) {
-      return num > -1 && num < 100;
-    };
-
-    const sameTensSpot = function (num, index, arr) {
-      return Math.floor(num / 10) === Math.floor(arr[0] / 10);
-    };
-
-    const boardCellFree = function (position) {
-      return !gameState.getPlayers()[playerIndex].board.cells[position]
-        .occupied;
-    };
-
-    const findPlaceForShip = function (ship) {
-      const positions = [];
-      const startingPosition = Math.floor(Math.random() * 100);
-      const direction =
-        directions[Math.floor(Math.random() * directions.length)];
-
-      for (let j = 0; j < ship.length; j++) {
-        if (direction === 'horizontal') {
-          positions.push(startingPosition + j);
-        }
-        if (direction === 'vertical') {
-          positions.push(startingPosition + j * 10);
-        }
-      }
-
-      if (direction === 'vertical' && !positions.every(between0And99)) {
-        findPlaceForShip(ship);
-        return;
-      }
-      if (direction === 'horizontal' && !positions.every(sameTensSpot)) {
-        findPlaceForShip(ship);
-        return;
-      }
-      if (!positions.every(boardCellFree)) {
-        findPlaceForShip(ship);
-        return;
-      }
-      gameState.registerShipPlacementData({
-        shipName: ship.name,
-        playerIndex,
-        boardPosition: startingPosition,
-        direction,
-      });
-    };
-
-    ships.forEach((ship) => {
-      findPlaceForShip(ship);
-    });
-  };
-
-  // const handleDroppedShipData = function (data) {
-  //   gameState
-  //     .getPlayers()
-  //     [data.playerIndex].board.placeShip(
-  //       data.boardPosition,
-  //       data.shipName,
-  //       data.direction
-  //     );
-  //   addShipToList(data.shipName, gameboardSides[data.playerIndex].shipList);
-  // };
-
   const clearMessage = function () {
     messageText.textContent = '';
   };
@@ -225,16 +151,13 @@ export const game_UI = (function () {
     const gameContainer = createGameContainer();
     gameContainer.appendChild(createHeader());
     gameContainer.appendChild(createMessageWindow());
-    gameState
-      .getPlayers()
-      .forEach((player) =>
-        gameContainer.appendChild(createBoardSide(player.name))
-      );
+    gameState.getPlayers().forEach((player, index) => {
+      gameContainer.appendChild(createBoardSide(player.name));
+      AI.randomlyPlaceShips(index);
+    });
     document.querySelector('.wrapper').appendChild(gameContainer);
 
     // tempPlaceShips();
-    createRandomShipData(0);
-    createRandomShipData(1);
     setRightBoardSideAsActive();
   };
 
@@ -313,7 +236,6 @@ export const game_UI = (function () {
       boardPosition: 78,
       direction: 'vertical',
     });
-    createRandomShipData(1);
   };
 
   return {
