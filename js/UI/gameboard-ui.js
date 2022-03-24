@@ -1,7 +1,7 @@
 import { gameLoop } from '../gameLoop.js';
 import { gameState } from '../gameState.js';
 
-export const game_UI = (function () {
+export const gameboard_UI = (function () {
   const gameboardSides = [];
   let activeBoardSide;
   let dormantBoardSide;

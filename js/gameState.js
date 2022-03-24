@@ -1,5 +1,5 @@
 import { createPlayer } from './factories/playerFactory.js';
-import { game_UI } from './UI/gameboard-ui.js';
+import { gameboard_UI } from './UI/gameboard-ui.js';
 
 export const gameState = (function () {
   const players = [];
@@ -32,7 +32,7 @@ export const gameState = (function () {
       data.shipName,
       data.direction
     );
-    game_UI.addShipToList(data.shipName, data.playerIndex);
+    gameboard_UI.addShipToList(data.shipName, data.playerIndex);
   };
 
   const setFirstTurn = function () {

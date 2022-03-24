@@ -1,12 +1,12 @@
 import { gameState } from './gameState.js';
 import { modal_UI } from './UI/modal-ui.js';
-import { game_UI } from './UI/gameboard-ui.js';
+import { gameboard_UI } from './UI/gameboard-ui.js';
 import { AI } from './AI.js';
 
 export const gameLoop = (function () {
   const startGame = function () {
     gameState.setFirstTurn();
-    game_UI.initializeGameboard();
+    gameboard_UI.initializeGameboard();
     gameState.getPlayers().forEach((player, index) => {
       AI.randomlyPlaceShips(index);
     });
@@ -41,19 +41,19 @@ export const gameLoop = (function () {
     }
 
     if (gameState.getCurrentPlayer().type === 'person') {
-      game_UI.addClickListenerToActiveBoardSide();
+      gameboard_UI.addClickListenerToActiveBoardSide();
     }
   };
 
   const nextTurn = function () {
     gameState.switchTurn();
-    game_UI.switchBoardSideRoles();
+    gameboard_UI.switchBoardSideRoles();
     setupPlayerTurn();
   };
 
   const handleSunk = function (occupied) {
-    game_UI.markShipAsSunk(occupied);
-    game_UI.displayMessage(
+    gameboard_UI.markShipAsSunk(occupied);
+    gameboard_UI.displayMessage(
       `${gameState.getCurrentPlayer().name} has sunk ${
         gameState.getOpponent().name
       }'s ${occupied.name}!`
@@ -65,14 +65,14 @@ export const gameLoop = (function () {
       handleSunk(occupied);
     }
     if (!occupied.isSunk()) {
-      game_UI.markCell(position, 'hit');
-      game_UI.displayMessage('HIT!');
+      gameboard_UI.markCell(position, 'hit');
+      gameboard_UI.displayMessage('HIT!');
     }
   };
 
   const handleMiss = function (position) {
-    game_UI.markCell(position, 'miss');
-    game_UI.displayMessage('miss...');
+    gameboard_UI.markCell(position, 'miss');
+    gameboard_UI.displayMessage('miss...');
   };
 
   const processResults = function (results) {
@@ -112,8 +112,8 @@ export const gameLoop = (function () {
   };
 
   const endGame = function () {
-    game_UI.deactivateGameboards();
-    game_UI.displayMessage(
+    gameboard_UI.deactivateGameboards();
+    gameboard_UI.displayMessage(
       `GAME OVER ${gameState.getCurrentPlayer().name} has won`
     );
     modal_UI.openGameOverModal(gameState.getCurrentPlayer());
