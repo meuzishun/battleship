@@ -145,7 +145,6 @@ export const modal_UI = (function () {
     }
     console.log(data);
 
-    // const name = e.srcElement.children[1].value;
     const modal = e.srcElement.parentElement.parentElement;
     gameLoop.registerNewPlayerSubmission(data);
     document.body.querySelector('.wrapper').removeChild(modal);

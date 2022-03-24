@@ -7,6 +7,9 @@ export const gameLoop = (function () {
   const startGame = function () {
     gameState.setFirstTurn();
     game_UI.initializeGameboard();
+    gameState.getPlayers().forEach((player, index) => {
+      AI.randomlyPlaceShips(index);
+    });
     setupPlayerTurn();
   };
 

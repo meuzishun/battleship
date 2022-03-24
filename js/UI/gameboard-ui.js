@@ -1,6 +1,5 @@
 import { gameLoop } from '../gameLoop.js';
 import { gameState } from '../gameState.js';
-import { AI } from '../AI.js';
 
 export const game_UI = (function () {
   const gameboardSides = [];
@@ -152,9 +151,8 @@ export const game_UI = (function () {
     gameContainer.appendChild(createHeader());
     gameContainer.appendChild(createMessageWindow());
 
-    gameState.getPlayers().forEach((player, index) => {
+    gameState.getPlayers().forEach((player) => {
       gameContainer.appendChild(createBoardSide(player.name));
-      AI.randomlyPlaceShips(index);
     });
 
     document.querySelector('.wrapper').appendChild(gameContainer);
