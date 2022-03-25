@@ -17,7 +17,7 @@ export const AI = (function () {
       return num > -1 && num < 100;
     };
 
-    const sameTensSpot = function (num, index, arr) {
+    const sameTensPlace = function (num, index, arr) {
       return Math.floor(num / 10) === Math.floor(arr[0] / 10);
     };
 
@@ -48,7 +48,7 @@ export const AI = (function () {
       if (direction === 'vertical' && !positions.every(between0And99)) {
         return findLocationForShip(ship);
       }
-      if (direction === 'horizontal' && !positions.every(sameTensSpot)) {
+      if (direction === 'horizontal' && !positions.every(sameTensPlace)) {
         return findLocationForShip(ship);
       }
       if (!positions.every(boardCellFree)) {
