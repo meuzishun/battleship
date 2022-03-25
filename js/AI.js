@@ -21,6 +21,10 @@ export const AI = (function () {
       return Math.floor(num / 10) === Math.floor(arr[0] / 10);
     };
 
+    const hasSameTensPlace = function (num1, num2) {
+      return Math.floor(num1 / 10) === Math.floor(num2 / 10);
+    };
+
     const boardCellFree = function (position) {
       return !gameState.getPlayers()[playerIndex].board.cells[position]
         .occupied;
@@ -70,6 +74,7 @@ export const AI = (function () {
     possibleTargets: [],
     surroundingHits: [],
     preferredTargets: [],
+    recentHits: [],
 
     reset: function () {
       this.clearLastHit();
@@ -138,11 +143,15 @@ export const AI = (function () {
 
     //* possiblePositions are the cells that don't have a status ('hit' or 'miss')
     calculatePossibleTargets: function () {
-      //TODO: we should be pushing here.
       const newTargets = this.surroundingPositions.filter((position) => {
         return !gameState.getOpponent().board.cells[position].status;
       });
-      newTargets.forEach((target) => this.possibleTargets.push(target));
+      //TODO: we need to make sure that we don't add a possible target that is already there
+      newTargets.forEach((target) => {
+        if (!this.possibleTargets.includes(target)) {
+          this.possibleTargets.push(target);
+        }
+      });
     },
 
     getPossibleTargets: function () {
@@ -163,7 +172,10 @@ export const AI = (function () {
     //* surroundingHits are surroundingPositions that have a 'hit' status
     calculateSurroundingHits: function () {
       this.surroundingHits = this.surroundingPositions.filter((position) => {
-        return gameState.getOpponent().board.cells[position].status === 'hit';
+        return (
+          gameState.getOpponent().board.cells[position].status === 'hit' &&
+          !gameState.getOpponent().board.cells[position].occupied.isSunk()
+        );
       });
     },
 
@@ -235,6 +247,33 @@ export const AI = (function () {
       );
     },
 
+    //* recentHits are hits that have accured during an analysis period
+    removeSunkFromRecentHits: function () {
+      this.recentHits = this.recentHits.filter((hit) => {
+        console.log(gameState.getOpponent().board.cells[hit].status);
+        return !gameState.getOpponent().board.cells[hit].occupied.isSunk();
+      });
+    },
+
+    addToRecentHits: function (position) {
+      this.recentHits.push(position);
+    },
+
+    getRecentHits: function () {
+      return this.recentHits;
+    },
+
+    removeFromRecentHits: function (position) {
+      const index = this.recentHits.indexOf(position);
+      if (index > -1) {
+        this.recentHits.splice(index, 1);
+      }
+    },
+
+    emptyRecentHits: function () {
+      this.recentHits.length = 0;
+    },
+
     logState: function () {
       console.group('Last hit:');
       console.log(analysis.getLastHit());
@@ -255,6 +294,10 @@ export const AI = (function () {
       console.group('Preferred targets:');
       console.log(analysis.getPreferredTargets());
       console.groupEnd();
+
+      console.group('Recent Hits:');
+      console.log(analysis.getRecentHits());
+      console.groupEnd();
     },
   };
 
@@ -271,11 +314,14 @@ export const AI = (function () {
   const interpretResults = function (results) {
     console.log('========================================');
     if (results.status === 'miss') {
+      analysis.removeFromPossibleTargets(results.position);
+      analysis.removeFromPreferredTargets(results.position);
       analysis.logState();
       return;
     }
     if (results.status === 'hit' && !results.occupied.isSunk()) {
       analysis.setLastHit(results.position);
+      analysis.addToRecentHits(results.position);
       analysis.removeFromPossibleTargets(results.position);
       analysis.calculateSurroundingPositions();
       analysis.calculatePossibleTargets();
@@ -284,8 +330,21 @@ export const AI = (function () {
       analysis.logState();
     }
     if (results.occupied.isSunk()) {
-      analysis.reset();
-      analysis.logState();
+      analysis.removeSunkFromRecentHits();
+
+      if (analysis.getRecentHits().length === 0) {
+        analysis.reset();
+        analysis.logState();
+      } else {
+        analysis.setLastHit(analysis.getRecentHits()[0]);
+        analysis.removeFromRecentHits(analysis.getLastHit());
+        analysis.calculateSurroundingPositions();
+        analysis.emptyPossibleTargets();
+        analysis.calculatePossibleTargets();
+        analysis.calculateSurroundingHits();
+        analysis.calculatePreferredTargets();
+        analysis.logState();
+      }
     }
   };
 

@@ -147,6 +147,11 @@ html {
   border: 1px solid #bbb;
   border-radius: 0.3rem;
   aspect-ratio: 1 / 1;
+
+  /* possibly remove? */
+  display: grid;
+  place-content: center;
+  color: #fff;
 }
 
 .cell.miss {

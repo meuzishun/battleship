@@ -46,6 +46,7 @@ export const gameboard_UI = (function () {
       const cell = document.createElement('div');
       cell.classList.add('cell');
       cell.dataset.position = i;
+      cell.textContent = i; //? remove after testing?
       gameboard.appendChild(cell);
     }
 
