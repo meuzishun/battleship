@@ -241,10 +241,13 @@ html {
   padding: 0.25rem 0.5rem;
 }
 
+/* TODO: add autoPlace form styles here */
+
 .new-player-form input[type='submit'] {
   align-self: center;
 }
 
+/* ? add autoPlace form component here? */
 .new-player-form > .name-container.hidden {
   display: none;
 }

@@ -76,12 +76,15 @@ export const modal_UI = (function () {
     nameContainer.appendChild(nameLabel);
     nameContainer.appendChild(nameInput);
 
+    // TODO: add a placeShips form component here (similar to nameContainer)
+
     const submitBtn = document.createElement('input');
     submitBtn.setAttribute('type', 'submit');
     submitBtn.value = 'Add Player';
 
     form.appendChild(typeFieldSet);
     form.appendChild(nameContainer);
+    //TODO: don't forget to append!
     form.appendChild(submitBtn);
     form.addEventListener('submit', handleAddPlayerSubmission);
     return form;

@@ -2,13 +2,15 @@ import { gameState } from './gameState.js';
 import { modal_UI } from './UI/modal-ui.js';
 import { gameboard_UI } from './UI/gameboard-ui.js';
 import { AI } from './AI.js';
+import { shipPlacement } from './shipPlacement.js';
 
 export const gameLoop = (function () {
   const startGame = function () {
     gameState.setFirstTurn();
     gameboard_UI.initializeGameboard();
     gameState.getPlayers().forEach((player, index) => {
-      AI.randomlyPlaceShips(index);
+      // AI.randomlyPlaceShips(index);
+      shipPlacement.randomlyPlaceShips(index);
     });
     setupPlayerTurn();
   };
