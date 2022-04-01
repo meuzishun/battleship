@@ -57,7 +57,8 @@ export const gameLoop = (function () {
     gameboard_UI.displayMessage(
       `${gameState.getCurrentPlayer().name} has sunk ${
         gameState.getOpponent().name
-      }'s ${occupied.name}!`
+      }'s ${occupied.name}!`,
+      1500
     );
   };
 
@@ -67,13 +68,13 @@ export const gameLoop = (function () {
     }
     if (!occupied.isSunk()) {
       gameboard_UI.markCell(position, 'hit');
-      gameboard_UI.displayMessage('HIT!');
+      gameboard_UI.displayMessage('HIT!', 1500);
     }
   };
 
   const handleMiss = function (position) {
     gameboard_UI.markCell(position, 'miss');
-    gameboard_UI.displayMessage('miss...');
+    gameboard_UI.displayMessage('miss...', 1500);
   };
 
   const processResults = function (results) {
@@ -115,7 +116,8 @@ export const gameLoop = (function () {
   const endGame = function () {
     gameboard_UI.deactivateGameboards();
     gameboard_UI.displayMessage(
-      `GAME OVER ${gameState.getCurrentPlayer().name} has won`
+      `GAME OVER ${gameState.getCurrentPlayer().name} has won`,
+      1500
     );
     modal_UI.openGameOverModal(gameState.getCurrentPlayer());
   };

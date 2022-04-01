@@ -104,11 +104,13 @@ export const gameboard_UI = (function () {
     clearTimeout(msgTimer);
   };
 
-  const displayMessage = function (msg) {
+  const displayMessage = function (msg, delay) {
     cancelMsgTimer();
     clearMessage();
     messageText.textContent = msg;
-    startMsgTimer(1500);
+    if (delay) {
+      startMsgTimer(delay);
+    }
   };
 
   const addShipToList = function (name, boardIndex) {
