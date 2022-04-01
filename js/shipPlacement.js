@@ -51,12 +51,7 @@ export const shipPlacement = (function () {
       ) {
         return findLocationForShip(ship);
       }
-      // if (direction === 'horizontal' && !positions.every(sameTensPlace)) {
-      //   return findLocationForShip(ship);
-      // }
-      // if (!positions.every(boardCellFree)) {
-      //   return findLocationForShip(ship);
-      // }
+
       return {
         shipName: ship.name,
         playerIndex,
