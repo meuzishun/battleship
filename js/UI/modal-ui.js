@@ -180,6 +180,9 @@ export const modal_UI = (function () {
       type: e.target
         .querySelector('input[type=radio]:checked')
         .id.split('-')[0],
+      placeShips: e.target
+        .querySelector('.place-ships-container input[type=radio]:checked')
+        .id.split('-')[0],
     };
     if (
       data.type === 'person' &&
