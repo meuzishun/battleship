@@ -241,7 +241,6 @@ html {
   padding: 0.25rem 0.5rem;
 }
 
-/* TODO: add autoPlace form styles here */
 .new-player-form > .place-ships-container {
   display: flex;
   flex-direction: column;
