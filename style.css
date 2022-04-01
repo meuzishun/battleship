@@ -242,13 +242,23 @@ html {
 }
 
 /* TODO: add autoPlace form styles here */
+.new-player-form > .place-ships-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.new-player-form > .place-ships-container input {
+  margin-right: 0.5rem;
+}
 
 .new-player-form input[type='submit'] {
   align-self: center;
 }
 
-/* ? add autoPlace form component here? */
-.new-player-form > .name-container.hidden {
+.new-player-form > .name-container.hidden,
+.new-player-form > .place-ships-container.hidden {
   display: none;
 }
 

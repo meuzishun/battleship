@@ -77,6 +77,42 @@ export const modal_UI = (function () {
     nameContainer.appendChild(nameInput);
 
     // TODO: add a placeShips form component here (similar to nameContainer)
+    const placeShipsContainer = document.createElement('div');
+    placeShipsContainer.classList.add('place-ships-container');
+
+    const manualChoiceContainer = document.createElement('div');
+    manualChoiceContainer.classList.add('manual-choice-container');
+
+    const manualPlace = document.createElement('input');
+    manualPlace.setAttribute('type', 'radio');
+    manualPlace.setAttribute('id', 'manual-choice');
+    manualPlace.setAttribute('name', 'place-ships-choice');
+
+    const manualLabel = document.createElement('label');
+    manualLabel.setAttribute('for', 'manual-choice');
+    manualLabel.textContent = 'Manually place ships on board';
+
+    manualChoiceContainer.appendChild(manualPlace);
+    manualChoiceContainer.appendChild(manualLabel);
+
+    const autoChoiceContainer = document.createElement('div');
+    autoChoiceContainer.classList.add('auto-choice-container');
+
+    const autoPlace = document.createElement('input');
+    autoPlace.setAttribute('type', 'radio');
+    autoPlace.setAttribute('id', 'auto-choice');
+    autoPlace.setAttribute('name', 'place-ships-choice');
+    autoPlace.checked = true;
+
+    const autoLabel = document.createElement('label');
+    autoLabel.setAttribute('for', 'auto-choice');
+    autoLabel.textContent = 'Automatically place ships on board';
+
+    autoChoiceContainer.appendChild(autoPlace);
+    autoChoiceContainer.appendChild(autoLabel);
+
+    placeShipsContainer.appendChild(manualChoiceContainer);
+    placeShipsContainer.appendChild(autoChoiceContainer);
 
     const submitBtn = document.createElement('input');
     submitBtn.setAttribute('type', 'submit');
@@ -85,6 +121,7 @@ export const modal_UI = (function () {
     form.appendChild(typeFieldSet);
     form.appendChild(nameContainer);
     //TODO: don't forget to append!
+    form.appendChild(placeShipsContainer);
     form.appendChild(submitBtn);
     form.addEventListener('submit', handleAddPlayerSubmission);
     return form;
@@ -124,12 +161,18 @@ export const modal_UI = (function () {
         .querySelector('.new-player-form > .name-container')
         .classList.remove('hidden');
       document.body.querySelector('#player-name').required = true;
+      document.body
+        .querySelector('.new-player-form > .place-ships-container')
+        .classList.remove('hidden');
     }
     if (selectedRadio === 'computer-choice') {
       document.body
         .querySelector('.new-player-form > .name-container')
         .classList.add('hidden');
       document.body.querySelector('#player-name').required = false;
+      document.body
+        .querySelector('.new-player-form > .place-ships-container')
+        .classList.add('hidden');
     }
   };
 
