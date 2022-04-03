@@ -5,6 +5,10 @@ const createPlayer = function (data) {
 
   const type = data.type;
 
+  const placeShips = data.placeShips;
+
+  // const shipsPlaced = false;
+
   const board = createGameboard();
 
   const attack = function (opponent, position) {
@@ -14,6 +18,7 @@ const createPlayer = function (data) {
   return {
     name,
     type,
+    placeShips,
     board,
     attack,
   };

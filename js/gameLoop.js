@@ -9,7 +9,16 @@ export const gameLoop = (function () {
     gameState.setFirstTurn();
     gameboard_UI.initializeGameboard();
     gameState.getPlayers().forEach((player, index) => {
-      shipPlacement.randomlyPlaceShips(index);
+      console.log(player);
+      if (
+        player.type === 'computer' ||
+        (player.type === 'person' && player.placeShips === 'auto')
+      ) {
+        shipPlacement.randomlyPlaceShips(index);
+      } else {
+        console.log('We have to place the ships ourselves?!  But how?!');
+        console.log(index);
+      }
     });
     setupPlayerTurn();
   };
