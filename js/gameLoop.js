@@ -20,7 +20,7 @@ export const gameLoop = (function () {
         console.log(index);
       }
     });
-    setupPlayerTurn();
+    startPlayerTurn();
   };
 
   const newGame = function () {
@@ -45,7 +45,7 @@ export const gameLoop = (function () {
     }
   };
 
-  const setupPlayerTurn = function () {
+  const startPlayerTurn = function () {
     if (gameState.getCurrentPlayer().type === 'computer') {
       AI.play();
     }
@@ -58,7 +58,7 @@ export const gameLoop = (function () {
   const nextTurn = function () {
     gameState.switchTurn();
     gameboard_UI.switchBoardSideRoles();
-    setupPlayerTurn();
+    startPlayerTurn();
   };
 
   const handleSunk = function (occupied) {
