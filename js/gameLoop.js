@@ -24,8 +24,8 @@ export const gameLoop = (function () {
   };
 
   const startGame = function () {
-    gameState.setFirstTurn();
     gameboard_UI.initializeGameboard();
+    gameState.setFirstTurn();
     startPlayerTurn();
   };
 

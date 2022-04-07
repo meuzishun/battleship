@@ -44,7 +44,10 @@ export const gameState = (function () {
   };
 
   const resetBoards = function () {
-    players.forEach((player) => player.board.resetBoard());
+    players.forEach((player) => {
+      player.board.resetBoard();
+      player.shipsPlaced = false;
+    });
   };
 
   return {
