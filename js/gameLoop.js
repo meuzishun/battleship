@@ -7,15 +7,15 @@ import { shipPlacement } from './shipPlacement.js';
 export const gameLoop = (function () {
   const setupGame = function () {
     gameState.getPlayers().forEach((player, index) => {
-      console.log(player);
       if (
         player.type === 'computer' ||
         (player.type === 'person' && player.placeShips === 'auto')
       ) {
         shipPlacement.randomlyPlaceShips(index);
       } else {
+        console.log(player);
         console.log('We have to place the ships ourselves?!  But how?!');
-        console.log(index);
+        //? Is here where we insert a call to open a UI to place ships on the board?  What would that look like?
       }
       if (gameState.getPlayers().every((player) => player.shipsPlaced)) {
         startGame();

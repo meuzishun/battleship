@@ -190,7 +190,6 @@ export const modal_UI = (function () {
     ) {
       data.name = e.target.querySelector('#player-name').value;
     }
-    console.log(data);
 
     const modal = e.srcElement.parentElement.parentElement;
     gameLoop.registerNewPlayerSubmission(data);
