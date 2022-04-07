@@ -17,9 +17,6 @@ export const gameLoop = (function () {
         console.log('We have to place the ships ourselves?!  But how?!');
         //? Is here where we insert a call to open a UI to place ships on the board?  What would that look like?
 
-        //? Random question: do we need to pass the index of the player to randomlyPlaceShips? Can we just pass the player?
-        //* It looks like we can... run through the code all the way to registerShipPlacementData and it appears that we are repeatedly looking up the player based on the index number.  Test to find out if it will work...
-
         //TODO: have the UI create a gameboard with a header explaining what to do (including a message to hold shift to change the ship to a vertical orientation)
 
         //TODO: there should be a list of ships that need placing which you can drag onto the board
