@@ -61,8 +61,8 @@ export const shipPlacement = (function () {
     };
 
     ships.forEach((ship) => {
-      const location = findLocationForShip(ship);
-      gameState.registerShipPlacementData(location);
+      const locationData = findLocationForShip(ship);
+      gameState.registerShipPlacementData(locationData);
 
       if (gameState.getPlayers()[playerIndex].board.ships.length === 5) {
         gameState.getPlayers()[playerIndex].shipsPlaced = true;
