@@ -7,7 +7,7 @@ const createPlayer = function (data) {
 
   const placeShips = data.placeShips;
 
-  // const shipsPlaced = false;
+  const shipsPlaced = false;
 
   const board = createGameboard();
 
@@ -19,6 +19,7 @@ const createPlayer = function (data) {
     name,
     type,
     placeShips,
+    shipsPlaced,
     board,
     attack,
   };

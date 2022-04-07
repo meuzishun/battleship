@@ -53,18 +53,21 @@ export const gameboard_UI = (function () {
     return gameboard;
   };
 
-  const createShipList = function () {
+  const createShipList = function (player) {
     const listContainer = document.createElement('div');
     listContainer.classList.add('ship-list');
+    player.board.ships.forEach((ship) => {
+      addShipToList(ship.name, listContainer);
+    });
     return listContainer;
   };
 
-  const createBoardSide = function (name) {
+  const createBoardSide = function (player) {
     const boardSide = document.createElement('div');
     boardSide.classList.add('gameboard-container');
 
-    const playerTitle = createPlayerTitle(name);
-    const shipList = createShipList();
+    const playerTitle = createPlayerTitle(player.name);
+    const shipList = createShipList(player);
     const gameboard = createBoard();
     boardSide.appendChild(playerTitle);
     boardSide.appendChild(shipList);
@@ -113,12 +116,13 @@ export const gameboard_UI = (function () {
     }
   };
 
-  const addShipToList = function (name, boardIndex) {
+  const addShipToList = function (name, container) {
     const shipName = document.createElement('p');
     shipName.classList.add('ship-name');
     shipName.dataset.name = name;
     shipName.textContent = name;
-    gameboardSides[boardIndex].shipList.appendChild(shipName);
+    // gameboardSides[boardIndex].shipList.appendChild(shipName);
+    container.appendChild(shipName);
   };
 
   const markCell = function (position, mark) {
@@ -155,7 +159,7 @@ export const gameboard_UI = (function () {
     gameContainer.appendChild(createMessageWindow());
 
     gameState.getPlayers().forEach((player) => {
-      gameContainer.appendChild(createBoardSide(player.name));
+      gameContainer.appendChild(createBoardSide(player));
     });
 
     document.querySelector('.wrapper').appendChild(gameContainer);

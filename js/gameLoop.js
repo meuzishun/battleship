@@ -5,9 +5,7 @@ import { AI } from './AI.js';
 import { shipPlacement } from './shipPlacement.js';
 
 export const gameLoop = (function () {
-  const startGame = function () {
-    gameState.setFirstTurn();
-    gameboard_UI.initializeGameboard();
+  const setupGame = function () {
     gameState.getPlayers().forEach((player, index) => {
       console.log(player);
       if (
@@ -19,7 +17,15 @@ export const gameLoop = (function () {
         console.log('We have to place the ships ourselves?!  But how?!');
         console.log(index);
       }
+      if (gameState.getPlayers().every((player) => player.shipsPlaced)) {
+        startGame();
+      }
     });
+  };
+
+  const startGame = function () {
+    gameState.setFirstTurn();
+    gameboard_UI.initializeGameboard();
     startPlayerTurn();
   };
 
@@ -32,14 +38,14 @@ export const gameLoop = (function () {
   const rematch = function () {
     gameState.resetBoards();
     document.body.querySelector('.wrapper').textContent = '';
-    startGame();
+    setupGame();
   };
 
   const registerNewPlayerSubmission = function (data) {
     gameState.addPlayerToGame(data);
 
     if (gameState.getPlayers().length === 2) {
-      startGame();
+      setupGame();
     } else {
       modal_UI.openAddPlayerModal();
     }

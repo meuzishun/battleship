@@ -32,7 +32,7 @@ export const gameState = (function () {
       data.shipName,
       data.direction
     );
-    gameboard_UI.addShipToList(data.shipName, data.playerIndex);
+    // gameboard_UI.addShipToList(data.shipName, data.playerIndex);
   };
 
   const setFirstTurn = function () {
