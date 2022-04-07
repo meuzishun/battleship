@@ -27,7 +27,7 @@ export const gameState = (function () {
   };
 
   const registerShipPlacementData = function (data) {
-    getPlayers()[data.playerIndex].board.placeShip(
+    data.player.board.placeShip(
       data.boardPosition,
       data.shipName,
       data.direction

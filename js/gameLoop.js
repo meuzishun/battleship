@@ -11,7 +11,7 @@ export const gameLoop = (function () {
         player.type === 'computer' ||
         (player.type === 'person' && player.placeShips === 'auto')
       ) {
-        shipPlacement.randomlyPlaceShips(index);
+        shipPlacement.randomlyPlaceShips(player);
       } else {
         console.log(player);
         console.log('We have to place the ships ourselves?!  But how?!');

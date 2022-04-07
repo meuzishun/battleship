@@ -23,10 +23,11 @@ export const shipPlacement = (function () {
     return Math.floor(num1 / 10) === Math.floor(num2 / 10);
   };
 
-  const randomlyPlaceShips = function (playerIndex) {
+  const randomlyPlaceShips = function (player) {
     const boardCellFree = function (position) {
-      return !gameState.getPlayers()[playerIndex].board.cells[position]
-        .occupied;
+      // return !gameState.getPlayers()[playerIndex].board.cells[position]
+      //   .occupied;
+      return !player.board.cells[position].occupied;
     };
 
     const findLocationForShip = function (ship) {
@@ -54,7 +55,7 @@ export const shipPlacement = (function () {
 
       return {
         shipName: ship.name,
-        playerIndex,
+        player,
         boardPosition: startingPosition,
         direction,
       };
@@ -64,8 +65,8 @@ export const shipPlacement = (function () {
       const locationData = findLocationForShip(ship);
       gameState.registerShipPlacementData(locationData);
 
-      if (gameState.getPlayers()[playerIndex].board.ships.length === 5) {
-        gameState.getPlayers()[playerIndex].shipsPlaced = true;
+      if (player.board.ships.length === 5) {
+        player.shipsPlaced = true;
       }
     });
   };
