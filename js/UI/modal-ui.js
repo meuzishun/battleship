@@ -192,8 +192,8 @@ export const modal_UI = (function () {
     }
 
     const modal = e.srcElement.parentElement.parentElement;
-    gameLoop.registerNewPlayerSubmission(data);
     document.body.querySelector('.wrapper').removeChild(modal);
+    gameLoop.registerNewPlayerSubmission(data);
   };
 
   const handleGameOverOptions = function (e) {

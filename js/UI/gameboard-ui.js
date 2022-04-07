@@ -154,6 +154,7 @@ export const gameboard_UI = (function () {
 
   const initializeGameboard = function () {
     gameboardSides.length = 0;
+    document.querySelector('.wrapper').textContent = '';
     const gameContainer = createGameContainer();
     gameContainer.appendChild(createHeader());
     gameContainer.appendChild(createMessageWindow());
