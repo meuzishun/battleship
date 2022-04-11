@@ -9,6 +9,12 @@ export const gameboard_UI = (function () {
   let msgTimer;
 
   //* CREATING GAMEBOARD COMPONENTS
+  const createSetupContainer = function () {
+    const setupContainer = document.createElement('div');
+    setupContainer.classList.add('setup-container');
+    return setupContainer;
+  };
+
   const createGameContainer = function () {
     const gameContainer = document.createElement('div');
     gameContainer.classList.add('game-container');
@@ -59,6 +65,32 @@ export const gameboard_UI = (function () {
     player.board.ships.forEach((ship) => {
       addShipToList(ship.name, listContainer);
     });
+    return listContainer;
+  };
+
+  const createShipPlacementList = function () {
+    const ships = [
+      { name: 'Carrier', length: 5 },
+      { name: 'Battleship', length: 4 },
+      { name: 'Destroyer', length: 3 },
+      { name: 'Submarine', length: 3 },
+      { name: 'Patrol Boat', length: 2 },
+    ];
+
+    const listContainer = document.createElement('div');
+    listContainer.classList.add('ship-placement-list');
+    ships.forEach((ship) => {
+      const shipText = document.createElement('p');
+      shipText.classList.add('ship-name');
+      shipText.dataset.name = ship.name;
+      shipText.dataset.length = ship.length;
+      shipText.textContent = `${ship.name} (${ship.length})`;
+      shipText.draggable = true;
+      shipText.addEventListener('dragstart', handleShipNameDrag);
+      shipText.addEventListener('dragend', handleShipDrop);
+      listContainer.appendChild(shipText);
+    });
+
     return listContainer;
   };
 
@@ -152,6 +184,21 @@ export const gameboard_UI = (function () {
     });
   };
 
+  const initializeBoardForShipDrop = function (player) {
+    document.querySelector('.wrapper').textContent = '';
+    const setupContainer = createSetupContainer();
+    setupContainer.appendChild(createMessageWindow());
+    displayMessage(`Place the ships on the board for ${player.name}`);
+
+    const setupBoard = createBoard();
+    setupBoard.addEventListener('dragenter', handleDragOver);
+
+    const shipList = createShipPlacementList();
+    setupContainer.appendChild(shipList);
+    setupContainer.appendChild(setupBoard);
+    document.querySelector('.wrapper').appendChild(setupContainer);
+  };
+
   const initializeGameboard = function () {
     gameboardSides.length = 0;
     document.querySelector('.wrapper').textContent = '';
@@ -170,9 +217,55 @@ export const gameboard_UI = (function () {
   };
 
   //* EVENT LISTENERS
-  const handleShipNameDrag = function () {};
+  const handleShipNameDrag = function (e) {
+    // console.log(e);
+    e.target.classList.add('dragging');
+  };
 
-  const handleBoardDrop = function () {};
+  const handleShipDrop = function (e) {
+    console.log(e);
+    e.target.classList.remove('dragging');
+  };
+
+  const handleDragOver = function (e) {
+    if (e.target.classList.contains('cell')) {
+      const allCells = document.querySelectorAll('.cell');
+      allCells.forEach((cell) => {
+        if (cell.classList.contains('dragged-over-cell')) {
+          cell.classList.remove('dragged-over-cell');
+        }
+      });
+      const startingCell = e.target;
+      const startingPosition = Number(startingCell.dataset.position);
+      const draggingShip = document.querySelector('.dragging');
+      const draggingShipLength = Number(draggingShip.dataset.length);
+
+      const cells = (() => {
+        const arr = [];
+        for (let i = 0, l = draggingShipLength; i < l; i++) {
+          // console.log(i);
+          const cell = document.querySelector(
+            `[data-position='${i + startingPosition}']`
+          );
+          cell.classList.add('dragged-over-cell');
+          console.log(cell);
+          arr.push(
+            document.querySelector(
+              `.cell[data-position='${i + startingPosition}']`
+            )
+          );
+        }
+        return arr;
+      })();
+      console.log(cells);
+      // over.classList.add('dragged-over-cell');
+      // over.addEventListener('dragleave', handleDragLeaveCell);
+    }
+  };
+
+  const handleDragLeaveCell = function (e) {
+    e.target.classList.remove('dragged-over-cell');
+  };
 
   const handleBoardClick = function (e) {
     const cell = e.target;
@@ -247,6 +340,7 @@ export const gameboard_UI = (function () {
   };
 
   return {
+    initializeBoardForShipDrop,
     initializeGameboard,
     displayMessage,
     switchBoardSideRoles,

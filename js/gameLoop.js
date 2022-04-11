@@ -13,11 +13,10 @@ export const gameLoop = (function () {
       ) {
         shipPlacement.randomlyPlaceShips(player);
       } else {
-        console.log(player);
-        console.log('We have to place the ships ourselves?!  But how?!');
         //? Is here where we insert a call to open a UI to place ships on the board?  What would that look like?
 
         //TODO: have the UI create a gameboard with a header explaining what to do (including a message to hold shift to change the ship to a vertical orientation)
+        gameboard_UI.initializeBoardForShipDrop(player);
 
         //TODO: there should be a list of ships that need placing which you can drag onto the board
 
