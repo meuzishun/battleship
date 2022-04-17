@@ -3,6 +3,7 @@ import { modal_UI } from './UI/modal-ui.js';
 import { gameboard_UI } from './UI/gameboard-ui.js';
 import { AI } from './AI.js';
 import { shipPlacement } from './shipPlacement.js';
+import { gameSetup_UI } from './UI/game-setup-ui.js';
 
 export const gameLoop = (function () {
   const setupGame = function () {
@@ -16,7 +17,7 @@ export const gameLoop = (function () {
         //? Is here where we insert a call to open a UI to place ships on the board?  What would that look like?
 
         //TODO: have the UI create a gameboard with a header explaining what to do (including a message to hold shift to change the ship to a vertical orientation)
-        gameboard_UI.initializeBoardForShipDrop(player);
+        gameSetup_UI.initializeBoardForShipDrop(player);
 
         //TODO: there should be a list of ships that need placing which you can drag onto the board
 

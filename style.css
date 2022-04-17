@@ -335,3 +335,15 @@ html {
 .dragged-over-cell {
   background-color: yellow;
 }
+
+.available {
+  background-color: green;
+}
+
+.unavailable {
+  background-color: red;
+}
+
+.occupied {
+  background-color: grey;
+}
