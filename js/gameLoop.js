@@ -151,6 +151,7 @@ export const gameLoop = (function () {
   };
 
   return {
+    startGame,
     newGame,
     rematch,
     registerNewPlayerSubmission,

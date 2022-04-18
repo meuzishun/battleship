@@ -332,6 +332,10 @@ html {
   display: none;
 }
 
+.occupied {
+  background-color: grey;
+}
+
 .dragged-over-cell {
   background-color: yellow;
 }
@@ -342,8 +346,4 @@ html {
 
 .unavailable {
   background-color: red;
-}
-
-.occupied {
-  background-color: grey;
 }

@@ -1,9 +1,12 @@
+import { boundEventListeners } from '../bound-event-listeners.js';
+import { gameLoop } from '../gameLoop.js';
+
 export const gameSetup_UI = (function () {
   // let currentPlayer = undefined;
   let messageText = undefined;
   let msgTimer;
 
-  const eventListenerCallbacks = {};
+  // const eventListenerCallbacks = {};
 
   const createSetupContainer = function () {
     const setupContainer = document.createElement('div');
@@ -59,8 +62,11 @@ export const gameSetup_UI = (function () {
       shipText.dataset.length = ship.length;
       shipText.textContent = `${ship.name} (${ship.length})`;
       shipText.draggable = true;
-      shipText.addEventListener('dragstart', handleShipNameDrag);
-      // shipText.addEventListener('dragend', handleShipDrop);
+      shipText.addEventListener(
+        'dragstart',
+        (boundEventListeners[`${ship.name}Drag`] =
+          handleShipNameDrag.bind(this))
+      );
       listContainer.appendChild(shipText);
     });
 
@@ -93,11 +99,13 @@ export const gameSetup_UI = (function () {
     const setupBoard = createBoard();
     setupBoard.addEventListener(
       'dragenter',
-      (eventListenerCallbacks.setupBoardDrag = handleDragOver.bind(
+      (boundEventListeners.setupBoardDragOver = handleDragOver.bind(
         this,
         player
       ))
     );
+
+    console.log(boundEventListeners);
 
     const shipList = createShipPlacementList();
     setupContainer.appendChild(shipList);
@@ -177,7 +185,14 @@ export const gameSetup_UI = (function () {
             'horizonal'
           );
           console.log(player.board.cells);
-          cells.forEach((cell) => cell.classList.add('occupied'));
+          cells.forEach((cell) => {
+            clearDragClasses(cell);
+            cell.classList.add('occupied');
+          });
+          draggingShip.remove();
+        }
+        if (player.board.ships.length === 5) {
+          gameLoop.startGame();
         }
       });
       // over.classList.add('dragged-over-cell');
