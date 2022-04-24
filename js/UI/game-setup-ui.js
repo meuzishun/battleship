@@ -201,17 +201,17 @@ export const gameSetup_UI = (function () {
   const colorCells = function (cells, player) {
     const positions = cells.map((cell) => cell.dataset.position);
     if (
-      cells.some((cell) => player.board.cells[cell.dataset.position].occupied)
-    ) {
-      cells.forEach(colorUnavailable);
-      return;
-    }
-
-    if (
       (direction === 'horizontal' && !positions.every(sameTensPlace)) ||
       (direction === 'vertical' && !positions.every(between0And99))
     ) {
       cells.forEach(clearAvailableUnavailableClasses);
+      return;
+    }
+
+    if (
+      cells.some((cell) => player.board.cells[cell.dataset.position].occupied)
+    ) {
+      cells.forEach(colorUnavailable);
       return;
     }
 
