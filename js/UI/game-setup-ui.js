@@ -126,6 +126,24 @@ export const gameSetup_UI = (function () {
         player
       ))
     );
+
+    document.addEventListener(
+      'keydown',
+      (boundEventListeners.shiftPressListener = setDirection.bind(this))
+    );
+
+    document.addEventListener(
+      'keyup',
+      (boundEventListeners.shiftLiftListener = setDirection.bind(this))
+    );
+  };
+
+  const sameTensPlace = function (num, index, arr) {
+    return Math.floor(num / 10) === Math.floor(arr[0] / 10);
+  };
+
+  const between0And99 = function (num) {
+    return num > -1 && num < 100;
   };
 
   const clearAvailableUnavailableClasses = function (cell) {
@@ -146,39 +164,77 @@ export const gameSetup_UI = (function () {
   const gatherCells = function (startingPosition, draggingShipLength) {
     const arr = [];
     for (let i = 0, l = draggingShipLength; i < l; i++) {
-      arr.push(
-        document.querySelector(`[data-position='${i + startingPosition}']`)
-      );
+      if (direction === 'horizontal') {
+        arr.push(
+          document.querySelector(`[data-position='${i + startingPosition}']`)
+        );
+      }
+      if (direction === 'vertical') {
+        arr.push(
+          document.querySelector(
+            `[data-position='${i * 10 + startingPosition}']`
+          )
+        );
+      }
     }
     return arr;
   };
 
   const colorAvailable = function (cell) {
-    cell.classList.add('available');
+    if (!cell.classList.contains('available')) {
+      cell.classList.add('available');
+    }
   };
 
   const colorUnavailable = function (cell) {
-    cell.classList.add('unavailable');
+    if (!cell.classList.contains('unavailable')) {
+      cell.classList.add('unavailable');
+    }
   };
 
   const colorOccupied = function (cell) {
-    cell.classList.add('occupied');
+    if (!cell.classList.contains('occupied')) {
+      cell.classList.add('occupied');
+    }
   };
 
   const colorCells = function (cells, player) {
-    if (
-      cells.every((cell) => !player.board.cells[cell.dataset.position].occupied)
-    ) {
-      cells.forEach(colorAvailable);
-    }
+    const positions = cells.map((cell) => cell.dataset.position);
     if (
       cells.some((cell) => player.board.cells[cell.dataset.position].occupied)
     ) {
       cells.forEach(colorUnavailable);
+      return;
+    }
+
+    if (
+      (direction === 'horizontal' && !positions.every(sameTensPlace)) ||
+      (direction === 'vertical' && !positions.every(between0And99))
+    ) {
+      cells.forEach(clearAvailableUnavailableClasses);
+      return;
+    }
+
+    if (
+      cells.every((cell) => !player.board.cells[cell.dataset.position].occupied)
+    ) {
+      cells.forEach(colorAvailable);
+      return;
+    }
+  };
+
+  let direction = 'horizontal';
+
+  const setDirection = function (e) {
+    if (e.shiftKey) {
+      direction = 'vertical';
+    } else {
+      direction = 'horizontal';
     }
   };
 
   //* EVENT LISTENERS
+
   const handleShipNameDrag = function (e) {
     e.target.classList.add('dragging');
   };
@@ -199,7 +255,7 @@ export const gameSetup_UI = (function () {
           player.board.placeShip(
             startingPosition,
             draggingShip.dataset.name,
-            'horizonal'
+            direction
           );
           removeFeedbackClassesOnAllCells();
           cells.forEach(colorOccupied);
