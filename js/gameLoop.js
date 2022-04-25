@@ -9,7 +9,7 @@ export const gameLoop = (function () {
   const setupGame = function () {
     gameState.getPlayers().forEach((player, index) => {
       if (player.type === 'computer') {
-        // player.AI = new AI();
+        player.AI = new AI(player);
       }
       if (
         player.type === 'computer' ||
@@ -69,8 +69,8 @@ export const gameLoop = (function () {
 
   const startPlayerTurn = function () {
     if (gameState.getCurrentPlayer().type === 'computer') {
-      AI.play();
-      // gameState.getCurrentPlayer().AI.play();
+      // AI.play();
+      gameState.getCurrentPlayer().AI.play();
     }
 
     if (gameState.getCurrentPlayer().type === 'person') {
@@ -111,7 +111,7 @@ export const gameLoop = (function () {
 
   const processResults = function (results) {
     if (gameState.getCurrentPlayer().type === 'computer') {
-      AI.interpretResults(results);
+      gameState.getCurrentPlayer().AI.interpretResults(results);
     }
 
     if (results.status === 'miss') {
