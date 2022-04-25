@@ -74,7 +74,6 @@ export const gameLoop = (function () {
 
   const startPlayerTurn = function () {
     if (gameState.getCurrentPlayer().type === 'computer') {
-      // AI.play();
       gameState.getCurrentPlayer().AI.play();
     }
 
