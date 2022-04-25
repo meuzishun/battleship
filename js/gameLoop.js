@@ -8,6 +8,9 @@ import { gameSetup_UI } from './UI/game-setup-ui.js';
 export const gameLoop = (function () {
   const setupGame = function () {
     gameState.getPlayers().forEach((player, index) => {
+      if (player.type === 'computer') {
+        // player.AI = new AI();
+      }
       if (
         player.type === 'computer' ||
         (player.type === 'person' && player.placeShips === 'auto')
@@ -67,6 +70,7 @@ export const gameLoop = (function () {
   const startPlayerTurn = function () {
     if (gameState.getCurrentPlayer().type === 'computer') {
       AI.play();
+      // gameState.getCurrentPlayer().AI.play();
     }
 
     if (gameState.getCurrentPlayer().type === 'person') {
