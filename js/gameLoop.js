@@ -7,6 +7,11 @@ import { gameSetup_UI } from './UI/game-setup-ui.js';
 
 export const gameLoop = (function () {
   const setupGame = function () {
+    if (gameState.getPlayers().every((player) => player.type === 'computer')) {
+      gameState
+        .getPlayers()
+        .forEach((player, index) => (player.name = `computer ${index + 1}`));
+    }
     gameState.getPlayers().forEach((player, index) => {
       if (player.type === 'computer') {
         player.AI = new AI(player);
