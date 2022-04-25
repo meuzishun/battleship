@@ -153,9 +153,12 @@ export const gameLoop = (function () {
     gameboard_UI.deactivateGameboards();
     gameboard_UI.displayMessage(
       `GAME OVER ${gameState.getCurrentPlayer().name} has won`,
-      1500
+      3000
     );
-    modal_UI.openGameOverModal(gameState.getCurrentPlayer());
+    const modalTimer = setTimeout(() => {
+      modal_UI.openGameOverModal(gameState.getCurrentPlayer());
+      clearTimeout(modalTimer);
+    }, 3000);
   };
 
   return {
