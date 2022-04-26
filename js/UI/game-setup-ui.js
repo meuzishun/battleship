@@ -8,10 +8,10 @@ export const gameSetup_UI = (function () {
     return setupContainer;
   };
 
-  const createHeader = function () {
+  const createHeader = function (player) {
     const setupHeader = document.createElement('header');
     setupHeader.classList.add('setup-header');
-    setupHeader.textContent = 'Setup';
+    setupHeader.textContent = `${player.name}'s Gameboard Setup`;
     return setupHeader;
   };
 
@@ -97,11 +97,11 @@ export const gameSetup_UI = (function () {
     return gameboard;
   };
 
-  const buildSetupUI = function () {
+  const buildSetupUI = function (player) {
     document.querySelector('.wrapper').textContent = '';
 
     const container = createSetupContainer();
-    const header = createHeader();
+    const header = createHeader(player);
     const messageWindow = createMessageWindow();
     const board = createBoard();
     const shipList = createShipPlacementList();
@@ -122,7 +122,7 @@ export const gameSetup_UI = (function () {
   };
 
   const initializeBoardForShipDrop = function (player) {
-    const setupUI = buildSetupUI();
+    const setupUI = buildSetupUI(player);
 
     setupUI.messageWindow.displayMessage(
       `Drag ${player.name}'s ships on the board... hold Shift before dragging for a vertical ship...`
