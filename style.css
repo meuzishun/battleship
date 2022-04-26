@@ -334,13 +334,13 @@ html {
 }
 
 .occupied {
-  background-color: grey;
+  background-color: rgba(80, 80, 80, 0.714);
 }
 
 .available {
-  background-color: green;
+  background-color: rgba(153, 204, 51);
 }
 
 .unavailable {
-  background-color: red;
+  background-color: rgba(204, 51, 0);
 }
