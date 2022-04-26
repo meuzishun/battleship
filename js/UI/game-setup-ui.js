@@ -116,7 +116,7 @@ export const gameSetup_UI = (function () {
     const setupUI = buildSetupUI();
 
     setupUI.messageWindow.displayMessage(
-      `Place the ships on the board for ${player.name}`
+      `Drag ${player.name}'s ships on the board... hold Shift before dragging for a vertical ship...`
     );
 
     setupUI.board.addEventListener(
