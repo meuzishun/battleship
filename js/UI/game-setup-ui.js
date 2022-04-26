@@ -8,6 +8,13 @@ export const gameSetup_UI = (function () {
     return setupContainer;
   };
 
+  const createHeader = function () {
+    const setupHeader = document.createElement('header');
+    setupHeader.classList.add('setup-header');
+    setupHeader.textContent = 'Setup';
+    return setupHeader;
+  };
+
   const createMessageWindow = function () {
     const messageContainer = document.createElement('div');
     messageContainer.classList.add('message-container');
@@ -94,10 +101,12 @@ export const gameSetup_UI = (function () {
     document.querySelector('.wrapper').textContent = '';
 
     const container = createSetupContainer();
+    const header = createHeader();
     const messageWindow = createMessageWindow();
     const board = createBoard();
     const shipList = createShipPlacementList();
 
+    container.appendChild(header);
     container.appendChild(messageWindow.elem);
     container.appendChild(shipList);
     container.appendChild(board);
