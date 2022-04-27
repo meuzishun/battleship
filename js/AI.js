@@ -73,6 +73,7 @@ export class AI {
 
   //* possiblePositions are the cells that don't have a status ('hit' or 'miss')
   calculatePossibleTargets() {
+    //! sometimes getting an error here... check desktop for screenshot
     const newTargets = this.analysis.surroundingPositions.filter((position) => {
       return !gameState.getOpponent().board.cells[position].status;
     });
